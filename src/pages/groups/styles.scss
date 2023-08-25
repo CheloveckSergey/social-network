@@ -1,0 +1,46 @@
+.groups-page {
+  display: flex;
+  gap: 15px;
+
+  .main {
+    width: 400px;
+
+    .add-group {
+      display: flex;
+      justify-content: center;
+
+      button {
+        display: flex;
+        justify-content: center;
+        gap: 5px;
+      }
+    }
+
+    .group-list {
+
+
+      .group-item {
+        display: flex;
+        justify-content: start;
+        align-items: center;
+        gap: 10px;
+        margin-top: 10px;
+
+        &:first-child {
+          margin-top: 0;
+        }
+
+        img {
+          height: 100px;
+          width: 100px;
+          object-fit: cover;
+          border-radius: 50em;
+        }
+      }
+    }
+  }
+
+  .right {
+    width: 200px;
+  }
+}

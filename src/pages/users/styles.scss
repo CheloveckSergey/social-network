@@ -1,0 +1,16 @@
+.all-users {
+  width: 300px;
+
+  .one-user-panel {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    img {
+      height: 70px;
+      width: 70px;
+      object-fit: cover;
+      border-radius: 50em;
+    }
+  }
+}

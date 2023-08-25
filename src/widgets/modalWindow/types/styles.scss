@@ -1,0 +1,39 @@
+.window {
+  position: relative;
+  min-width: 400px;
+  // padding: var(--regular-padding) 0;
+  background-color: var(--back-light-gray);
+  border-radius: var(--regular-border-radius);
+
+  .section {
+    padding: 10px;
+  }
+
+  button.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+
+  button {
+    height: 30px;
+    width: 150px;
+    margin-top: 10px;
+    border-radius: var(--regular-border-radius);
+  }
+
+  input {
+    margin-top: 10px;
+    background: none;
+    color: var(--font-white);
+    outline: none;
+    border: var(--regular-border);
+    border-radius: var(--small-border-radius);
+    padding: 5px;
+  }
+
+  .button-div {
+    display: flex;
+    justify-content: center;
+  }
+}

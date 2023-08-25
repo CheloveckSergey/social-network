@@ -1,0 +1,30 @@
+.left-menu {
+  display: flex;
+  flex-direction: column;
+
+  a {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 10px;
+    padding: 5px 10px;
+    border-radius: 10px;
+    
+    &:first-child {
+      margin-top: 0;
+    }
+    
+    &:hover {
+      background-color: var(--back-light-gray);
+    }
+
+    svg {
+      color: var(--font-green);
+    }
+  }
+
+  h3.menu {
+    font-size: 1em;
+    font-weight: 500;
+  }
+}

@@ -1,0 +1,13 @@
+.upbar {
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  height: var(--upbar-height);
+  width: 100%;
+  background-color: var(--back-light-gray);
+  border-bottom: 2px solid var(--border);
+}

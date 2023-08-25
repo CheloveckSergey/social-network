@@ -1,0 +1,17 @@
+.post-like {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 10px;
+  padding: 5px 10px;
+  background-color: var(--border);
+  border-radius: 50em;
+
+  .liked {
+    color: red;
+  }
+
+  &:hover {
+    background-color: var(--back-2xlight-gray);
+  }
+}

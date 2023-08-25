@@ -1,0 +1,209 @@
+:root {
+  --back-dark-gray: rgb(20,20,20);
+  --back-light-gray: rgb(34,34,34);
+  --border: rgb(66,66,66);
+  --back-2xlight-gray: rgb(89, 89, 89);
+  --pale-green: rgb(137, 171, 123);
+  --green: rgb(88, 173, 51);
+  
+  --upbar-height: 80px;
+  
+  --font-white: rgb(220,222,225);
+  --font-gray: rgb(130,130,130);
+  --font-green: rgb(88, 173, 51);
+  --font-error: rgb(170, 14, 14); 
+
+  --font-size-extra: 0.8rem;
+  --font-size-title: 1rem;
+
+  --regular-padding: 10px;
+
+  --regular-border: 2px solid var(--border);
+
+  --regular-border-radius: 10px;
+  --small-border-radius: 5px;
+
+  --regular-feed-width: 500px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  // height: 100vh;
+  width: 100vw;
+  overflow-y: hidden;
+  overflow-x: hidden;
+}
+
+button {
+  border: none;
+  outline: none;
+  background: inherit;
+  color: inherit;
+  cursor: pointer;
+
+  &.white {
+    color: var(--font-gray);
+
+    &:hover {
+      color: white;
+    }
+  }
+
+  &.show-more {
+    color: var(--green);
+    font-size: 1rem;
+    
+    &:hover {
+      color: var(--pale-green);
+    }
+  }
+
+  &.green {
+    background-color: var(--pale-green);
+
+    &:hover {
+      background-color: var(--green);
+
+      &:active {
+        background-color: var(--pale-green);
+      }
+    }
+  }
+
+  &.blocked {
+    background-color: var(--back-2xlight-gray);
+  }
+
+  &.white-back {
+    background-color: var(--font-white);
+    color: var(--back-light-gray);
+
+    &:hover {
+      background-color: var(--font-gray);
+
+      &:active {
+        background-color: var(--font-white);
+      }
+    }
+  }
+}
+
+//Just because button.green doesn't work on input [file]
+.green {
+  background-color: var(--pale-green);
+
+  &:hover {
+    background-color: var(--green);
+
+    &:active {
+      background-color: var(--pale-green);
+    }
+  }
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.App {
+  height: 100vh;
+  width: 100vw;
+  overflow-y:scroll;
+  overflow-x: hidden;
+  font-family: sans-serif;
+  background-color: var(--back-dark-gray);
+  color: var(--font-white);
+}
+
+main {
+  display: flex;
+  justify-content: center;
+  margin-top: calc(var(--upbar-height) + 10px);
+}
+
+h4 {
+  margin-top: 5px;
+  font-size: 0.9rem;
+  font-weight: 400;
+}
+
+h3.title {
+  margin-top: 5px;
+  font-size: var(--font-size-title);
+  color: var(--font-green);
+}
+
+h2 {
+  font-weight: 500;
+}
+
+p {
+  margin-top: 5px;
+}
+
+p.extra {
+  font-size: var(--font-size-extra);
+  color: var(--font-gray);
+}
+
+p.error {
+  font-size: var(--font-size-extra);
+  color: var(--font-error);
+}
+
+p.extra-normal {
+  font-size: 1rem;
+  color: var(--font-gray);
+}
+
+hr {
+  margin-top: 10px;
+  border: 1px solid var(--border);
+}
+
+input {
+  margin: 10px 0;
+  border: none;
+  outline: none;
+}
+
+.centralizing-container {
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.regular-panel {
+  width: 100%;
+  margin-top: 10px;
+  padding: var(--regular-padding);
+  background-color: var(--back-light-gray);
+  border: var(--regular-border);
+  border-radius: var(--regular-border-radius);
+
+  &:first-child {
+    margin-top: 0;
+  }
+}
+
+.green-to-pale {
+  color: var(--green);
+  cursor: pointer;
+
+  &:hover {
+    color: var(--pale-green);
+  }
+  
+  &:active {
+    color: var(--green);
+  }
+}
