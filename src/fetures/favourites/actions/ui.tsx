@@ -9,11 +9,11 @@ import { PostApi } from "../../../entities/post/api";
 const useToggleLike = (post: Post) => {
   const { user } = useAppSelector(state => state.user);
   let _isLiked = false;
-  if (post.likes.find(like => like.userId === user?.id)) {
+  if (post.postLikes.find(like => like.userId === user?.id)) {
     _isLiked = true;
   }
   const [isLiked, setIsLiked] = useState<boolean>(_isLiked);
-  const [likesNumber, setLikesNumber] = useState<number>(post.likes.length);
+  const [likesNumber, setLikesNumber] = useState<number>(post.postLikes.length);
   const toggleLike = () => {
     setIsLiked(!isLiked);
     if (isLiked) {

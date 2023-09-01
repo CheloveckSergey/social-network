@@ -6,6 +6,11 @@ import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import { GroupApi } from "../../entities/group/api";
 import LoadErrorHandler from "../../shared/loadErrorHandler";
+import AddPostPanel from "../../shared/addPost";
+import { WindowTypes, setWindow } from "../../widgets/modalWindow/model/redux";
+import { PostApi } from "../../entities/post/api";
+import Feed from "../../widgets/feed";
+import { useAppDispatch } from "../../app/store";
 
 interface GroupPanelProps {
   groupName: string | undefined,
@@ -21,6 +26,9 @@ const GroupHeader: FC<GroupPanelProps> = ({ groupName }) => {
     }
   )
 
+  const dispatch = useAppDispatch();
+  
+
   return (
     <div className="group-header regular-panel">
       <LoadErrorHandler 
@@ -28,11 +36,19 @@ const GroupHeader: FC<GroupPanelProps> = ({ groupName }) => {
         isError={isError}
         data={data}
       >
-        <img src={process.env.REACT_APP_BACK_URL && data?.avatar 
-          ? process.env.REACT_APP_BACK_URL + data.avatar 
-          : 'https://i.ytimg.com/vi/QPVZdoZzXNQ/maxresdefault.jpg'} 
-          alt="AVATAR_GROUP" 
-        />
+        <div className="avatar">
+          <img src={process.env.REACT_APP_BACK_URL && data?.avatar 
+            ? process.env.REACT_APP_BACK_URL + data.avatar 
+            : 'https://i.ytimg.com/vi/QPVZdoZzXNQ/maxresdefault.jpg'} 
+            alt="AVATAR_GROUP" 
+          />
+          <button 
+            className="green change-avatar"
+            onClick={() => dispatch(setWindow({window: WindowTypes.LOAD_GROUP_AVATAR}))}
+          >
+            Change Avatar
+          </button>
+        </div>
         <div className="header-right">
           <h3>{data?.name}</h3>
           <button 
@@ -55,8 +71,37 @@ const GroupDesc: FC<GroupPanelProps> = ({ groupName }) => {
   )
 }
 
+interface GroupFeedProps {
+  groupName: string | undefined,
+}
+
+const GroupFeed: FC<GroupFeedProps> = ({ groupName }) => {
+  const { data, isLoading, isError } = useQuery(
+    ['getGroupPosts', groupName],
+    () => {
+      if (groupName) {
+        return PostApi.getAllPostsByGroupName(groupName);
+      }
+    }
+  )
+
+  return (
+    <>
+      {isLoading ? (
+        <p>Loading...</p>
+      ) : isError ? (
+        <p>Error...</p>
+      ) : !data ? (
+        <p>Something went wrong...</p>
+      ) : (
+        <Feed posts={data} />
+      )}
+    </>
+  )
+}
+
 const GroupPage = () => {
-  const {groupName} = useParams()
+  const { groupName } = useParams();
 
   return (
     <>
@@ -70,12 +115,10 @@ const GroupPage = () => {
               <div className="images regular-panel">
                 Images
               </div>
-              <div className="feed regular-panel">
-                Feed
-              </div>
+              <AddPostPanel windowType={WindowTypes.ADD_GROUP_POST} />
+              <GroupFeed groupName={groupName} />
             </div>
             <div className="group-right">
-              
               <div className="regular-panel">
                 Subs
               </div>

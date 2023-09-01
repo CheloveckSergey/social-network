@@ -10,6 +10,7 @@ import Feed from "../../widgets/feed";
 import { useQuery } from "react-query";
 import { UserApi } from "../../entities/user/api";
 import { PostApi } from "../../entities/post/api";
+import AddPostPanel from "../../shared/addPost";
 
 // const fakeUser: User = {
 //   name: 'Zhenya',
@@ -47,7 +48,7 @@ const HomeExtra: FC<HomeExtraProps> = ({ user }) => {
       <div className="avatar regular-panel">
         <img src={img} alt={process.env.REACT_APP_BACK_URL} />
         <button
-          onClick={() => dispatch(setWindow({window: WindowTypes.LOAD_AVATAR}))}
+          onClick={() => dispatch(setWindow({window: WindowTypes.LOAD_USER_AVATAR}))}
         >
           Edit
         </button>
@@ -149,15 +150,7 @@ const Home: FC = () => {
             <div className="images regular-panel">
               
             </div>
-            <div className="add-post regular-panel">
-              <button 
-                className="green-to-pale"
-                onClick={() => dispatch(setWindow({window: WindowTypes.ADD_POST}))}
-              >
-                <h3>Add Some New</h3>
-                <BsPencilSquare size={20} />
-              </button>
-            </div>
+            <AddPostPanel windowType={WindowTypes.ADD_USER_POST} />
             <HomeFeed user={user} />
           </div>
         </div>

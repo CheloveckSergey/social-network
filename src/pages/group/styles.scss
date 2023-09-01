@@ -1,5 +1,4 @@
 .group-page {
-  width: 800px;
 
   .group-header {
     display: flex;
@@ -7,11 +6,22 @@
     align-items: center;
     height: 150px;
     
-    img {
-      width: 100px;
-      height: 100px;
-      border-radius: 50em;
-      object-fit: cover;
+    .avatar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50em;
+        object-fit: cover;
+      }
+
+      button.change-avatar {
+        padding: 10px 20px;
+        border-radius: var(--small-border-radius);
+      }
     }
 
     .header-right {
@@ -35,11 +45,11 @@
     margin-top: 10px;
 
     .group-main {
-      flex-grow: 3;
+      width: 500px;
     }
 
     .group-right {
-      flex-grow: 1;
+      width: 150px;
     }
   }
 }

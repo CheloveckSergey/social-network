@@ -2,8 +2,10 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import React, { FC } from "react";
 
 export enum WindowTypes {
-  LOAD_AVATAR = 'loadAvatar',
-  ADD_POST = 'addPost',
+  LOAD_USER_AVATAR = 'loadUserAvatar',
+  LOAD_GROUP_AVATAR = 'loadGroupAvatar',
+  ADD_USER_POST = 'addUserPost',
+  ADD_GROUP_POST = 'addGroupPost',
   ADD_GROUP = 'addGroup',
 }
 

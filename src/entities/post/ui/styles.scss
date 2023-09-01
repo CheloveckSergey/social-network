@@ -1,6 +1,6 @@
 .post {
   // height: 600px;
-  width: 500px;
+  // width: 500px;
   margin: 15px 0;
   padding: 20px;
   border-radius: 15px;
@@ -8,9 +8,9 @@
   border: 2px solid var(--border);
 
 
-  // &:first-child {
-  //   margin-top: 0;
-  // }
+  &:first-child {
+    margin-top: 0;
+  }
 
   .up {
     display: flex;

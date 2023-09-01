@@ -6,16 +6,35 @@ type PULikeReqDto = {
   postUserId: number,
 }
 
+const initialUrl = '/post';
+
 export class PostApi {
   static async getAllPostsByUserId(id: number) {
-    const response = await api.get<Post[]>(`/postUser/getAllPostByUserId/${id}`);
-    console.log(response);
+    const response = await api.get<Post[]>(initialUrl + `/getAllPostByUserId/${id}`);
+    return response.data;
+  }
+
+  static async getAllPostsByGroupName(name: string) {
+    const response = await api.get<Post[]>(initialUrl + `/getAllPostByGroupName/${name}`);
     return response.data;
   }
 
   static async createPostUser(formData: FormData) {
     const response = await api.post(
-      '/postUser/createPostUser',
+      initialUrl+ '/createPostUser',
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        }
+      }
+    );
+    return response;
+  }
+
+  static async createGroupPost(formData: FormData) {
+    const response = await api.post(
+      initialUrl+ '/createGroupPost',
       formData,
       {
         headers: {
@@ -36,7 +55,7 @@ export class PostApi {
 
   static async deletePostLike(userId: number | undefined, postUserId: number) {
     const response = await api.post(
-      '/postLikes/deletePostLike',
+      initialUrl + '/deletePostLike',
       {userId, postUserId}
     );
     return response

@@ -1,0 +1,166 @@
+warning: in the working copy of 'package-lock.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'package.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/index.tsx', LF will be replaced by CRLF the next time Git touches it
+[1mdiff --git a/package-lock.json b/package-lock.json[m
+[1mindex 6fb761f..5155092 100644[m
+[1m--- a/package-lock.json[m
+[1m+++ b/package-lock.json[m
+[36m@@ -8,6 +8,7 @@[m
+       "name": "social-net",[m
+       "version": "0.1.0",[m
+       "dependencies": {[m
+[32m+[m[32m        "@reduxjs/toolkit": "^1.9.5",[m
+         "@testing-library/jest-dom": "^5.16.5",[m
+         "@testing-library/react": "^13.4.0",[m
+         "@testing-library/user-event": "^13.5.0",[m
+[36m@@ -15,10 +16,17 @@[m
+         "@types/node": "^16.18.38",[m
+         "@types/react": "^18.2.14",[m
+         "@types/react-dom": "^18.2.6",[m
+[32m+[m[32m        "axios": "^1.4.0",[m
+         "react": "^18.2.0",[m
+         "react-dom": "^18.2.0",[m
+[32m+[m[32m        "react-icons": "^4.10.1",[m
+[32m+[m[32m        "react-query": "^3.39.3",[m
+[32m+[m[32m        "react-redux": "^8.1.1",[m
+[32m+[m[32m        "react-router-dom": "^6.14.1",[m
+         "react-scripts": "5.0.1",[m
+[32m+[m[32m        "sass": "^1.63.6",[m
+         "typescript": "^4.9.5",[m
+[32m+[m[32m        "url-query": "^2.0.0",[m
+         "web-vitals": "^2.1.4"[m
+       }[m
+     },[m
+[36m@@ -3144,6 +3152,37 @@[m
+         }[m
+       }[m
+     },[m
+[32m+[m[32m    "node_modules/@reduxjs/toolkit": {[m
+[32m+[m[32m      "version": "1.9.5",[m
+[32m+[m[32m      "resolved": "https://registry.npmmirror.com/@reduxjs/toolkit/-/toolkit-1.9.5.tgz",[m
+[32m+[m[32m      "integrity": "sha512-Rt97jHmfTeaxL4swLRNPD/zV4OxTes4la07Xc4hetpUW/vc75t5m1ANyxG6ymnEQ2FsLQsoMlYB2vV1sO3m8tQ==",[m
+[32m+[m[32m      "dependencies": {[m
+[32m+[m[32m        "immer": "^9.0.21",[m
+[32m+[m[32m        "redux": "^4.2.1",[m
+[32m+[m[32m        "redux-thunk": "^2.4.2",[m
+[32m+[m[32m        "reselect": "^4.1.8"[m
+[32m+[m[32m      },[m
+[32m+[m[32m      "peerDependencies": {[m
+[32m+[m[32m        "react": "^16.9.0 || ^17.0.0 || ^18",[m
+[32m+[m[32m        "react-redux": "^7.2.1 || ^8.0.2"[m
+[32m+[m[32m      },[m
+[32m+[m[32m      "peerDependenciesMeta": {[m
+[32m+[m[32m        "react": {[m
+[32m+[m[32m          "optional": true[m
+[32m+[m[32m        },[m
+[32m+[m[32m        "react-redux": {[m
+[32m+[m[32m          "optional": true[m
+[32m+[m[32m        }[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+[32m+[m[32m    "node_modules/@remix-run/router": {[m
+[32m+[m[32m      "version": "1.7.1",[m
+[32m+[m[32m      "resolved": "https://registry.npmmirror.com/@remix-run/router/-/router-1.7.1.tgz",[m
+[32m+[m[32m      "integrity": "sha512-bgVQM4ZJ2u2CM8k1ey70o1ePFXsEzYVZoWghh6WjM8p59jQ7HxzbHW4SbnWFG7V9ig9chLawQxDTZ3xzOF8MkQ==",[m
+[32m+[m[32m      "engines": {[m
+[32m+[m[32m        "node": ">=14"[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+     "node_modules/@rollup/plugin-babel": {[m
+       "version": "5.3.1",[m
+       "resolved": "https://registry.npmmirror.com/@rollup/plugin-babel/-/plugin-babel-5.3.1.tgz",[m
+[36m@@ -3838,6 +3877,15 @@[m
+         "@types/node": "*"[m
+       }[m
+     },[m
+[32m+[m[32m    "node_modules/@types/hoist-non-react-statics": {[m
+[32m+[m[32m      "version": "3.3.1",[m
+[32m+[m[32m      "resolved": "https://registry.npmmirror.com/@types/hoist-non-react-statics/-/hoist-non-react-statics-3.3.1.tgz",[m
+[32m+[m[32m      "integrity": "sha512-iMIqiko6ooLrTh1joXodJK5X9xeEALT1kM5G3ZLhD3hszxBdIEd5C75U834D9mLcINgD4OyZf5uQXjkuYydWvA==",[m
+[32m+[m[32m      "dependencies": {[m
+[32m+[m[32m        "@types/react": "*",[m
+[32m+[m[32m        "hoist-non-react-statics": "^3.3.0"[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+     "node_modules/@types/html-minifier-terser": {[m
+       "version": "6.1.0",[m
+       "resolved": "https://registry.npmmirror.com/@types/html-minifier-terser/-/html-minifier-terser-6.1.0.tgz",[m
+[36m@@ -4030,6 +4078,11 @@[m
+       "resolved": "https://registry.npmmirror.com/@types/trusted-types/-/trusted-types-2.0.3.tgz",[m
+       "integrity": "sha512-NfQ4gyz38SL8sDNrSixxU2Os1a5xcdFxipAFxYEuLUlvU2uDwS4NUpsImcf1//SlWItCVMMLiylsxbmNMToV/g=="[m
+     },[m
+[32m+[m[32m    "node_modules/@types/use-sync-external-store": {[m
+[32m+[m[32m      "version": "0.0.3",[m
+[32m+[m[32m      "resolved": "https://registry.npmmirror.com/@types/use-sync-external-store/-/use-sync-external-store-0.0.3.tgz",[m
+[32m+[m[32m      "integrity": "sha512-EwmlvuaxPNej9+T4v5AuBPJa2x2UOJVdjCtDHgcDqitUeOtjnJKJ+apYjVcAoBEMjKW1VVFGZLUb5+qqa09XFA=="[m
+[32m+[m[32m    },[m
+     "node_modules/@types/ws": {[m
+       "version": "8.5.5",[m
+       "resolved": "https://registry.npmmirror.com/@types/ws/-/ws-8.5.5.tgz",[m
+[36m@@ -4765,6 +4818,29 @@[m
+         "node": ">=4"[m
+       }[m
+     },[m
+[32m+[m[32m    "node_modules/axios": {[m
+[32m+[m[32m      "version": "1.4.0",[m
+[32m+[m[32m      "resolved": "https://registry.npmmirror.com/axios/-/axios-1.4.0.tgz",[m
+[32m+[m[32m      "integrity": "sha512-S4XCWMEmzvo64T9GfvQDOXgYRDJ/wsSZc7Jvdgx5u1sd0JwsuPLqb3SYmusag+edF6ziyMensPVqLTSc1PiSEA==",[m
+[32m+[m[32m      "dependencies": {[m
+[32m+[m[32m        "follow-redirects": "^1.15.0",[m
+[32m+[m[32m        "form-data": "^4.0.0",[m
+[32m+[m[32m        "proxy-from-env": "^1.1.0"[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+[32m+[m[32m    "node_modules/axios/node_modules/form-data": {[m
+[32m+[m[32m      "version": "4.0.0",[m
+[32m+[m[32m      "resolved": "https://registry.npmmirror.com/form-data/-/form-data-4.0.0.tgz",[m
+[32m+[m[32m      "integrity": "sha512-ETEklSGi5t0QMZuiXoA/Q6vcnxcLQP5vdugSpuAyi6SVGi2clPPp+xgEhuMaHC+zGgn31Kd235W35f7Hykkaww==",[m
+[32m+[m[32m      "dependencies": {[m
+[32m+[m[32m        "asynckit": "^0.4.0",[m
+[32m+[m[32m        "combined-stream": "^1.0.8",[m
+[32m+[m[32m        "mime-types": "^2.1.12"[m
+[32m+[m[32m      },[m
+[32m+[m[32m      "engines": {[m
+[32m+[m[32m        "node": ">= 6"[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+     "node_modules/axobject-query": {[m
+       "version": "3.2.1",[m
+       "resolved": "https://registry.npmmirror.com/axobject-query/-/axobject-query-3.2.1.tgz",[m
+[36m@@ -5067,6 +5143,14 @@[m
+         "node": ">= 8.0.0"[m
+       }[m
+     },[m
+[32m+[m[32m    "node_modules/big-integer": {[m
+[32m+[m[32m      "version": "1.6.51",[m
+[32m+[m[32m      "resolved": "https://registry.npmmirror.com/big-integer/-/big-integer-1.6.51.tgz",[m
+[32m+[m[32m      "integrity": "sha512-GPEid2Y9QU1Exl1rpO9B2IPJGHPSupF5GnVIP0blYvNOMer2bTvSWs1jGOUg04hTmu67nmLsQ9TBo1puaotBHg==",[m
+[32m+[m[32m      "engines": {[m
+[32m+[m[32m        "node": ">=0.6"[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+     "node_modules/big.js": {[m
+       "version": "5.2.2",[m
+       "resolved": "https://registry.npmmirror.com/big.js/-/big.js-5.2.2.tgz",[m
+[36m@@ -5179,6 +5263,21 @@[m
+         "node": ">=8"[m
+       }[m
+     },[m
+[32m+[m[32m    "node_modules/broadcast-channel": {[m
+[32m+[m[32m      "version": "3.7.0",[m
+[32m+[m[32m      "resolved": "https://registry.npmmirror.com/broadcast-channel/-/broadcast-channel-3.7.0.tgz",[m
+[32m+[m[32m      "integrity": "sha512-cIAKJXAxGJceNZGTZSBzMxzyOn72cVgPnKx4dc6LRjQgbaJUQqhy5rzL3zbMxkMWsGKkv2hSFkPRMEXfoMZ2Mg==",[m
+[32m+[m[32m      "dependencies": {[m
+[32m+[m[32m        "@babel/runtime": "^7.7.2",[m
+[32m+[m[32m        "detect-node": "^2.1.0",[m
+[32m+[m[32m        "js-sha3": "0.8.0",[m
+[32m+[m[32m        "microseconds": "0.2.0",[m
+[32m+[m[32m        "nano-time": "1.0.0",[m
+[32m+[m[32m        "oblivious-set": "1.0.0",[m
+[32m+[m[32m        "rimraf": "3.0.2",[m
+[32m+[m[32m        "unload": "2.2.0"[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+     "node_modules/browser-process-hrtime": {[m
+       "version": "1.0.0",[m
+       "resolve

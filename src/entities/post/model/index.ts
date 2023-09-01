@@ -1,14 +1,6 @@
 import { Group } from "../../group/model";
 import { User } from "../../user/model";
 
-// export type Post = {
-//   author: Group | User,
-//   img: string,
-//   likeNumber: number,
-//   repostNumber: number,
-//   commentNumber: number,
-// }
-
 export type Author = {
   login: string,
   avatar: string,
@@ -23,7 +15,7 @@ export interface Post {
     name: string,
     avatar: string | undefined,
   },
-  likes: Like[],
+  postLikes: Like[],
 }
 
 export type Like = {

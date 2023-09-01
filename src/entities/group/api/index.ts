@@ -58,4 +58,17 @@ export class GroupApi {
     const groups = await api.post('/group/unsubscribe/' + groupId);
     return groups.data;
   }
+  
+  static async loadAvatar(formData: FormData) {
+    const response = await api.post(
+      '/group/createAvatar',
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        }
+      }
+    );
+    return response;
+  }
 }
