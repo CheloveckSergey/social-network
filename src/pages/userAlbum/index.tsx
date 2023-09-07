@@ -35,7 +35,8 @@ const Images: FC<ImagesProps> = ({ userId }) => {
         {data && data.map((image, index) => (
           <ImageCard 
             key={index}
-            image={image} 
+            index={index}
+            images={data} 
             imageClass="image-class"
           />
         ))}

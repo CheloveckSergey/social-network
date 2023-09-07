@@ -6,21 +6,22 @@ import { useAppDispatch } from "../../../app/store";
 import { setImageWindow } from "../../../widgets/modalWindow/model/redux";
 
 interface ImageCardProps {
-  image: Image,
+  images: Image[],
   imageClass: string,
+  index: number
 }
 
-export const ImageCard: FC<ImageCardProps> = ({ image, imageClass }) => {
+export const ImageCard: FC<ImageCardProps> = ({ images, imageClass, index }) => {
 
   const dispatch = useAppDispatch();
 
   return (
     <>
       <img 
-        src={getImgSrc(image)} 
+        src={getImgSrc(images[index])} 
         alt="IMG"
         className={`image ${imageClass}`}
-        onClick={() => dispatch(setImageWindow({image}))}
+        onClick={() => dispatch(setImageWindow({images, curImageIndex: index}))}
       />
     </>
   )

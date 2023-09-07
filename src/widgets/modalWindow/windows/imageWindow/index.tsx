@@ -1,17 +1,22 @@
 import { FC } from "react";
 import './styles.scss';
-import { useAppSelector } from "../../../../app/store";
+import { useAppDispatch, useAppSelector } from "../../../../app/store";
 import { AiOutlineDoubleLeft, AiOutlineDoubleRight } from "react-icons/ai";
 import { getImgSrc } from "../../../../shared/service/images";
 import { AuthorCreationCard } from "../../../../entities/author/ui";
 import Favourites from "../../../../fetures/favourites";
+import { nextImage, previousImage } from "../../model/redux";
 
 const ImageWindow: FC = () => {
-  const { image } = useAppSelector(state => state.modalWindow);
+  const { images, curImageIndex } = useAppSelector(state => state.modalWindow);
+
+  const image = images[curImageIndex];
+
+  const dispatch = useAppDispatch();
 
   return (
     <div className="regular-panel image-window">
-      {!image ? (
+      {!images ? (
         <div>Holy shit</div>
       ) : (
         <>
@@ -19,6 +24,7 @@ const ImageWindow: FC = () => {
             <div className="left">
               <button
                 className="turn-button left-button white"
+                onClick={() => dispatch(previousImage({}))}
               >
                 <AiOutlineDoubleLeft size={55} />
               </button>
@@ -29,6 +35,7 @@ const ImageWindow: FC = () => {
               />
               <button
                 className="turn-button right-button white"
+                onClick={() => dispatch(nextImage({}))}
               >
                 <AiOutlineDoubleRight size={55} />
               </button>

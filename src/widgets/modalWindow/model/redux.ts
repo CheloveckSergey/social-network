@@ -17,13 +17,15 @@ export enum WindowTypes {
 interface ModalWindow {
   switch: boolean,
   windowType: WindowTypes | undefined,
-  image: Image | undefined,
+  images: Image[],
+  curImageIndex: number,
 }
 
 const initialState: ModalWindow = {
   switch: false,
   windowType: undefined,
-  image: undefined,
+  images: [],
+  curImageIndex: 0,
 }
 
 type WindowAction = {
@@ -31,7 +33,8 @@ type WindowAction = {
 }
 
 type ImageWindowAction = {
-  image: Image,
+  images: Image[],
+  curImageIndex: number,
 }
 
 export const mwSlice = createSlice({
@@ -48,10 +51,23 @@ export const mwSlice = createSlice({
     },
     setImageWindow(state, action: PayloadAction<ImageWindowAction>) {
       state.switch = true;
-      state.image = action.payload.image;
+      state.images = action.payload.images;
+      state.curImageIndex = action.payload.curImageIndex;
       state.windowType = WindowTypes.IMAGE_WINDOW;
+    },
+    nextImage(state, action) {
+      if (state.curImageIndex === state.images.length - 1) {
+        return
+      }
+      state.curImageIndex = state.curImageIndex + 1;
+    },
+    previousImage(state, action) {
+      if (state.curImageIndex === 0) {
+        return
+      }
+      state.curImageIndex = state.curImageIndex - 1;
     }
   }
 });
 
-export const { setWindow, closeWindow, setImageWindow } = mwSlice.actions;
+export const { setWindow, closeWindow, setImageWindow, nextImage, previousImage } = mwSlice.actions;
