@@ -1,0 +1,16 @@
+.ordinar-window {
+  position: relative;
+  min-width: 400px;
+  background-color: var(--back-light-gray);
+  border-radius: var(--regular-border-radius);
+
+  .section {
+    padding: 10px;
+  }
+
+  button.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+}

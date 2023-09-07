@@ -1,5 +1,5 @@
 import { FC, FormEvent, useRef, useState } from "react";
-import { useAppDispatch } from "../../../../app/store";
+import { useAppDispatch, useAppSelector } from "../../../../app/store";
 import { useQuery } from "react-query";
 import { UserApi } from "../../../../entities/user/api";
 import { closeWindow } from "../../model/redux";
@@ -8,6 +8,9 @@ import './styles.scss';
 import AddWindowType from "../../types/addType";
 import MyImgLabel from "../../../../shared/myImgLabel";
 import { GroupApi } from "../../../../entities/group/api";
+import ImageApi from "../../../../entities/image/api";
+import OrdinarPanel from "../../types/ordinarType.tsx";
+import LoadErrorHandler from "../../../../shared/loadErrorHandler";
 
 export const LoadUserAvatarWindow: FC = () => {
   const [avatar, setAvatar] = useState<string | ArrayBuffer | null>(null);
@@ -68,3 +71,31 @@ export const LoadGroupAvatarWindow: FC = () => {
     </AddWindowType>
   )
 }
+
+// export const ShowImages: FC = () => {
+//   const { user } = useAppSelector(state => state.user);
+
+//   const { data, isLoading, isError } = useQuery(
+//     ['getUserImages', user?.id],
+//     () => {
+//       if (user) {
+//         return ImageApi.getAllImagesByUserId(user.id);
+//       }
+//     }
+//   );
+
+//   return (
+//     <OrdinarPanel 
+//       windowName="Images"
+//       windowClass="show-images-window"
+//     >
+//       <LoadErrorHandler
+//         isError={isError}
+//         isLoading={isLoading}
+//         data={data}
+//       >
+//         <div>asdf</div>
+//       </LoadErrorHandler>
+//     </OrdinarPanel>
+//   )
+// }

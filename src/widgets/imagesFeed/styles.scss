@@ -1,0 +1,64 @@
+.images-feed {
+  height: 130px;
+
+  .no-images {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    border: 3px solid green;
+
+    .add-image {
+      margin-top: 10px;
+      padding: 5px;
+      padding-bottom: 1px;
+      border-radius: var(--small-border-radius);
+    }
+  }
+
+  .yes-images {
+    position: relative;
+    height: 100%;
+    width: 100%;
+
+    .images {
+      display: flex;
+      gap: 10px;
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+
+      img.image {
+        height: 100%;
+        object-fit: cover;
+        border-radius: var(--small-border-radius);
+        flex-shrink: 1;
+  
+        &:nth-child(3) {
+          flex-shrink: 10;
+        }
+      }
+    }
+
+    button.add-image {
+      position: absolute;
+      z-index: 9999;
+      bottom: 0;
+      height: 30px;
+      width: 100%;
+      border-radius: var(--small-border-radius);
+    }
+
+    .watch-button-container {
+      position: absolute;
+      top: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      width: 100%;
+    }
+  }
+}

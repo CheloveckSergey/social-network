@@ -91,6 +91,20 @@ button {
       }
     }
   }
+
+  &.light-back {
+    
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+  }
+
+  &.inherit-to-green {
+
+    &:hover {
+      color: green;
+    }
+  }
 }
 
 //Just because button.green doesn't work on input [file]

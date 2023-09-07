@@ -10,16 +10,9 @@
   justify-content: center;
   background-color: rgba(0,0,0,0.5);
 
-  // .window {
-  //   position: relative;
-  //   padding: var(--regular-padding) 0;
-  //   background-color: var(--back-light-gray);
-  //   border-radius: var(--regular-border-radius);
-
-  //   button.close {
-  //     position: absolute;
-  //     top: 10px;
-  //     right: 10px;
-  //   }
-  // }
+  .close-button {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+  }
 }

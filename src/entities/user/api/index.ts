@@ -1,4 +1,5 @@
 import api from "../../../shared/http";
+import { Author } from "../../author/model";
 
 type OneUser = {
   login: string,
@@ -36,5 +37,10 @@ export class UserApi {
   static async getUserDesc(userId: number) {
     const response = await api.get<UserDesc>('/user-desc/getDesc/' + userId);
     return response.data;
+  }
+
+  static async getAuthorByUserId(userId: number) {
+    const response = await api.get<Author>('/users/getAuthorByUserId/' + userId);
+    return response;
   }
 }

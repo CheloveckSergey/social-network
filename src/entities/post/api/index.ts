@@ -55,7 +55,7 @@ export class PostApi {
 
   static async deletePostLike(userId: number | undefined, postUserId: number) {
     const response = await api.post(
-      initialUrl + '/deletePostLike',
+      '/postLikes/deletePostLike',
       {userId, postUserId}
     );
     return response
