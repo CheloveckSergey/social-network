@@ -1,0 +1,40 @@
+.comment-button {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 10px;
+  padding: 5px 10px;
+  background-color: var(--border);
+  border-radius: 50em;
+
+  .commented {
+    color: blue;
+  }
+
+  &:hover {
+    background-color: var(--back-2xlight-gray);
+  }
+}
+
+.comment {
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+  border-top: var(--regular-border);
+
+  &:first-child {
+    border-top: none;
+  }
+
+  .avatar-container {
+    .avatar {
+      height: 50px;
+      width: 50px;
+      border-radius: 50em;
+    }
+  }
+
+  .main {
+    flex-grow: 3;
+  }
+}

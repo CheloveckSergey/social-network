@@ -20,6 +20,7 @@ export class PostApi {
   }
 
   static async createPostUser(formData: FormData) {
+    console.log(formData);
     const response = await api.post(
       initialUrl+ '/createPostUser',
       formData,

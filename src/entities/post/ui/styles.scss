@@ -2,7 +2,7 @@
   // height: 600px;
   // width: 500px;
   margin: 15px 0;
-  padding: 20px;
+  padding: 10px;
   border-radius: 15px;
   background-color: var(--back-light-gray);
   border: 2px solid var(--border);
@@ -48,4 +48,42 @@
     }
   }
 
+  .bottom {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .comments-section {
+    border-top: var(--regular-border);
+
+    .create-comment {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+
+      form {
+        flex-grow: 3;
+        display: flex;
+        gap: 10px;
+  
+        label {
+          height: 50px;
+          flex-grow: 3;
+    
+          .comment-input {
+            margin: 0;
+            height: 100%;
+            width: 100%
+          }
+        }
+      }
+    }
+    
+    border-top: var(--regular-border);
+    margin-top: 10px;
+    padding-top: 10px;
+
+
+  }
 }

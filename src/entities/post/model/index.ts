@@ -1,4 +1,5 @@
 import { Author } from "../../author/model";
+import { Comment } from "../../comment/model";
 import { Group } from "../../group/model";
 import { User } from "../../user/model";
 
@@ -9,6 +10,7 @@ export interface Post {
   createdAt: string,
   author: Author,
   postLikes: Like[],
+  comments: Comment[],
 }
 
 export type Like = {
