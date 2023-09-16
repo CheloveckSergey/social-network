@@ -42,7 +42,7 @@ body {
 button {
   border: none;
   outline: none;
-  background: inherit;
+  background: none;
   color: inherit;
   cursor: pointer;
 
@@ -203,6 +203,7 @@ input {
   background-color: var(--back-light-gray);
   border: var(--regular-border);
   border-radius: var(--regular-border-radius);
+  overflow: hidden;
 
   &:first-child {
     margin-top: 0;
@@ -235,4 +236,13 @@ textarea {
   outline: none;
   border-radius: var(--small-border-radius);
   color: var(--font-white);
+}
+
+.black-out {
+  position: absolute;
+  z-index: 7000;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(0,0,0,0.5);
 }

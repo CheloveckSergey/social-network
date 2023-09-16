@@ -2,11 +2,11 @@ import { FC } from "react"
 import { Image } from "../../entities/image/model"
 import { AiOutlinePlus } from "react-icons/ai"
 import LoadErrorHandler from "../../shared/loadErrorHandler";
-import './styles.scss';
 import { useAppDispatch, useAppSelector } from "../../app/store";
 import { WindowTypes, setWindow } from "../modalWindow/model/redux";
 import { BsEyeFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
+import './styles.scss';
 
 
 interface ImagesFeedProps {
@@ -41,6 +41,7 @@ const ImagesFeed: FC<ImagesFeedProps> = ({ images, isLoading, isError }) => {
         data={images}
       >
         {!images?.length ? (
+
           <div className="no-images">
             <p>Here you can keep your images</p>
             <button
@@ -50,7 +51,9 @@ const ImagesFeed: FC<ImagesFeedProps> = ({ images, isLoading, isError }) => {
               <AiOutlinePlus size={25} />
             </button>
           </div>
+
         ) : (
+
           <div className="yes-images">
             <div className="images">
               {images.map((image, index) => (
@@ -62,21 +65,23 @@ const ImagesFeed: FC<ImagesFeedProps> = ({ images, isLoading, isError }) => {
                 />
               ))}
             </div>
-            <button
-              className="light-back add-image"
-              onClick={() => dispatch(setWindow({window: WindowTypes.ADD_USER_IMAGE}))}
-            >
-              Add Image
-            </button>
-            <div className="watch-button-container">
+            <div className="black-out button-container">
               <button 
-                className="watch inherit-to-green"
+                className="inherit-to-green"
                 onClick={() => navigate('/userAlbum/' + user?.id)}
               >
-                <BsEyeFill size={45} />
+                <BsEyeFill size={40} />
               </button>
+              <button
+                className="inherit-to-green"
+                onClick={() => dispatch(setWindow({window: WindowTypes.ADD_USER_IMAGE}))}
+              >
+                <AiOutlinePlus size={40} />
+              </button>
+
             </div>
           </div>
+
         )}
 
       </LoadErrorHandler>

@@ -10,6 +10,7 @@ const AddGroupWindow: FC = () => {
 
   return (
     <AddWindowType
+      header="Add Group"
       queryName="addGroup"
       apiFunction={GroupApi.createGroup}
       inputs={[image, name]}

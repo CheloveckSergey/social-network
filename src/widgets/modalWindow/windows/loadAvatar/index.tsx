@@ -8,7 +8,7 @@ import './styles.scss';
 import AddWindowType from "../../types/addType";
 import MyImgLabel from "../../../../shared/myImgLabel";
 import { GroupApi } from "../../../../entities/group/api";
-import ImageApi from "../../../../entities/image/api";
+import { ImageApi } from "../../../../entities/image";
 import OrdinarPanel from "../../types/ordinarType.tsx";
 import LoadErrorHandler from "../../../../shared/loadErrorHandler";
 
@@ -17,6 +17,7 @@ export const LoadUserAvatarWindow: FC = () => {
 
   return (
     <AddWindowType
+      header="Set Avatar"
       queryName="loadGroupAvatar"
       inputs={[avatar]}
       apiFunction={UserApi.loadAvatar}
@@ -51,6 +52,7 @@ export const LoadGroupAvatarWindow: FC = () => {
 
   return (
     <AddWindowType
+      header="Set Avatar"
       queryName="loadGroupAvatar"
       inputs={[avatar]}
       apiFunction={GroupApi.loadAvatar}

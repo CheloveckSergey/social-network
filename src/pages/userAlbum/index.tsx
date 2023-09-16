@@ -4,7 +4,7 @@ import LeftMenu from "../../widgets/leftMenu";
 import './styles.scss';
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "react-query";
-import ImageApi from "../../entities/image/api";
+import { ImageApi } from "../../entities/image";
 import LoadErrorHandler from "../../shared/loadErrorHandler";
 import { getImgSrc } from "../../shared/service/images";
 import { BiArrowBack } from "react-icons/bi";

@@ -2,17 +2,16 @@ import { FC } from "react";
 import LeftMenu from "../../widgets/leftMenu";
 import Upbar from "../../widgets/upbar";
 import './styles.scss';
-import { User } from "../../entities/user/model/redux";
+import { User } from "../../entities/user";
 import { useAppDispatch, useAppSelector } from "../../app/store";
 import { WindowTypes, setWindow } from "../../widgets/modalWindow/model/redux";
-import { BsPencilSquare } from 'react-icons/bs';
 import Feed from "../../widgets/feed";
 import { useQuery } from "react-query";
 import { UserApi } from "../../entities/user/api";
 import { PostApi } from "../../entities/post/api";
 import AddPostPanel from "../../shared/addPost";
-import ImagesFeed from "../../widgets/imagesFeed";
-import ImageApi from "../../entities/image/api";
+import { getImageSrc } from "../../shared/service/images";
+import HomeImages from "./homeImages";
 
 interface HomeAvatarProps {
   user: User | undefined,
@@ -22,7 +21,7 @@ const HomeAvatar: FC<HomeAvatarProps> = ({ user }) => {
 
   const dispatch = useAppDispatch();
 
-  const img = user?.avatar ? (process.env.REACT_APP_BACK_URL + user.avatar) : 'https://pichold.ru/wp-content/uploads/2021/03/10976505-1.jpg';
+  const img = getImageSrc(user?.avatar) || 'https://pichold.ru/wp-content/uploads/2021/03/10976505-1.jpg';
 
   return (
     <div className="home-avatar regular-panel">
@@ -112,33 +111,16 @@ const HomeFeed: FC<HomeFeedProps> = ({ user }) => {
   )
 }
 
-interface HomeImagesProps {
-  user: User | undefined,
-}
-
-const HomeImages: FC<HomeImagesProps> = ({ user }) => {
-  const { data, isLoading, isError } = useQuery(
-    ['getUserImages', user?.id],
-    () => {
-      if (user) {
-        return ImageApi.getAllImagesByUserId(user.id)
-      }
-    }
-  )
-
-  const images = data?.slice(0, 3);
-
-  return (
-    <ImagesFeed
-      images={images} 
-      isError={isError}
-      isLoading={isLoading}
-    />
-  )
-}
-
 const Home: FC = () => {
   const { user } = useAppSelector(state => state.user);
+
+  if (!user) {
+    return (
+      <>
+        There's no any user :(
+      </>
+    )
+  }
 
   return (
     <>

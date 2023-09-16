@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { userSlice } from "../../entities/user/model/redux";
+import { userSlice } from "../../fetures/auth";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { mwSlice } from "../../widgets/modalWindow/model/redux";
 

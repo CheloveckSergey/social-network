@@ -1,17 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import AuthApi, { LogoutRes, ReqAuthDto, ResAuthDto } from "../../../fetures/auth/api";
+import { MeUser } from "../../../entities/user/model/types";
+import AuthApi, { LogoutRes, ReqAuthDto, ResAuthDto } from "../api";
 import { AxiosError } from "axios";
-import { useAppSelector } from "../../../app/store";
-
-export interface User {
-  id: number,
-  login: string,
-  avatar: string,
-  accessToken: string,
-}
 
 interface UserState {
-  user: User | undefined,
+  user: MeUser | undefined,
   loading: boolean,
   error: string | undefined,
 }
@@ -27,7 +20,7 @@ export interface MyRejectValue {
   status: number | undefined,
 }
 
-export const registerThunk = createAsyncThunk<
+const registerThunk = createAsyncThunk<
   ResAuthDto,
   ReqAuthDto,
   {
@@ -48,7 +41,7 @@ export const registerThunk = createAsyncThunk<
   }
 )
 
-export const loginThunk = createAsyncThunk<
+const loginThunk = createAsyncThunk<
   ResAuthDto,
   ReqAuthDto,
   {
@@ -69,7 +62,7 @@ export const loginThunk = createAsyncThunk<
   }
 )
 
-export const refreshThunk = createAsyncThunk<
+const refreshThunk = createAsyncThunk<
   ResAuthDto,
   {},
   {
@@ -90,7 +83,7 @@ export const refreshThunk = createAsyncThunk<
   }
 )
 
-export const logoutThunk = createAsyncThunk<
+const logoutThunk = createAsyncThunk<
   LogoutRes,
   {userId: number},
   {
@@ -184,7 +177,9 @@ export const userSlice = createSlice({
   }
 })
 
-// export const useAccessToken = () => {
-//   const { user, loading, error } = useAppSelector(state => state.user);
-//   return user?.accessToken;
-// }
+export const authThunks = {
+  registerThunk, 
+  loginThunk,
+  refreshThunk,
+  logoutThunk,
+}

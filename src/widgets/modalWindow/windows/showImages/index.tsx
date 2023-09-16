@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { useAppSelector } from "../../../../app/store";
 import { useQuery } from "react-query";
-import ImageApi from "../../../../entities/image/api";
+import { ImageApi } from "../../../../entities/image";
 import OrdinarPanel from "../../types/ordinarType.tsx";
 import LoadErrorHandler from "../../../../shared/loadErrorHandler";
 import './styles.scss';

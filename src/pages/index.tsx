@@ -12,9 +12,9 @@ const Routing: FC = () => {
   
   return (
     <Routes >
+      <Route path="/auth" element={<AuthPage />} />
       <Route path="/" element={<NewsPage />} />
       <Route path="/home" element={<Home />} />
-      <Route path="/auth" element={<AuthPage />} />
       <Route path="/users" element={<Users />} />
       <Route path="/groups" element={<GroupsPage />} />
       <Route path="/groups/:groupName" element={<GroupPage />} />

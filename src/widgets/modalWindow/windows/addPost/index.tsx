@@ -17,6 +17,7 @@ const AddPostWindow: FC<AddPostProps> = ({ apiFunction, children }) => {
 
   return (
     <AddWindowType
+      header="Add Post"
       queryName="addGroup"
       apiFunction={apiFunction}
       inputs={[image, description]}

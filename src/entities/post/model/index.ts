@@ -1,7 +1,7 @@
 import { Author } from "../../author/model";
 import { Comment } from "../../comment/model";
 import { Group } from "../../group/model";
-import { User } from "../../user/model";
+import { User } from "../../user/model/types";
 
 export interface Post {
   id: number,

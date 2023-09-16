@@ -1,13 +1,14 @@
 import { useState } from "react";
 import MyImgLabel from "../../../../shared/myImgLabel"
 import AddWindowType from "../../types/addType"
-import ImageApi from "../../../../entities/image/api";
+import { ImageApi } from "../../../../entities/image";
 
 export const AddUserImageWindow = () => {
   const [image, setImage] = useState<string | ArrayBuffer | null>(null);
 
   return (
     <AddWindowType
+      header="Add Image"
       queryName="loadGroupAvatar"
       inputs={[image]}
       apiFunction={ImageApi.createByUserId}
@@ -42,6 +43,7 @@ export const AddGroupImageWindow = () => {
 
   return (
     <AddWindowType
+      header="Add Image"
       queryName="loadGroupAvatar"
       inputs={[image]}
       apiFunction={ImageApi.createByUserId}

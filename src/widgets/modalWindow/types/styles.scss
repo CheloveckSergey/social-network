@@ -34,6 +34,11 @@
 
   .button-div {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+
+    .message {
+      height: 20px;
+    }
   }
 }

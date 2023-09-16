@@ -1,4 +1,3 @@
-import axios from "axios";
 import api from "../../../shared/http";
 
 export interface ReqAuthDto {
@@ -11,11 +10,8 @@ export interface ResAuthDto {
   login: string,
   avatar: string,
   accessToken: string,
+  roles: number[],
 }
-
-// export interface LogoutReq {
-//   userId: number
-// }
 
 export interface LogoutRes {
   message: string

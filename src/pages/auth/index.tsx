@@ -1,9 +1,10 @@
 import React, { ChangeEvent, FC, useState } from "react";
 import './styles.scss';
-import AuthApi from "../../fetures/auth/api";
-import { useAppDispatch } from "../../app/store";
+import { useAppDispatch, useAppSelector } from "../../app/store";
 import { useNavigate } from "react-router-dom";
-import { MyRejectValue, loginThunk, registerThunk } from "../../entities/user/model/redux";
+
+import Rotator from "../../shared/rotator";
+import { MyRejectValue, authThunks } from "../../fetures/auth";
 
 interface RegLogSectionProps {
   toggleLogReg: React.Dispatch<React.SetStateAction<boolean>>,
@@ -20,17 +21,47 @@ const RegSection: FC<RegLogSectionProps> = ({ toggleLogReg, setEMessage }) => {
   const dispatch = useAppDispatch();
 
   async function register() {
-    dispatch(registerThunk({login, password}))
+    if (!validation(login, password, cPassword, setEMessage)) {
+      return;
+    }
+    dispatch(authThunks.registerThunk({login, password}))
     .unwrap()
     .then(() => {
       navigate('/home');
     } )
     .catch((error: MyRejectValue) => {
-      console.log('ОШИБКА В КЛИКЕ ЛОГИНА');
       if (error.message) {
         setEMessage(error.message);
       }
     });
+  }
+
+  function validation(login: string, password: string, confirmPassword: string, setEMessage: React.Dispatch<React.SetStateAction<string>>): boolean {
+    if (login.length < 4 || login.length > 15) {
+      setEMessage('Логин должен быть не меньше 4 и небольше 15 символов');
+      return false;
+    }
+    if (password.length < 7 || password.length > 15) {
+      setEMessage('Пароль должен быть не меньше 7 и небольше 15 символов');
+      return false;
+    }
+    if (password !== confirmPassword) {
+      setEMessage('Пароли должны совпадать');
+      return false;
+    }
+    return true;
+  }
+
+  function passwordLevel(password: string): 'low' | 'middle' | 'hard' | '' {
+    if (password.length === 0) {
+      return '';
+    } else if (password.length < 7 || password.length > 15) {
+      return 'low';
+    } else if (password.length < 10) {
+      return 'middle';
+    } else {
+      return 'hard';
+    }
   }
   
   return (
@@ -41,15 +72,22 @@ const RegSection: FC<RegLogSectionProps> = ({ toggleLogReg, setEMessage }) => {
       <input 
         type="text" 
         value={login} 
-        onChange={(e: ChangeEvent<HTMLInputElement>) => setLogin(e.target.value)}
+        onChange={(e: ChangeEvent<HTMLInputElement>) => {
+          setLogin(e.target.value);
+          setEMessage('');
+        }}
       />
       <p>
         Enter the password
       </p>
       <input 
+        className={passwordLevel(password)}
         type="text" 
         value={password}
-        onChange={(e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
+        onChange={(e: ChangeEvent<HTMLInputElement>) => {
+          setPassword(e.target.value);
+          setEMessage('');
+        }}
       />
       <p>
         Confirm the password
@@ -57,7 +95,10 @@ const RegSection: FC<RegLogSectionProps> = ({ toggleLogReg, setEMessage }) => {
       <input 
         type="text" 
         value={cPassword}
-        onChange={(e: ChangeEvent<HTMLInputElement>) => setCPassword(e.target.value)}
+        onChange={(e: ChangeEvent<HTMLInputElement>) => {
+          setCPassword(e.target.value);
+          setEMessage('');
+        }}
       />
       <button className="green send" onClick={register}>
         Registration
@@ -78,7 +119,7 @@ const LoginSection: FC<RegLogSectionProps> = ({ toggleLogReg, setEMessage }) => 
   const dispatch = useAppDispatch();
 
   async function log() {
-    dispatch(loginThunk({login, password}))
+    dispatch(authThunks.loginThunk({login, password}))
     .unwrap()
     .then(() => {
       navigate('/home');
@@ -125,10 +166,16 @@ const AuthPage: FC = () => {
   const [logReg, toggleLogReg] = useState<boolean>(true);
   const [eMessage, setEMessage] = useState<string>('');
 
+  const { loading } = useAppSelector(state => state.user);
+
   return (
     <>
       <div className="centralizing-container">
         <div className="auth-panel regular-panel">
+          {loading && 
+          <div className="blackout-auth">
+            <Rotator size={50} />
+          </div>}
           <h1 className="icon">
             Здесь будет иконка
           </h1>

@@ -1,5 +1,6 @@
 .images-feed {
   height: 130px;
+  padding: 0;
 
   .no-images {
     display: flex;
@@ -8,7 +9,6 @@
     align-items: center;
     width: 100%;
     height: 100%;
-    border: 3px solid green;
 
     .add-image {
       margin-top: 10px;
@@ -28,6 +28,7 @@
       gap: 10px;
       height: 100%;
       width: 100%;
+      padding: 5px;
       overflow: hidden;
 
       img.image {
@@ -42,23 +43,18 @@
       }
     }
 
-    button.add-image {
-      position: absolute;
-      z-index: 9999;
-      bottom: 0;
-      height: 30px;
-      width: 100%;
-      border-radius: var(--small-border-radius);
+    .button-container {
+      display: none;
     }
 
-    .watch-button-container {
-      position: absolute;
-      top: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100%;
-      width: 100%;
+    &:hover {
+
+      .button-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
     }
   }
 }

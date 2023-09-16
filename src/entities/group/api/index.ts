@@ -1,5 +1,5 @@
 import api from "../../../shared/http";
-import { User } from "../../user/model";
+import { User } from "../../user/model/types";
 import { CreateGroupDto, DeleteGrouDto, Group } from "../model";
 
 export class GroupApi {

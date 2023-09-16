@@ -3,8 +3,8 @@ import './app.scss';
 import Routing from '../pages';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from './store';
-import { MyRejectValue, refreshThunk } from '../entities/user/model/redux';
 import ModalWindow from '../widgets/modalWindow';
+import { MyRejectValue, authThunks } from '../fetures/auth';
 
 function App() {
   const navigate = useNavigate();
@@ -12,7 +12,7 @@ function App() {
   const window = useAppSelector(state => state.modalWindow);
  
   useEffect(() => {
-    dispatch(refreshThunk({}))
+    dispatch(authThunks.refreshThunk({}))
     .unwrap()
     .then(() => {
       // navigate('/home');

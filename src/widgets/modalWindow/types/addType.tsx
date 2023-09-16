@@ -5,6 +5,7 @@ import { FC, FormEvent, ReactNode, useRef, useState } from "react";
 import './styles.scss';
 import { AxiosResponse } from "axios";
 import { useQuery } from "react-query";
+import Rotator from "../../../shared/rotator";
 
 interface AddWindowTypeProps {
   children: ReactNode | ReactNode[],
@@ -13,9 +14,10 @@ interface AddWindowTypeProps {
   apiFunction: (formData: FormData) => Promise<AxiosResponse<any, any>>,
   enabledCondition: boolean,
   formClassName?: string,
+  header: string,
 }
 
-const AddWindowType: FC<AddWindowTypeProps> = ({ children, queryName, inputs, apiFunction, enabledCondition, formClassName }) => {
+const AddWindowType: FC<AddWindowTypeProps> = ({ children, queryName, inputs, apiFunction, enabledCondition, formClassName, header }) => {
   const dispatch = useAppDispatch();
 
   const [message, setMessage] = useState<string>('');
@@ -24,7 +26,7 @@ const AddWindowType: FC<AddWindowTypeProps> = ({ children, queryName, inputs, ap
 
   const formRef= useRef<HTMLFormElement>(null);
 
-  const { refetch } = useQuery(
+  const { isLoading, refetch } = useQuery(
     [queryName, ...inputs],
     () => {
       if (user) {
@@ -35,21 +37,17 @@ const AddWindowType: FC<AddWindowTypeProps> = ({ children, queryName, inputs, ap
     },
     {
       enabled: false,
-      onSuccess: () => setMessage('Вроде как загружено'),
+      onSuccess: () => {
+        window.location.reload();
+      },
       onError: () => setMessage('Нихуя не загружено как же блять заебало'),
     }
   )
 
   return (
     <div className="window">
-      <button
-        className="close"
-        onClick={() => dispatch(closeWindow({}))}
-      >
-        <AiOutlineCloseCircle size={25} />
-      </button>
       <div className="header-section section">
-        <p>Add Post</p>
+        <p>{header}</p>
       </div>
       <hr/>
       <div className="input-section section">
@@ -66,10 +64,15 @@ const AddWindowType: FC<AddWindowTypeProps> = ({ children, queryName, inputs, ap
             onClick={() => refetch()}
             disabled={enabledCondition ? false : true}
           >
-            Add Avatar
+            Add
           </button>
-          <p>{message}</p>
-
+          <p className="message">
+            {isLoading ? (
+              <Rotator size={20} />
+            ) : (
+              message
+            )}
+          </p>
         </div>
       </div>
     </div>

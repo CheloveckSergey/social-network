@@ -4,12 +4,12 @@ import { BsFileEarmarkPlay, BsThreeDots } from 'react-icons/bs';
 import "./styles.scss";
 import Favourites from "../../../fetures/favourites";
 import { useQuery } from "react-query";
-import { PostCommentButton } from "../../comment/ui";
+import { CreateComment, PostCommentButton } from "../../comment/ui";
 import { getImageSrc } from "../../../shared/service/images";
 import { useAppSelector } from "../../../app/store";
-import { User } from "../../user/model/redux";
 import CommentFeed from "../../../widgets/commentFeed";
 import CommentApi from "../../comment/api";
+import { User } from "../../user";
 
 interface PCFProps {
   post: Post,
@@ -25,64 +25,22 @@ const PostCommentFeed: FC<PCFProps> = ({ post, user }) => {
 
   return (
     <>
-      {data && <CommentFeed comments={data} />}
+      {data && data.length > 0 && <CommentFeed comments={data} />}
     </>
   )
 }
 
 interface CSProps {
-  user: User | undefined,
+  user: User,
   post: Post,
 }
 
 const CommentSection: FC<CSProps> = ({ user, post }) => {
-  const [text, setText] = useState<string>('');
-
-  const formRef= useRef<HTMLFormElement>(null);
-
-  const { refetch } = useQuery(
-    ['loadComment', user?.id, text],
-    () => {
-      if (formRef.current) {
-        const formData = new FormData(formRef.current);
-        formData.append('creationId', String(post.id));
-        return CommentApi.createPostComment(formData);
-      }
-    },
-    {
-      enabled: false,
-    }
-  )
 
   return (
     <div className="comments-section">
       {user && <PostCommentFeed user={user} post={post} />}
-      <div className="create-comment">
-        <img 
-          src={getImageSrc(user?.avatar)} 
-          alt="IMG" 
-          className="avatar-image"
-        />
-        <form ref={formRef}>
-          <label>
-            <textarea
-              value={text}
-              onChange={(e) => setText(e.target.value)}
-              name="text"
-              className="comment-input" 
-            />
-          </label>
-          <button
-            className="inherit-to-green"
-            onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-              e.preventDefault();
-              refetch();
-            }}
-          >
-            <BsFileEarmarkPlay size={40} />
-          </button>
-        </form>
-      </div>
+      <CreateComment post={post} user={user} />
     </div>
   )
 }
@@ -101,32 +59,34 @@ export const PostCard: FC<PostProps> = ({ post }) => {
 
 
   return (
-    <div className="post">
-      <div className="up">
-        <div className="group-info">
-          <img src={avatarPost} alt="IMG" />
-          <div>
-            <h3 className="title">{post.author.name}</h3>
-            <p className="extra">{post.createdAt}</p>
-          </div>
-        </div>
-        <button className="white">
-          <BsThreeDots size={25}/>
-        </button>
-      </div>
+    <div className="post regular-panel">
       <div className="post-main">
-        <p className="description">{post.description}</p>
-        {postImage && <img className="post-img" src={postImage} alt="PostIMG" />}
+        <div className="up">
+          <div className="group-info">
+            <img src={avatarPost} alt="IMG" />
+            <div>
+              <h3 className="title">{post.author.name}</h3>
+              <p className="extra">{post.createdAt}</p>
+            </div>
+          </div>
+          <button className="white">
+            <BsThreeDots size={25}/>
+          </button>
+        </div>
+        <div className="body">
+          <p className="description">{post.description}</p>
+          {postImage && <img className="post-img" src={postImage} alt="PostIMG" />}
+        </div>
+        <div className="bottom">
+          <Favourites.Actions.PostLike post={post} />
+          <PostCommentButton 
+            opened={opened} 
+            setOpened={setOpened}
+            post={post}
+          />
+        </div>
       </div>
-      <div className="bottom">
-        <Favourites.Actions.PostLike post={post} />
-        <PostCommentButton 
-          opened={opened} 
-          setOpened={setOpened}
-          post={post}
-        />
-      </div>
-      {opened && <CommentSection user={user} post={post} />}
+      {opened && user && <CommentSection user={user} post={post} />}
     </div>
   )
 }

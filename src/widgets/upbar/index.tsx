@@ -6,7 +6,7 @@ import { IoMdExit } from 'react-icons/io';
 import "./styles.scss";
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/store';
-import { logoutThunk } from '../../entities/user/model/redux';
+import { authThunks } from '../../fetures/auth';
 
 const Upbar: FC = () => {
   const navigate = useNavigate();
@@ -33,7 +33,7 @@ const Upbar: FC = () => {
       </div>
       <button className='green-to-pale' onClick={() => {
         if (user) {
-          dispatch(logoutThunk({userId: user?.id}));
+          dispatch(authThunks.logoutThunk({userId: user?.id}));
         }
         navigate('/auth');
       }}>

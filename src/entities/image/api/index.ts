@@ -3,7 +3,7 @@ import { Image } from "../model";
 
 const initialUrl = '/images';
 
-class ImageApi {
+export class ImageApi {
   static async createByUserId(formData: FormData) {
     const response = await api.post(
       initialUrl + '/createByUserId',
@@ -40,5 +40,3 @@ class ImageApi {
     return response.data;
   }
 }
-
-export default ImageApi;
