@@ -6,7 +6,6 @@ import { useAppSelector } from "../../../app/store";
 import './styles.scss';
 import { getImageSrc } from "../../../shared/service/images";
 import { AiOutlineHeart } from "react-icons/ai";
-import { CreateComment } from "./createComment";
 
 interface PCBProps {
   post: Post,
@@ -76,3 +75,4 @@ export const PostComment: FC<PCInterface> = ({ comment }) => {
 }
 
 export * from './createComment';
+export * from './commentFeed';

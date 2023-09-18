@@ -1,6 +1,5 @@
 import { FC } from "react"
-import { Comment } from "../../entities/comment/model"
-import { PostComment } from "../../entities/comment/ui"
+import { Comment, PostComment } from '../../index';
 
 interface CFProps {
   comments: Comment[],
@@ -18,4 +17,15 @@ const CommentFeed: FC<CFProps> = ({ comments }) => {
   )
 }
 
-export default CommentFeed;
+interface PCFProps {
+  comments: Comment[] | undefined,
+}
+
+export const PostCommentFeed: FC<PCFProps> = ({ comments }) => {
+
+  return (
+    <>
+      {comments && comments.length > 0 && <CommentFeed comments={comments} />}
+    </>
+  )
+}

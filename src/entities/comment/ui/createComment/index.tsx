@@ -5,14 +5,16 @@ import { useQuery } from "react-query"
 import CommentApi from "../../api"
 import { Post } from "../../../post"
 import { BsFileEarmarkPlay } from "react-icons/bs"
-import './styles.scss'
+import { Comment } from "../../model"
+import './styles.scss';
 
 interface CCInterface {
   user: User,
-  post: Post
+  post: Post,
+  addComment: (comment: Comment) => void,
 }
 
-export const CreateComment: FC<CCInterface> = ({ user, post }) => {
+export const CreateComment: FC<CCInterface> = ({ user, post, addComment }) => {
 
   const [text, setText] = useState<string>('');
 
@@ -29,6 +31,19 @@ export const CreateComment: FC<CCInterface> = ({ user, post }) => {
     },
     {
       enabled: false,
+      onSuccess: () => {
+        addComment({
+          id: 9999,
+          text: text,
+          userId: user.id,
+          postId: post.id,
+          user: {
+            login: user.login,
+            avatar: user.avatar,
+          },
+          createdAt: 'Только что',
+        })
+      }
     }
   )
 
