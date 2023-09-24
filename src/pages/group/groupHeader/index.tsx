@@ -82,6 +82,8 @@ const SubscribePanel: FC<SPProps> = ({ group }) => {
   const [subscribed, setSubscribed] = useState<boolean>(false);
 
   useEffect(() => {
+    console.log('UseEffect');
+    console.log(group);
     if (group?.author.subscribedFor) {
       setSubscribed(true);
     }

@@ -42,8 +42,8 @@ const GroupList: FC = ({  }) => {
         <div>Something went wrong...</div>
       ) : (
         <div>
-          {data.map(group => (
-            <div className='group-item'>
+          {data.map((group, index) => (
+            <div className='group-item' key={index}>
               <img 
                 src={group.avatar && process.env.REACT_APP_BACK_URL 
                   ? process.env.REACT_APP_BACK_URL + group.avatar 

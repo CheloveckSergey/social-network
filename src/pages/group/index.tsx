@@ -40,38 +40,64 @@ const GroupPage = () => {
     {
       onSuccess: (data) => {
         console.log(data);
-      } 
+      },
     }
   )
 
-  return (
-    <>
-      <Upbar />
-      <main>
-        <LeftMenu />
-        <div className="group-page">
-          <GroupHeader group={data} isError={isError} isLoading={isLoading} />
-          <div className="just-cause">
-            <div className="group-main">
-              <div className="images regular-panel">
-                Images
+  console.log('Гидрация');
+  
+  if (isLoading) {
+    return (
+      <div>
+        Loading...
+      </div>
+    )
+  }
+
+  if (isError) {
+    return (
+      <div>
+        Error
+      </div>
+    )
+  }
+
+  if (data) {
+    return (
+      <>
+        <Upbar />
+        <main>
+          <LeftMenu />
+          <div className="group-page">
+            <GroupHeader group={data} isError={isError} isLoading={isLoading} />
+            <div className="just-cause">
+              <div className="group-main">
+                <div className="images regular-panel">
+                  Images
+                </div>
+                <AddPostPanel windowType={WindowTypes.ADD_GROUP_POST} />
+                <GroupFeed groupName={groupName} />
               </div>
-              <AddPostPanel windowType={WindowTypes.ADD_GROUP_POST} />
-              <GroupFeed groupName={groupName} />
-            </div>
-            <div className="group-right">
-              <div className="regular-panel">
-                Subs
-              </div>
-              <div className="contacts regular-panel">
-                Contacts
+              <div className="group-right">
+                <div className="regular-panel">
+                  Subs
+                </div>
+                <div className="contacts regular-panel">
+                  Contacts
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </main>
-    </>
-  )
+        </main>
+      </>
+    )
+  } else {
+    return (
+      <div>
+        Что-то пошло не так
+      </div>
+    )
+  }
 }
 
 export default GroupPage;
