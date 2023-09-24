@@ -43,4 +43,8 @@ export class UserApi {
     const response = await api.get<Author>('/users/getAuthorByUserId/' + userId);
     return response;
   }
+
+  static async subscribeGroup(groupId: number) {
+    
+  }
 }

@@ -7,6 +7,7 @@ import { useAppSelector } from "../../../app/store";
 import { CommentSection } from "./commentSection";
 import { PostCommentButton } from "../../comment";
 import { getImageSrc } from "../../../shared/service/images";
+import { ExtraSection } from "./extraSection";
 
 
 interface PostProps {
@@ -29,9 +30,7 @@ export const PostCard: FC<PostProps> = ({ post }) => {
               <p className="extra">{post.createdAt}</p>
             </div>
           </div>
-          <button className="white">
-            <BsThreeDots size={25}/>
-          </button>
+          <ExtraSection post={post} />
         </div>
         <div className="body">
           <p className="description">{post.description}</p>

@@ -1,9 +1,11 @@
+import { Author } from "../../author/model"
+
 export type Group = {
-  id: number
+  id: number,
   name: string,
   avatar: string | undefined,
-  description: Description,
-
+  adminId: number,
+  author: Author
 }
 
 export type Description = {

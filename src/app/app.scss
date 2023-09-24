@@ -203,11 +203,17 @@ input {
   background-color: var(--back-light-gray);
   border: var(--regular-border);
   border-radius: var(--regular-border-radius);
-  overflow: hidden;
+  // overflow: hidden;
 
   &:first-child {
     margin-top: 0;
   }
+}
+
+.extra-panel {
+  background-color: rgb(41,41,41);
+  border-radius: var(--small-border-radius);
+  overflow: hidden;
 }
 
 .green-to-pale {
