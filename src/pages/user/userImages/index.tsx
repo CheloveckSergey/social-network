@@ -1,16 +1,14 @@
 import { FC } from "react";
-import { User } from "../../../entities/user";
+import { OneUser, User } from "../../../entities/user";
 import { useQuery } from "react-query";
 import { ImageApi } from "../../../entities/image";
 import ImagesFeed from "../../../widgets/imagesFeed";
-import { useAppSelector } from "../../../app/store";
 
-interface HomeImagesProps {
-  user: User,
+interface UserImagesProps {
+  user: OneUser,
 }
 
-const HomeImages: FC<HomeImagesProps> = ({ user }) => {
-
+export const UserImages: FC<UserImagesProps> = ({ user }) => {
   const { data, isLoading, isError } = useQuery(
     ['getUserImages', user.id],
     () => {
@@ -23,12 +21,10 @@ const HomeImages: FC<HomeImagesProps> = ({ user }) => {
   return (
     <ImagesFeed
       userId={user.id}
-      allowToAdd={true}
+      allowToAdd={false}
       images={images} 
       isError={isError}
       isLoading={isLoading}
     />
   )
 }
-
-export default HomeImages;

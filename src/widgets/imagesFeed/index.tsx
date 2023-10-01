@@ -7,17 +7,18 @@ import { WindowTypes, setWindow } from "../modalWindow/model/redux";
 import { BsEyeFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import './styles.scss';
+import { OneUser } from "../../entities/user";
 
 
 interface ImagesFeedProps {
   images: Image[] | undefined,
   isLoading: boolean,
   isError: boolean,
+  allowToAdd: boolean,
+  userId: number,
 }
 
-const ImagesFeed: FC<ImagesFeedProps> = ({ images, isLoading, isError }) => {
-
-  const { user } = useAppSelector(state => state.user);
+const ImagesFeed: FC<ImagesFeedProps> = ({ images, isLoading, isError, allowToAdd, userId }) => {
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -44,12 +45,12 @@ const ImagesFeed: FC<ImagesFeedProps> = ({ images, isLoading, isError }) => {
 
           <div className="no-images">
             <p>Here you can keep your images</p>
-            <button
+            {allowToAdd && <button
               className="add-image light-back"
               onClick={() => dispatch(setWindow({window: WindowTypes.ADD_USER_IMAGE}))}
             >
               <AiOutlinePlus size={25} />
-            </button>
+            </button>}
           </div>
 
         ) : (
@@ -68,22 +69,19 @@ const ImagesFeed: FC<ImagesFeedProps> = ({ images, isLoading, isError }) => {
             <div className="black-out button-container">
               <button 
                 className="inherit-to-green"
-                onClick={() => navigate('/userAlbum/' + user?.id)}
+                onClick={() => navigate('/userAlbum/' + userId)}
               >
                 <BsEyeFill size={40} />
               </button>
-              <button
+              {allowToAdd && <button
                 className="inherit-to-green"
                 onClick={() => dispatch(setWindow({window: WindowTypes.ADD_USER_IMAGE}))}
               >
                 <AiOutlinePlus size={40} />
-              </button>
-
+              </button>}
             </div>
           </div>
-
         )}
-
       </LoadErrorHandler>
     </div>
   )

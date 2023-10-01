@@ -5,6 +5,7 @@ import { BsThreeDots } from "react-icons/bs";
 import Rotator from "../../../shared/rotator";
 import { getImageSrc } from "../../../shared/service/images";
 import { useAppSelector } from "../../../app/store";
+import { useNavigate } from "react-router-dom";
 
 interface EPProps {
   user: OneUser,
@@ -75,6 +76,8 @@ const UserCard: FC<UserCardProps> = ({ user }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [deleted, setDeleted] = useState<boolean>(false);
 
+  const navigate = useNavigate();
+
   const { data, isLoading, isError, refetch } = useQuery(
     ['createFriendship', [user.id]],
     () => {
@@ -113,7 +116,12 @@ const UserCard: FC<UserCardProps> = ({ user }) => {
       </div>} 
       <img src={getImageSrc(user.avatar)} alt="IMG" />
       <div className="main-info">
-        <h4 className="login">{user.login}</h4>
+        <h4 
+          onClick={() => navigate('/user/' + user.id)}
+          className="login"
+        >
+          {user.login}
+        </h4>
       </div>
       <ExtraSection user={user} setLoading={setLoading} setDeleted={setDeleted} />
     </div>

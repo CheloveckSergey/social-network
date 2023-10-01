@@ -17,6 +17,11 @@ export class UserApi {
     return response.data;
   }
 
+  static async getUserById(userId: number) {
+    const response = await api.get<OneUser>('/users/getUserById/' + userId);
+    return response.data;
+  }
+
   static async loadAvatar(formData: FormData) {
     const response = await api.post(
       '/users/createAvatar',

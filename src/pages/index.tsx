@@ -8,6 +8,7 @@ import GroupsPage from "./groups";
 import GroupPage from "./group";
 import UserAlbum from "./userAlbum";
 import FriendsPage from "./friends";
+import UserPage from "./user";
 
 const Routing: FC = () => {
   
@@ -21,6 +22,7 @@ const Routing: FC = () => {
       <Route path="/groups/:groupName" element={<GroupPage />} />
       <Route path="/userAlbum/:userId" element={<UserAlbum />} />
       <Route path="/friends" element={<FriendsPage />} />
+      <Route path="/user/:userId" element={<UserPage />} />
     </Routes>
   )
 }

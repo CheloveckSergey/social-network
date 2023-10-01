@@ -17,4 +17,5 @@ export type OneUser = {
   id: number,
   login: string,
   avatar: string,
+  isFriend: boolean,
 }

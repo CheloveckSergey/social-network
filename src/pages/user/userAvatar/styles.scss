@@ -1,0 +1,34 @@
+.user-avatar {
+
+  img {
+    height: 200px;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 5px;
+  }
+
+  button {
+    height: 40px;
+    width: 100%;
+    margin-top: 5px;
+    border-radius: 5px;
+
+    &.get-friend {
+      background-color: var(--pale-green);
+
+      &:hover {
+        background-color: var(--green);
+      }
+    }
+  }
+
+  .cr-dl-status {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    width: 100%;
+    margin-top: 5px;
+    border-radius: 5px;
+  }
+}

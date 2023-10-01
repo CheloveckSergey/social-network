@@ -1,0 +1,25 @@
+.home {
+  display: flex;
+  gap: 5px;
+  margin-left: 10px;
+
+  .home-extra {
+    width: 200px;
+  }
+
+  .home-main {
+    width: var(--regular-feed-width);
+    margin-left: 10px;
+    
+
+    // .add-post {
+    //   display: flex;
+    //   justify-content: center;
+      
+    //   button {
+    //     display: flex;
+    //     gap: 5px;
+    //   }
+    // }
+  }
+}
