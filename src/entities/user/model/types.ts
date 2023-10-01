@@ -12,3 +12,9 @@ export type MeUser = {
   roles: number[],
   accessToken: string,
 }
+
+export type OneUser = {
+  id: number,
+  login: string,
+  avatar: string,
+}

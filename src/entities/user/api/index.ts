@@ -1,10 +1,6 @@
 import api from "../../../shared/http";
 import { Author } from "../../author/model";
-
-type OneUser = {
-  login: string,
-  avatar: string,
-}
+import { OneUser } from "../model";
 
 type UserDesc = {
   data: string | undefined,
@@ -44,7 +40,23 @@ export class UserApi {
     return response;
   }
 
-  static async subscribeGroup(groupId: number) {
-    
+  static async getPossibleFriends() {
+    const response = await api.get<OneUser[]>('/users/getPossibleFriends');
+    return response.data;
   }
+
+  static async getAllFriends() {
+    const response = await api.get<OneUser[]>('/users/getAllFriends');
+    return response.data;
+  }
+
+  static async addFriend(friendId: number) {
+    const response = await api.post('/users/createFriendship/' + friendId);
+    return response.data;
+  } 
+
+  static async deleteFriend(friendId: number) {
+    const response = await api.post('/users/deleteFriendship/' + friendId);
+    return response.data;
+  } 
 }
