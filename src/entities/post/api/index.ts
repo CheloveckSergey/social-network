@@ -19,6 +19,11 @@ export class PostApi {
     return response.data;
   }
 
+  static async getFeed() {
+    const response = await api.get<Post[]>(initialUrl + `/getFeed`);
+    return response.data;
+  }
+
   static async createPostUser(formData: FormData) {
     console.log(formData);
     const response = await api.post(

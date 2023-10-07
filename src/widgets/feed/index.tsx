@@ -15,9 +15,13 @@ const Feed: FC<FeedProps> = ({ posts }) => {
 
   return (
     <div className="feed-widget">
-      {revercedPosts.map((post, index) => (
+      {(posts.length > 0) ? revercedPosts.map((post, index) => (
         <PostUi.PostCard key={index} post={post} />
-      ))}
+      )) : (
+        <div className="regular-panel no-posts">
+          <p>There's no any post here yet</p>
+        </div>
+      )}
     </div>
   )
 }
