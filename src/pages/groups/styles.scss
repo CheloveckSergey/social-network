@@ -36,6 +36,13 @@
           object-fit: cover;
           border-radius: 50em;
         }
+
+        .group-name {
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
       }
     }
   }

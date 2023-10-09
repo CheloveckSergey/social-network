@@ -1,6 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import React, { FC } from "react";
 import { Image } from "../../../entities/image/model";
+import { Author } from "../../../entities/author";
 
 export enum WindowTypes {
   LOAD_USER_AVATAR = 'loadUserAvatar',
@@ -12,6 +13,7 @@ export enum WindowTypes {
   ADD_GROUP_IMAGE = 'addGroupImage',
   SHOW_USER_IMAGES = 'showUserImages',
   IMAGE_WINDOW = 'imageWindow',
+  SHOW_SUBS_WINDOW = 'showSubsWindow'
 }
 
 interface ModalWindow {
@@ -19,6 +21,7 @@ interface ModalWindow {
   windowType: WindowTypes | undefined,
   images: Image[],
   curImageIndex: number,
+  subAuthor: Author | undefined,
 }
 
 const initialState: ModalWindow = {
@@ -26,6 +29,7 @@ const initialState: ModalWindow = {
   windowType: undefined,
   images: [],
   curImageIndex: 0,
+  subAuthor: undefined,
 }
 
 type WindowAction = {
@@ -35,6 +39,10 @@ type WindowAction = {
 type ImageWindowAction = {
   images: Image[],
   curImageIndex: number,
+}
+
+type SubsWindowAction = {
+  subAuthor: Author,
 }
 
 export const mwSlice = createSlice({
@@ -48,6 +56,8 @@ export const mwSlice = createSlice({
     closeWindow(state, action) {
       state.switch = false;
       state.windowType = undefined;
+      state.images = [];
+      state.subAuthor = undefined;
     },
     setImageWindow(state, action: PayloadAction<ImageWindowAction>) {
       state.switch = true;
@@ -66,8 +76,13 @@ export const mwSlice = createSlice({
         return
       }
       state.curImageIndex = state.curImageIndex - 1;
+    },
+    setSubsWindow(state, action: PayloadAction<SubsWindowAction>) {
+      state.windowType = WindowTypes.SHOW_SUBS_WINDOW;
+      state.subAuthor = action.payload.subAuthor;
+      state.switch = true;
     }
   }
 });
 
-export const { setWindow, closeWindow, setImageWindow, nextImage, previousImage } = mwSlice.actions;
+export const { setWindow, closeWindow, setImageWindow, nextImage, previousImage, setSubsWindow } = mwSlice.actions;

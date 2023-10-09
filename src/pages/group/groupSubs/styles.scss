@@ -1,0 +1,46 @@
+.subs-panel {
+  >.header {
+    cursor: pointer;
+    
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .sub-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 10px;
+    
+    .sub-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      // height: 70px;
+      width: 55px;
+      padding: 5px;
+      border-radius: var(--small-border-radius);
+      cursor: pointer;
+
+      img {
+        height: 45px;
+        width: 45px;
+        border-radius: 50em;
+        object-fit: cover;
+      }
+
+      .sub-login {
+        text-align: center;
+        width: 100%;
+        white-space: nowrap; /* Текст не переносится */
+        overflow: hidden; /* Обрезаем всё за пределами блока */
+        text-overflow: ellipsis;
+      }
+
+      &:hover {
+        background-color: var(--back-2xlight-gray);
+      }
+    }
+  }
+}

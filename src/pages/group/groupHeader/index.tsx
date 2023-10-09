@@ -6,6 +6,7 @@ import { WindowTypes, setWindow } from "../../../widgets/modalWindow/model/redux
 import './styles.scss';
 import { useQuery } from "react-query";
 import { AuthorApi } from "../../../entities/author/api";
+import Rotator from "../../../shared/rotator";
 
 interface SBProps {
   group: Group | undefined;
@@ -16,7 +17,7 @@ const UnsubscribeButton: FC<SBProps> = ({ group, setSubscribed }) => {
 
   const { user } = useAppSelector(state => state.user);
 
-  const { refetch, data, isLoading ,isError } = useQuery(
+  const { refetch, data, isLoading ,isError, status } = useQuery(
     ['subscribeGroup', group?.id, user?.id],
     () => {
       if (user && group) {
@@ -27,9 +28,18 @@ const UnsubscribeButton: FC<SBProps> = ({ group, setSubscribed }) => {
       enabled: false,
       onSuccess: () => {
         setSubscribed(false);
-      }
+      },
     }
   )
+
+  //По факту эта хуйня не работает, т.к. loading срабатывает только один раз, я хз почему так
+  if (status === 'loading') {
+    return (
+      <div className="loading-subscribe">
+        <Rotator />
+      </div>
+    )
+  }
 
   return (
     <div className="subscribe subscribed">
@@ -48,7 +58,7 @@ const SubscribeButton: FC<SBProps> = ({ group, setSubscribed }) => {
 
   const { user } = useAppSelector(state => state.user);
 
-  const { refetch } = useQuery(
+  const { isLoading, refetch, status } = useQuery(
     ['subscribeGroup', group?.id, user?.id],
     () => {
       if (user && group) {
@@ -61,7 +71,15 @@ const SubscribeButton: FC<SBProps> = ({ group, setSubscribed }) => {
         setSubscribed(true);
       }
     }
-  )
+  );
+
+  if (status === 'loading') {
+    return (
+      <div className="loading-subscribe">
+        <Rotator />
+      </div>
+    )
+  }
 
   return (
     <button 
@@ -82,8 +100,6 @@ const SubscribePanel: FC<SPProps> = ({ group }) => {
   const [subscribed, setSubscribed] = useState<boolean>(false);
 
   useEffect(() => {
-    console.log('UseEffect');
-    console.log(group);
     if (group?.author.subscribedFor) {
       setSubscribed(true);
     }

@@ -10,6 +10,7 @@ import { AddGroupImageWindow } from "./windows/addImage";
 import ShowImages from "./windows/showImages";
 import ImageWindow from "./windows/imageWindow";
 import { AiOutlineCloseCircle } from "react-icons/ai";
+import ShowSubsWindow from "./windows/showSubs";
 
 
 const ModalWindow: FC = () => {
@@ -37,6 +38,8 @@ const ModalWindow: FC = () => {
         <ShowImages />
       ) : windowType === WindowTypes.IMAGE_WINDOW ? (
         <ImageWindow />
+      ) : windowType === WindowTypes.SHOW_SUBS_WINDOW ? (
+        <ShowSubsWindow />
       ) : ''}
       <button 
         className="close-button white"

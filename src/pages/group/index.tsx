@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import LeftMenu from "../../widgets/leftMenu"
 import Upbar from "../../widgets/upbar"
 import './styles.scss';
@@ -10,6 +10,7 @@ import { WindowTypes, setWindow } from "../../widgets/modalWindow/model/redux";
 import { GroupFeed } from "./groupFeed";
 import { Group } from "../../entities/group";
 import { GroupHeader } from "./groupHeader";
+import { GroupSubs } from "./groupSubs";
 
 
 interface GroupDescProps {
@@ -28,9 +29,12 @@ const GroupDesc: FC<GroupDescProps> = ({ group, isLoading, isError }) => {
 }
 
 const GroupPage = () => {
+  
+  const [group, setGroup] = useState<Group>();
+
   const { groupName } = useParams();
 
-  const { data, isLoading, isError } = useQuery(
+  const { data, isLoading, isError, refetch } = useQuery(
     ['getGroup', groupName],
     () => {
       if (groupName) {
@@ -40,11 +44,14 @@ const GroupPage = () => {
     {
       onSuccess: (data) => {
         console.log(data);
+        setGroup(data);
       },
     }
-  )
+  );
 
-  console.log('Гидрация');
+  useEffect(() => {
+    refetch();
+  }, []);
   
   if (isLoading) {
     return (
@@ -69,7 +76,7 @@ const GroupPage = () => {
         <main>
           <LeftMenu />
           <div className="group-page">
-            <GroupHeader group={data} isError={isError} isLoading={isLoading} />
+            <GroupHeader group={group} isError={isError} isLoading={isLoading} />
             <div className="just-cause">
               <div className="group-main">
                 <div className="images regular-panel">
@@ -79,9 +86,7 @@ const GroupPage = () => {
                 <GroupFeed groupName={groupName} />
               </div>
               <div className="group-right">
-                <div className="regular-panel">
-                  Subs
-                </div>
+                <GroupSubs group={group} />
                 <div className="contacts regular-panel">
                   Contacts
                 </div>

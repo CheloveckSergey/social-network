@@ -1,0 +1,63 @@
+.show-subs-window {
+  height: 700px;
+  width: 700px;
+  padding: 0;
+
+  hr {
+    margin-top: 0;
+  }
+
+  .section {
+    padding: 10px;
+  }
+
+  .header-section {
+    
+    h3 {
+      display: inline;
+      margin: 0;
+    }
+
+    .author-name {
+      color: var(--font-gray);
+    }
+  }
+
+  .sub-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    width: 100%;
+    margin-top: 10px;
+    
+    .sub-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      // height: 70px;
+      width: 130px;
+      padding: 5px;
+      border-radius: var(--small-border-radius);
+      cursor: pointer;
+
+      img {
+        height: 100px;
+        width: 100px;
+        border-radius: 50em;
+        object-fit: cover;
+      }
+
+      .sub-login {
+        text-align: center;
+        width: 100%;
+        white-space: nowrap; /* Текст не переносится */
+        overflow: hidden; /* Обрезаем всё за пределами блока */
+        text-overflow: ellipsis;
+      }
+
+      &:hover {
+        background-color: var(--back-2xlight-gray);
+      }
+    }
+  }
+}

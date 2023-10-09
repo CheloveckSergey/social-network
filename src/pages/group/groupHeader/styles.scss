@@ -33,6 +33,17 @@
       border-radius: 5px;
     }
 
+    .loading-subscribe {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 150px;
+      height: 40px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+
     .subscribe {
       position: relative;
       display: flex;
