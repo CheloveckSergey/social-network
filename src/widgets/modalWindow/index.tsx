@@ -11,6 +11,7 @@ import ShowImages from "./windows/showImages";
 import ImageWindow from "./windows/imageWindow";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import ShowSubsWindow from "./windows/showSubs";
+import { ChangeDescWindow } from "./windows/changeDesc";
 
 
 const ModalWindow: FC = () => {
@@ -40,6 +41,8 @@ const ModalWindow: FC = () => {
         <ImageWindow />
       ) : windowType === WindowTypes.SHOW_SUBS_WINDOW ? (
         <ShowSubsWindow />
+      ) : windowType === WindowTypes.CHANGE_DESC_WINDOW ? (
+        <ChangeDescWindow />
       ) : ''}
       <button 
         className="close-button white"

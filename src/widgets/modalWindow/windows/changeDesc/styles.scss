@@ -1,0 +1,52 @@
+.change-desc-window {
+  height: 700px;
+  width: 500px;
+  padding: 0;
+
+  .loader {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .section {
+    padding: 10px;
+  }
+
+  .hr {
+    margin: 0;
+    padding: 0;
+  }
+
+  .prop {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+
+    span {
+      display: flex;
+      // align-items: center;
+      gap: 10px;
+      height: 30px;
+
+      .name {
+        color: var(--font-gray);
+      }
+
+      .empty {
+        color: var(--font-gray)
+      }
+
+      input {
+        height: 20px;
+        width: 200px;
+        margin-top: 3px;
+      }
+
+      textarea.text-quote {
+        width: 200px;
+        height: 70px;
+      }
+    }
+  }
+}

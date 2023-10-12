@@ -177,7 +177,7 @@ p.extra-normal {
 }
 
 hr {
-  margin-top: 10px;
+  // margin-top: 10px;
   border: 1px solid var(--border);
 }
 
@@ -185,6 +185,14 @@ input {
   margin: 10px 0;
   border: none;
   outline: none;
+  background-color: inherit;
+
+  &[type="text"] {
+    border: var(--regular-border);
+    padding: 3px;
+    border-radius: var(--small-border-radius);
+    color: var(--font-white);
+  }
 }
 
 .centralizing-container {
@@ -238,7 +246,7 @@ input {
 textarea {
   padding: 5px;
   background: inherit;
-  border: 1px solid grey;
+  border: var(--regular-border);
   outline: none;
   border-radius: var(--small-border-radius);
   color: var(--font-white);

@@ -13,7 +13,8 @@ export enum WindowTypes {
   ADD_GROUP_IMAGE = 'addGroupImage',
   SHOW_USER_IMAGES = 'showUserImages',
   IMAGE_WINDOW = 'imageWindow',
-  SHOW_SUBS_WINDOW = 'showSubsWindow'
+  SHOW_SUBS_WINDOW = 'showSubsWindow',
+  CHANGE_DESC_WINDOW = 'changeDescWindow',
 }
 
 interface ModalWindow {
@@ -81,7 +82,7 @@ export const mwSlice = createSlice({
       state.windowType = WindowTypes.SHOW_SUBS_WINDOW;
       state.subAuthor = action.payload.subAuthor;
       state.switch = true;
-    }
+    },
   }
 });
 

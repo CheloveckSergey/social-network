@@ -12,6 +12,7 @@ import { PostApi } from "../../entities/post/api";
 import AddPostPanel from "../../shared/addPost";
 import { getImageSrc } from "../../shared/service/images";
 import HomeImages from "./homeImages";
+import { Info } from "./homeInfo";
 
 interface HomeAvatarProps {
   user: User | undefined,
@@ -35,52 +36,52 @@ const HomeAvatar: FC<HomeAvatarProps> = ({ user }) => {
   )
 }
 
-interface InfoProps {
-  user: User | undefined,
-}
+// interface InfoProps {
+//   user: User | undefined,
+// }
 
-const Info: FC<InfoProps> = ({ user }) => {
+// const Info: FC<InfoProps> = ({ user }) => {
 
-  const { data } = useQuery(
-    ['getUserDesc', user?.id],
-    () => {
-      if (user?.id) {
-        return UserApi.getUserDesc(user.id);
-      }
-    }
-  )
+//   const { data } = useQuery(
+//     ['getUserDesc', user?.id],
+//     () => {
+//       if (user?.id) {
+//         return UserApi.getUserDesc(user.id);
+//       }
+//     }
+//   )
 
-  return (
-    <div className="info regular-panel">
-      <div>
-        <h2>{user?.login}</h2>
-        {data?.quote && <p>
-          {data?.quote}
-        </p>}
-      </div>
-      <hr/>
-      <div>
-        <div className="string-info">
-          <p className="extra-normal">Birth Date</p>
-          <p>{data?.data}</p>
-        </div>
-        {data?.city && <div className="string-info">
-          <p className="extra-normal">City</p>
-          <p>{data?.city}</p>
-        </div>}
-        {data?.telephone && <div className="string-info">
-          <p className="extra-normal">Telephone</p>
-          <p>{data?.telephone}</p>
-        </div>}
-        <div className="add-info">
-          <button className="show-more">
-            Show additional information
-          </button>
-        </div>
-      </div>
-    </div>
-  )
-}
+//   return (
+//     <div className="info regular-panel">
+//       <div>
+//         <h2>{user?.login}</h2>
+//         {data?.quote && <p>
+//           {data?.quote}
+//         </p>}
+//       </div>
+//       <hr/>
+//       <div>
+//         <div className="string-info">
+//           <p className="extra-normal">Birth Date</p>
+//           <p>{data?.data}</p>
+//         </div>
+//         {data?.city && <div className="string-info">
+//           <p className="extra-normal">City</p>
+//           <p>{data?.city}</p>
+//         </div>}
+//         {data?.telephone && <div className="string-info">
+//           <p className="extra-normal">Telephone</p>
+//           <p>{data?.telephone}</p>
+//         </div>}
+//         <div className="add-info">
+//           <button className="show-more">
+//             Show additional information
+//           </button>
+//         </div>
+//       </div>
+//     </div>
+//   )
+// }
 
 interface HomeFeedProps {
   user: User | undefined,

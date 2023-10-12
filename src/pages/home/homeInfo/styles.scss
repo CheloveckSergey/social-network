@@ -1,0 +1,21 @@
+.home .info {
+
+  .just-cause {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+      
+  .string-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 5px;
+  }
+
+  .add-info {
+    display: flex;
+    justify-content: center;
+    margin-top: 5px;
+  }
+}

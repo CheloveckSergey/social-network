@@ -63,5 +63,10 @@ export class UserApi {
   static async deleteFriend(friendId: number) {
     const response = await api.post('/users/deleteFriendship/' + friendId);
     return response.data;
-  } 
+  }
+
+  static async getAllSubsByAuthorId(authorId: number) {
+    const response = await api.get<OneUser[]>('/users/getAllSubsByAuthorId/' + authorId);
+    return response.data;
+  }
 }
