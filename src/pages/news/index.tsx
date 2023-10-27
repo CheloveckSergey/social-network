@@ -17,7 +17,7 @@ const NewsPage: FC = () => {
     ['getFeed', user?.id],
     () => {
       if (user) {
-        return PostApi.getFeed();
+        return PostApi.getAllPostsByAuthorId(user.author.id);
       }
     }, {
       onSuccess: (data) => {

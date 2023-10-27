@@ -8,6 +8,7 @@ import './styles.scss';
 import { useAppDispatch } from "../../../app/store"
 import { WindowTypes, setSubsWindow, setWindow } from "../../../widgets/modalWindow/model/redux"
 import { useNavigate } from "react-router-dom"
+import Rotator from "../../../shared/rotator"
 
 
 interface SIInterface {
@@ -43,7 +44,7 @@ export const GroupSubs: FC<GSProps> = ({ group }) => {
     ['loadGroupSubs', group?.id],
     () => {
       if (group?.id) {
-        return AuthorApi.getSubsByGroupId(group.id);
+        return AuthorApi.getSubsByAuthorId(group.author.id);
       }
     }
   )
@@ -66,9 +67,19 @@ export const GroupSubs: FC<GSProps> = ({ group }) => {
       >
         Subs
       </h3>
-      <div className="sub-list">
-        {data?.slice(0, 6).map((sub, index) => <SubItem key={index} sub={sub} />)}
-      </div>
+      {isLoading ? (
+        <Rotator />
+      ) : isError ? (
+        <div>ОшибОчка</div>
+      ) : !data ? (
+        <div>Что-то пошло не так...</div>
+      ) : (data.length === 0) ? (
+        <div>Здесь пока нет подсписчиков</div>
+      ) : (
+        <div className="sub-list">
+          {data?.slice(0, 6).map((sub, index) => <SubItem key={index} sub={sub} />)}
+        </div>
+      )}
     </div>
   )
 }

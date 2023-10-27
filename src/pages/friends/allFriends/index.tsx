@@ -1,10 +1,5 @@
-import { FC, useState } from "react";
-import { BsSearch, BsThreeDots } from "react-icons/bs";
-import { OneUser, UserApi } from "../../../entities/user";
-import { getImageSrc } from "../../../shared/service/images";
-import { useAppSelector } from "../../../app/store";
-import { useQuery } from "react-query";
-import Rotator from "../../../shared/rotator";
+import { FC } from "react";
+import { BsSearch } from "react-icons/bs";
 import './styles.scss';
 import { FriendsBlock } from "./friendsBlock";
 

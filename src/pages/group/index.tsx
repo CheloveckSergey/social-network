@@ -32,13 +32,13 @@ const GroupPage = () => {
   
   const [group, setGroup] = useState<Group>();
 
-  const { groupName } = useParams();
+  const { id } = useParams();
 
   const { data, isLoading, isError, refetch } = useQuery(
-    ['getGroup', groupName],
+    ['getGroup', id],
     () => {
-      if (groupName) {
-        return GroupApi.getGroupByName(groupName)
+      if (id) {
+        return GroupApi.getGroupById(Number(id))
       }
     },
     {
@@ -82,8 +82,8 @@ const GroupPage = () => {
                 <div className="images regular-panel">
                   Images
                 </div>
-                <AddPostPanel windowType={WindowTypes.ADD_GROUP_POST} />
-                <GroupFeed groupName={groupName} />
+                <AddPostPanel author={data.author} />
+                <GroupFeed group={data} />
               </div>
               <div className="group-right">
                 <GroupSubs group={group} />

@@ -7,6 +7,9 @@ import './styles.scss';
 import { useQuery } from "react-query";
 import { AuthorApi } from "../../../entities/author/api";
 import Rotator from "../../../shared/rotator";
+import { AiFillDelete } from "react-icons/ai";
+import { GroupApi } from "../../../entities/group/api";
+import { useNavigate } from "react-router-dom";
 
 interface SBProps {
   group: Group | undefined;
@@ -21,7 +24,7 @@ const UnsubscribeButton: FC<SBProps> = ({ group, setSubscribed }) => {
     ['subscribeGroup', group?.id, user?.id],
     () => {
       if (user && group) {
-        return AuthorApi.unsubscribe(group.author.id);
+        return AuthorApi.unsubscribe(user.id, group.author.id);
       }
     },
     {
@@ -62,7 +65,7 @@ const SubscribeButton: FC<SBProps> = ({ group, setSubscribed }) => {
     ['subscribeGroup', group?.id, user?.id],
     () => {
       if (user && group) {
-        return AuthorApi.subscribe(group.author.id);
+        return AuthorApi.subscribe(user.id, group.author.id);
       }
     },
     {
@@ -99,11 +102,11 @@ const SubscribePanel: FC<SPProps> = ({ group }) => {
 
   const [subscribed, setSubscribed] = useState<boolean>(false);
 
-  useEffect(() => {
-    if (group?.author.subscribedFor) {
-      setSubscribed(true);
-    }
-  }, [])
+  // useEffect(() => {
+  //   if (group?.author.subscribedFor) {
+  //     setSubscribed(true);
+  //   }
+  // }, [])
 
   if (subscribed) {
     return (
@@ -113,6 +116,46 @@ const SubscribePanel: FC<SPProps> = ({ group }) => {
 
   return (
     <SubscribeButton group={group} setSubscribed={setSubscribed} /> 
+  )
+}
+
+interface DGBProps {
+  group: Group | undefined
+}
+const DeleteGroupButton: FC<DGBProps> = ({ group }) => {
+
+  const navigate = useNavigate();
+
+  const { data, isLoading, isError, refetch } = useQuery(
+    ['deleteGroup', group?.id],
+    () => {
+      if (group) {
+        return GroupApi.deleteGroup(group.id);
+      }
+    },
+    {
+      enabled: false,
+      onSuccess: () => {
+        navigate('/home');
+      }
+    }
+  )
+
+  if (isLoading) {
+    return (
+      <button className="delete-group-button">
+        <Rotator size={25} />
+      </button>
+    )
+  }
+  
+  return (
+    <button 
+      className="delete-group-button white"
+      onClick={() => refetch()}
+    >
+      <AiFillDelete size={25} />
+    </button>
   )
 }
 
@@ -150,6 +193,7 @@ export const GroupHeader: FC<GroupPanelProps> = ({ group, isLoading, isError }) 
           <h3>{group?.name}</h3>
           <SubscribePanel group={group} />
         </div>
+        <DeleteGroupButton group={group} />
       </LoadErrorHandler>
     </div>
   )

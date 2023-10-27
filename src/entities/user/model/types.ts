@@ -1,8 +1,11 @@
+import { Author } from "../../author"
+
 export type User = {
   id: number,
   login: string,
   avatar: string,
   roles: number[],
+  author: Author,
 }
 
 export type MeUser = {
@@ -11,6 +14,7 @@ export type MeUser = {
   avatar: string,
   roles: number[],
   accessToken: string,
+  author: Author,
 }
 
 export type OneUser = {
@@ -18,4 +22,5 @@ export type OneUser = {
   login: string,
   avatar: string,
   isFriend: boolean,
+  author: Author,
 }

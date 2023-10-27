@@ -16,12 +16,12 @@ interface PCBProps {
 export const PostCommentButton: FC<PCBProps> = ({ post, setOpened, opened }) => {
 
   const { user } = useAppSelector(state => state.user);  
-  const { commented, setCommented } = useComments(post.comments);
+  const { commented, setCommented } = useComments(post.creation.comments);
 
   //жопно работает, setCommented пока бесполезен
   function useComments(comments: Comment[]) {
     let _isCommented: boolean;
-    if (comments.find(comment => comment.userId === user?.id)) {
+    if (comments.find(comment => comment.ownCreation.author.id === user?.author.id)) {
       _isCommented = true;
     } else {
       _isCommented = false;
@@ -36,7 +36,7 @@ export const PostCommentButton: FC<PCBProps> = ({ post, setOpened, opened }) => 
       onClick={() => setOpened(!opened)}
     >
       <BiComment size={25} className={`${commented ? 'commented' : ''}`} />
-      <p className="extra">{post.comments.length}</p>
+      <p className="extra">{post.creation.comments.length}</p>
     </button>
   )
 }
@@ -51,18 +51,18 @@ export const PostComment: FC<PCInterface> = ({ comment }) => {
     <div className="comment">
       <div className="avatar-container">
         <img 
-          src={getImageSrc(comment.user.avatar)} 
+          src={getImageSrc(comment.ownCreation.author.avatar)} 
           alt="IMG" 
           className="avatar"
         />
       </div>
       <div className="main">
-        <h3>{comment.user.login}</h3>
+        <h3>{comment.ownCreation.author.name}</h3>
         <div className="body">
           <p>{comment.text}</p>
         </div>
         <div className="bottom">
-          <p className="date extra">{comment.createdAt}</p>
+          <p className="date extra">{comment.ownCreation.createdAt}</p>
         </div>
       </div>
       <div className="right">

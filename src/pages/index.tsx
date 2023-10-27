@@ -15,11 +15,11 @@ const Routing: FC = () => {
   return (
     <Routes >
       <Route path="/auth" element={<AuthPage />} />
-      <Route path="/" element={<NewsPage />} />
+      {/* <Route path="/" element={<NewsPage />} /> */}
       <Route path="/home" element={<Home />} />
       <Route path="/users" element={<Users />} />
       <Route path="/groups" element={<GroupsPage />} />
-      <Route path="/groups/:groupName" element={<GroupPage />} />
+      <Route path="/groups/:id" element={<GroupPage />} />
       <Route path="/userAlbum/:userId" element={<UserAlbum />} />
       <Route path="/friends" element={<FriendsPage />} />
       <Route path="/user/:userId" element={<UserPage />} />

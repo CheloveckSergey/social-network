@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { OneUser, UserApi } from "../../../entities/user";
-import { useAppDispatch } from "../../../app/store";
+import { useAppDispatch, useAppSelector } from "../../../app/store";
 import { getImageSrc } from "../../../shared/service/images";
 import './styles.scss';
 import { useQuery } from "react-query";
@@ -14,6 +14,8 @@ interface CrFrButtProps {
 }
 
 const CrFrButton: FC<CrFrButtProps> = ({ user, setIsFriend }) => {
+
+  const userObject = useAppSelector(state => state.user);
 
   const dlFrStatus = useQuery(
     ['deleteFriendship', user.id],
@@ -29,7 +31,9 @@ const CrFrButton: FC<CrFrButtProps> = ({ user, setIsFriend }) => {
   const crFrStatus = useQuery(
     ['createFriendship', [user.id]],
     () => {
-      return UserApi.addFriend(user.id);
+      if (userObject.user) {
+        return UserApi.addFriend(userObject.user.id, user.id);
+      }
     },
     {
       enabled: false,

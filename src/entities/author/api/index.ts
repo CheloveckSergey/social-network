@@ -2,13 +2,19 @@ import api from "../../../shared/http";
 import { OneUser } from "../../user";
 
 export class AuthorApi {
-  static async subscribe(authorId: number) {
-    const response = await api.post('/author/subscribe/' + authorId);
+  static async subscribe(userId: number, authorId: number) {
+    const response = await api.post(
+      '/author/subscribe',
+      { userId, authorId }
+    );
     return response.data;
   }
 
-  static async unsubscribe(authorId: number) {
-    const response = await api.post('/author/unsubscribe/' + authorId);
+  static async unsubscribe(userId: number, authorId: number) {
+    const response = await api.post(
+      '/author/unsubscribe',
+      { userId, authorId }
+    );
     return response.data;
   }
 

@@ -1,40 +1,21 @@
 import api from "../../../shared/http";
 import { Comment } from "../model";
 
-const initialUrl = '/comments';
+const INITIAL_URL = '/comments';
 
 class CommentApi {
-  static async getCommentsByImageId(imageId: number) {
-    const response = await api.get<Comment[]>(initialUrl + '/getCommentsByImageId/' + imageId);
+  static async getAllCommentsByCreationId(creationId: number) {
+    const response = await api.get<Comment[]>(INITIAL_URL + '/getCommentsToCreationId/' + creationId);
     return response.data;
   }
 
-  static async getCommentsByPostId(postId: number) {
-    const response = await api.get<Comment[]>(initialUrl + '/getCommentsByPostId/' + postId);
-    return response.data;
-  }
-
-  static async createImageComment(formData: FormData) {
+  static async createComment(authorId: number, creationId: number, text: string) {
     const response = await api.post(
-      initialUrl + '/createImageComment',
-      formData,
+      INITIAL_URL + '/createComment',
       {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        }
-      }
-    );
-    return response; 
-  }
-
-  static async createPostComment(formData: FormData) {
-    const response = await api.post(
-      '/comments/createPostComment',
-      formData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        }
+        authorId, 
+        creationId, 
+        text,
       }
     );
     return response; 

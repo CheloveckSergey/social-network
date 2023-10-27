@@ -45,18 +45,21 @@ export class UserApi {
     return response;
   }
 
-  static async getPossibleFriends() {
-    const response = await api.get<OneUser[]>('/users/getPossibleFriends');
+  static async getPossibleFriends(userId: number) {
+    const response = await api.get<OneUser[]>('/users/getPossibleFriends/' + userId);
     return response.data;
   }
 
-  static async getAllFriends() {
-    const response = await api.get<OneUser[]>('/users/getAllFriends');
+  static async getAllFriends(userId: number) {
+    const response = await api.get<OneUser[]>('/users/getAllFriends/' + userId);
     return response.data;
   }
 
-  static async addFriend(friendId: number) {
-    const response = await api.post('/users/createFriendship/' + friendId);
+  static async addFriend(userId1: number, userId2: number) {
+    const response = await api.post(
+      '/users/createFriendship',
+      { userId1, userId2 }
+    );
     return response.data;
   } 
 

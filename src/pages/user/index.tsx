@@ -53,7 +53,7 @@ const UserPage: FC = () => {
           </div>
           <div className="home-main">
             <Info user={user} />
-            <UserImages user={user} />
+            {/* <UserImages user={user} /> */}
             <UserFeed user={user} />
           </div>
         </div>

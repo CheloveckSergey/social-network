@@ -19,7 +19,7 @@ const GroupItem: FC<GIProps> = ({ group }) => {
         alt="GROUP_IMG" 
       />
       <h3 className="group-name">
-        <Link to={`${group.name}`} >
+        <Link to={`${group.id}`} >
           {group.name}
         </Link>
       </h3>
@@ -41,6 +41,10 @@ export const GroupList: FC = ({  }) => {
         <div>Error</div>
       ) : !data ? (
         <div>Something went wrong...</div>
+      ) : data.length === 0 ? (
+        <div>
+          There's no any groups, little man
+        </div>
       ) : (
         <div>
           {data.map((group, index) => <GroupItem key={index} group={group} />)}

@@ -3,18 +3,18 @@ import { User } from "../../../user"
 import { getImageSrc } from "../../../../shared/service/images"
 import { useQuery } from "react-query"
 import CommentApi from "../../api"
-import { Post } from "../../../post"
 import { BsFileEarmarkPlay } from "react-icons/bs"
 import { Comment } from "../../model"
 import './styles.scss';
+import { CrTypeCodes, CrTypesNames, Creation } from "../../../creation"
 
 interface CCInterface {
   user: User,
-  post: Post,
+  creation: Creation,
   addComment: (comment: Comment) => void,
 }
 
-export const CreateComment: FC<CCInterface> = ({ user, post, addComment }) => {
+export const CreateComment: FC<CCInterface> = ({ user, creation, addComment }) => {
 
   const [text, setText] = useState<string>('');
 
@@ -24,9 +24,9 @@ export const CreateComment: FC<CCInterface> = ({ user, post, addComment }) => {
     ['loadComment', user?.id, text],
     () => {
       if (formRef.current) {
-        const formData = new FormData(formRef.current);
-        formData.append('creationId', String(post.id));
-        return CommentApi.createPostComment(formData);
+        // const formData = new FormData(formRef.current);
+        // formData.append('creationId', String(post.id));
+        return CommentApi.createComment(user.author.id, creation.id, text);
       }
     },
     {
@@ -35,13 +35,18 @@ export const CreateComment: FC<CCInterface> = ({ user, post, addComment }) => {
         addComment({
           id: 9999,
           text: text,
-          userId: user.id,
-          postId: post.id,
-          user: {
-            login: user.login,
-            avatar: user.avatar,
+          ownCreation: {
+            id: 9999,
+            type: {
+              id: 9999,
+              code: CrTypeCodes.COMMENT,
+              name: CrTypesNames.COMMENT,
+            },
+            author: user.author,
+            createdAt: 'Только что',
+            likes: [],
+            comments: [],
           },
-          createdAt: 'Только что',
         })
       }
     }

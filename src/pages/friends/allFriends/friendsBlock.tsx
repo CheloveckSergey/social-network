@@ -73,6 +73,8 @@ interface UserCardProps {
 
 const UserCard: FC<UserCardProps> = ({ user }) => {
 
+  const userObject = useAppSelector(state => state.user);
+
   const [loading, setLoading] = useState<boolean>(false);
   const [deleted, setDeleted] = useState<boolean>(false);
 
@@ -81,7 +83,9 @@ const UserCard: FC<UserCardProps> = ({ user }) => {
   const { data, isLoading, isError, refetch } = useQuery(
     ['createFriendship', [user.id]],
     () => {
-      return UserApi.addFriend(user.id);
+      if (userObject.user) {
+        return UserApi.addFriend(userObject.user.id, user.id);
+      }
     },
     {
       enabled: false,
@@ -136,7 +140,7 @@ export const FriendsBlock: FC = () => {
     ['getFriends', user?.id],
     () => {
       if (user) {
-        return UserApi.getAllFriends();
+        return UserApi.getAllFriends(user.id);
       }
     }
   )
@@ -152,7 +156,7 @@ export const FriendsBlock: FC = () => {
           <div>Error ebat'</div>
         </div>
       ) : data && data.length > 0 ? (
-        data.map(user => <UserCard user={user}/>)
+        data.map((user, index) => <UserCard user={user} key={index} />)
       ) : (
         <div className="just-cause">
           <p>There's no friends</p>

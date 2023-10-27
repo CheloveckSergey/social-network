@@ -1,6 +1,5 @@
 import { FC, useState } from "react";
 import { Post } from "../model";
-import { BsThreeDots } from 'react-icons/bs';
 import "./styles.scss";
 import Favourites from "../../../fetures/favourites";
 import { useAppSelector } from "../../../app/store";
@@ -24,20 +23,23 @@ export const PostCard: FC<PostProps> = ({ post }) => {
       <div className="post-main">
         <div className="up">
           <div className="group-info">
-            <img src={getImageSrc(post.author.avatar)} alt="IMG" />
+            <img src={getImageSrc(post.creation.author.avatar)} alt="IMG" />
             <div>
-              <h3 className="title">{post.author.name}</h3>
-              <p className="extra">{post.createdAt}</p>
+              <h3 className="title">{post.creation.author.name}</h3>
+              <p className="extra">{post.creation.createdAt}</p>
             </div>
           </div>
           <ExtraSection post={post} />
         </div>
         <div className="body">
           <p className="description">{post.description}</p>
-          {post.image && <img className="post-img" src={getImageSrc(post.image)} alt="PostIMG" />}
+          <div className="images">
+
+            {post.postImages.length > 0 && <img className="post-img" src={getImageSrc(post.postImages[0].value)} alt="PostIMG" />}
+          </div>
         </div>
         <div className="bottom">
-          <Favourites.Actions.PostLike post={post} />
+          <Favourites.Actions.LikeButton creation={post.creation} />
           <PostCommentButton 
             opened={commentsOpened} 
             setOpened={setCommentsOpened}

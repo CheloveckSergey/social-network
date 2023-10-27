@@ -3,7 +3,6 @@ import './styles.scss';
 import { useAppDispatch, useAppSelector } from "../../app/store";
 import { WindowTypes, closeWindow } from "./model/redux";
 import { LoadGroupAvatarWindow, LoadUserAvatarWindow } from "./windows/loadAvatar";
-import { AddGroupPostWindow, AddUserPostWindow } from "./windows/addPost";
 import AddGroupWindow from "./windows/addGroup/indes";
 import { AddUserImageWindow } from "./windows/addImage";
 import { AddGroupImageWindow } from "./windows/addImage";
@@ -12,6 +11,7 @@ import ImageWindow from "./windows/imageWindow";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import ShowSubsWindow from "./windows/showSubs";
 import { ChangeDescWindow } from "./windows/changeDesc";
+import { AddPostWindow } from "./windows/addPost";
 
 
 const ModalWindow: FC = () => {
@@ -23,12 +23,10 @@ const ModalWindow: FC = () => {
     <div className="blackout">
       {windowType === WindowTypes.LOAD_USER_AVATAR ? (
         <LoadUserAvatarWindow />
-      ) : windowType === WindowTypes.ADD_USER_POST ? (
-        <AddUserPostWindow />
       ) : windowType === WindowTypes.ADD_GROUP ? (
         <AddGroupWindow />
-      ) : windowType === WindowTypes.ADD_GROUP_POST ? (
-        <AddGroupPostWindow />
+      ) : windowType === WindowTypes.ADD_POST ? (
+        <AddPostWindow />
       ) : windowType === WindowTypes.LOAD_GROUP_AVATAR ? (
         <LoadGroupAvatarWindow />
       ) : windowType === WindowTypes.ADD_USER_IMAGE ? (

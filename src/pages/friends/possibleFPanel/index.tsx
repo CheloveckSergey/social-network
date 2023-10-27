@@ -5,6 +5,8 @@ import { useQuery } from "react-query";
 import { getImageSrc } from "../../../shared/service/images";
 import { AiOutlineCheckCircle, AiOutlineUserAdd } from "react-icons/ai";
 import Rotator from "../../../shared/rotator";
+import { useAppSelector } from "../../../app/store";
+import { useNavigate } from "react-router-dom";
 
 interface FriendCardProps {
   friend: OneUser,
@@ -12,21 +14,32 @@ interface FriendCardProps {
 
 const FriendCard: FC<FriendCardProps> = ({ friend }) => {
 
+  const { user } = useAppSelector(state => state.user);
+
   const { data, isLoading, isError, refetch } = useQuery(
     ['addFriend', friend.id],
     () => {
-      return UserApi.addFriend(friend.id);
+      if (user) {
+        return UserApi.addFriend(user.id, friend.id);
+      }
     },
     {
       enabled: false,
     }
-  )
+  );
+
+  const navigate = useNavigate();
 
   return (
     <div className="possible-friend-card">
       <img src={getImageSrc(friend.avatar)} alt="IMG" />
       <div className="main-info">
-        <h4 className="login">{friend.login}</h4>
+        <h4 
+          className="login"
+          onClick={() => navigate('/user/' + friend.id)}
+        >
+          {friend.login}
+        </h4>
       </div>
       {isLoading ? (
         <Rotator size={25} />
@@ -46,12 +59,20 @@ const FriendCard: FC<FriendCardProps> = ({ friend }) => {
   )
 }
 
-export const PossibleFriendsPanel: FC = () => {
+interface PFPProps {
+  user: User,
+}
+export const PossibleFriendsPanel: FC<PFPProps> = ({ user }) => {
 
   const { data, isLoading, isError } = useQuery(
-    ['loadFriends'],
+    ['loadPossibleFriends'],
     () => {
-      return UserApi.getPossibleFriends();
+      console.log('ЛОООЛ');
+      console.log(user);
+      if (user) {
+        console.log('LAAAAAL');
+        return UserApi.getPossibleFriends(user.id);
+      }
     }
   )
 

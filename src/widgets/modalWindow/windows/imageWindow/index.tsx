@@ -43,12 +43,12 @@ const ImageWindow: FC = () => {
             <div className="right">
               <div className="header">
                 <AuthorCreationCard
-                  author={image.author}
-                  createdAt={image.createdAt}
+                  author={image.creation.author}
+                  createdAt={image.creation.createdAt}
                 />
               </div>
               <div className="like-repost-section">
-                <Favourites.Actions.ImageLike image={image} />
+                <Favourites.Actions.LikeButton creation={image.creation} />
               </div>
             </div>
           </div>

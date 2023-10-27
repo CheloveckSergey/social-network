@@ -19,7 +19,7 @@ export const CommentSection: FC<CSProps> = ({ user, post }) => {
 
   const { data, isLoading, isError } = useQuery(
     ['getCommentsByPostId', post.id],
-    () => CommentApi.getCommentsByPostId(post.id),
+    () => CommentApi.getAllCommentsByCreationId(post.creation.id),
     {
       onSuccess: (data) => {
         setComments(data);
@@ -34,7 +34,7 @@ export const CommentSection: FC<CSProps> = ({ user, post }) => {
   return (
     <div className="comments-section">
       {user && <PostCommentFeed comments={comments} />}
-      <CreateComment post={post} user={user} addComment={addComment} />
+      <CreateComment creation={post.creation} user={user} addComment={addComment} />
     </div>
   )
 }

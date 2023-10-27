@@ -1,3 +1,4 @@
+import { Author } from "../../../entities/author";
 import api from "../../../shared/http";
 
 export interface ReqAuthDto {
@@ -11,6 +12,7 @@ export interface ResAuthDto {
   avatar: string,
   accessToken: string,
   roles: number[],
+  author: Author,
 }
 
 export interface LogoutRes {

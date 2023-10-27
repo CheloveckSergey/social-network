@@ -2,17 +2,18 @@ import { FC } from "react";
 import { useQuery } from "react-query";
 import { PostApi } from "../../../entities/post";
 import Feed from "../../../widgets/feed";
+import { Group } from "../../../entities/group";
 
 interface GroupFeedProps {
-  groupName: string | undefined,
+  group: Group,
 }
 
-export const GroupFeed: FC<GroupFeedProps> = ({ groupName }) => {
+export const GroupFeed: FC<GroupFeedProps> = ({ group }) => {
   const { data, isLoading, isError } = useQuery(
-    ['getGroupPosts', groupName],
+    ['getGroupPosts', group.author.id],
     () => {
-      if (groupName) {
-        return PostApi.getAllPostsByGroupName(groupName);
+      if (group) {
+        return PostApi.getAllPostsByAuthorId(group.author.id);
       }
     }
   )
