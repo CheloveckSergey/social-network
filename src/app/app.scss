@@ -107,6 +107,14 @@ button {
   }
 }
 
+.gray-to-white {
+  color: var(--font-gray);
+
+  &:hover {
+    color: white;
+  }
+}
+
 //Just because button.green doesn't work on input [file]
 .green {
   background-color: var(--pale-green);

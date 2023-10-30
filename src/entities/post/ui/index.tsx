@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useState, MouseEvent } from "react";
 import { Post } from "../model";
 import "./styles.scss";
 import Favourites from "../../../fetures/favourites";
@@ -7,6 +7,8 @@ import { CommentSection } from "./commentSection";
 import { PostCommentButton } from "../../comment";
 import { getImageSrc } from "../../../shared/service/images";
 import { ExtraSection } from "./extraSection";
+import { Image } from "../../image";
+import { BsFillCircleFill, BsFillRecordCircleFill } from "react-icons/bs";
 
 
 interface PostProps {
@@ -17,6 +19,8 @@ export const PostCard: FC<PostProps> = ({ post }) => {
 
   const [commentsOpened, setCommentsOpened] = useState<boolean>(false);
   const { user } = useAppSelector(state => state.user);
+  const [images, setImages] = useState<Image[]>(post.postImages);
+  const [curImageIndex, setCurImageIndex] = useState<number>(0);
 
   return (
     <div className="post regular-panel">
@@ -33,9 +37,38 @@ export const PostCard: FC<PostProps> = ({ post }) => {
         </div>
         <div className="body">
           <p className="description">{post.description}</p>
-          <div className="images">
-
-            {post.postImages.length > 0 && <img className="post-img" src={getImageSrc(post.postImages[0].value)} alt="PostIMG" />}
+          <div className="post-images">
+            {images && (images.length > 0) && <div className="images">
+              {(images.length > 1) ? (<div>
+                <img 
+                  className="post-image"
+                  // src={`${images[curImageIndex]}`} 
+                  src={getImageSrc(images[curImageIndex].value)} 
+                  alt="IMG" 
+                />
+                <div className="indexes">
+                  {images.map((image, index) => <button
+                    onClick={(e: MouseEvent<HTMLButtonElement>) => {
+                      e.preventDefault();
+                      setCurImageIndex(index);
+                    }}
+                  >
+                    {(index === curImageIndex) ? (
+                      <BsFillCircleFill size={15} style={{color: 'green'}} />
+                    ) : (
+                      <BsFillRecordCircleFill size={15} style={{color: 'gray'}} />
+                    )}
+                  </button>)}
+                </div>
+              </div>) : (<div>
+                <img 
+                  className="post-image"
+                  // src={`${images[0]}`} 
+                  src={getImageSrc(images[curImageIndex].value)}
+                  alt="IMG" 
+                />
+              </div>)}
+            </div>}
           </div>
         </div>
         <div className="bottom">
