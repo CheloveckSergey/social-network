@@ -8,7 +8,7 @@ import { GroupApi } from "../../entities/group/api";
 import AddPostPanel from "../../shared/addPost";
 import { WindowTypes, setWindow } from "../../widgets/modalWindow/model/redux";
 import { GroupFeed } from "./groupFeed";
-import { Group } from "../../entities/group";
+import { Group, GroupWithSubscribed } from "../../entities/group";
 import { GroupHeader } from "./groupHeader";
 import { GroupSubs } from "./groupSubs";
 
@@ -30,7 +30,7 @@ const GroupDesc: FC<GroupDescProps> = ({ group, isLoading, isError }) => {
 
 const GroupPage = () => {
   
-  const [group, setGroup] = useState<Group>();
+  const [group, setGroup] = useState<GroupWithSubscribed>();
 
   const { id } = useParams();
 

@@ -28,3 +28,11 @@ export type Author = {
   avatar: string | undefined,
   type: AuthorType,
 }
+
+export interface AuthorWithSubscribed {
+  id: number,
+  name: string,
+  avatar: string | undefined,
+  type: AuthorType,
+  subscribed: boolean,
+}

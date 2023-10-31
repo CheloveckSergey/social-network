@@ -106,6 +106,7 @@ export const AddPostWindow: FC<AddPostProps> = ({  }) => {
           </div>
           <label style={{display: "none"}}>
             <input 
+              readOnly={true}
               type="text"
               name="authorId"
               value={author.id}
