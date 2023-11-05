@@ -1,5 +1,5 @@
 import { FC, useState } from "react"
-import { OneUser } from "../model"
+import { Hook, OneUser } from "../model"
 import { getImageSrc } from "../../../shared/service/images"
 import { useNavigate } from "react-router-dom"
 import { BsThreeDots } from "react-icons/bs"
@@ -8,21 +8,25 @@ import './styles.scss'
 
 interface FLProps {
   user: OneUser,
-  hook: Hook,
+  hook: Hook<Effects>,
+  effects: {
+    setFriendship: (isFriend: boolean) => void,
+    setSubscription: (isSubscribed: boolean) => void,
+  }
 }
-const FeatureLine: FC<FLProps> = ({ user, hook }) => {
+const FeatureLine: FC<FLProps> = ({ user, hook, effects }) => {
 
-  const { refetch, isLoading, isError, headline, isSuccess } = hook(user);
+  const { refetch, isLoading, isError, headline, isSuccess } = hook(user, effects);
 
   return (
     <h4 
       className="feature-line"
-      onClick={() => refetch}
+      onClick={() => refetch()}
     >
-      <span>
+      <span className="headline">
         {headline}
       </span>
-      <span>
+      <span className="status">
         {isLoading && <Rotator size={15} />}
         {isError && 'E'}
       </span>
@@ -32,17 +36,22 @@ const FeatureLine: FC<FLProps> = ({ user, hook }) => {
 
 interface EPProps {
   user: OneUser,
-  hooks: Hook[],
+  hooks: Hook<Effects>[],
+  effects: {
+    setFriendship: (isFriend: boolean) => void,
+    setSubscription: (isSubscribed: boolean) => void,
+  }
 }
-const ExtraPanel: FC<EPProps> = ({ user, hooks }) => {
+const ExtraPanel: FC<EPProps> = ({ user, hooks, effects }) => {
 
 
   return (
     <div className="extra-user-panel extra-panel">
-      {hooks.map((hook, index) => <FeatureLine 
+      {hooks.map((hook, index) => <FeatureLine
         key={index}
         hook={hook}
         user={user}
+        effects={effects}
       />)}
       <h4>Tralala</h4>
       <h4>Trololo</h4>
@@ -52,37 +61,53 @@ const ExtraPanel: FC<EPProps> = ({ user, hooks }) => {
 
 interface ESProps {
   user: OneUser,
-  hooks: Hook[], 
+  hooks: Hook<Effects>[],
+  effects: {
+    setFriendship: (isFriend: boolean) => void,
+    setSubscription: (isSubscribed: boolean) => void,
+  }
 }
-const ExtraSectionButton: FC<ESProps> = ({ user, hooks }) => {
+const ExtraSectionButton: FC<ESProps> = ({ user, hooks, effects }) => {
 
   return (
     <div className="user-extra-section">
       <button className="white">
         <BsThreeDots size={25}/>
       </button>
-      <ExtraPanel user={user} hooks={hooks} />
+      <ExtraPanel user={user} hooks={hooks} effects={effects} />
     </div>
   )
 }
 
-export type Hook = (user: OneUser) => {
-  headline: string,
-  refetch: () => any,
-  isLoading: boolean,
-  isError: boolean,
-  isSuccess: boolean,
+interface Effects {
+  setFriendship: (isFriend: boolean) => void,
+  setSubscription: (isSubscribed: boolean) => void
 }
 
 interface ULCProps {
   user: OneUser,
-  hooks: Hook[],
+  hooks: Hook<Effects>[],
 }
 export const UserListCard: FC<ULCProps> = ({ user: _user, hooks }) => {
   const [user, setUser] = useState<OneUser>(_user);
 
   const setFriendship = (isFriend: boolean) => {
     setUser({...user, isFriend});
+  }
+
+  const setSubscription = (isSubscribed: boolean) => {
+    setUser({
+      ...user,
+      author: {
+        ...user.author,
+        subscribed: isSubscribed,
+      }
+    })
+  }
+
+  const effects = {
+    setFriendship,
+    setSubscription,
   }
   
   const navigate = useNavigate();
@@ -98,7 +123,7 @@ export const UserListCard: FC<ULCProps> = ({ user: _user, hooks }) => {
           {user.login}
         </h4>
       </div>
-      <ExtraSectionButton user={user} hooks={hooks} />
+      <ExtraSectionButton user={user} hooks={hooks} effects={effects} />
     </div>
   )
 }

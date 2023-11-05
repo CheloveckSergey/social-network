@@ -1,4 +1,4 @@
-import * as hooks from './hooks';
+import * as Hooks from './hooks';
 export const Friendship = {
-  hooks
+  Hooks
 }

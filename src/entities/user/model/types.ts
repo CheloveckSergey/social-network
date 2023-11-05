@@ -1,4 +1,4 @@
-import { Author } from "../../author"
+import { Author, AuthorWithSubscribed } from "../../author"
 
 export type User = {
   id: number,
@@ -22,5 +22,13 @@ export type OneUser = {
   login: string,
   avatar: string,
   isFriend: boolean,
-  author: Author,
+  author: AuthorWithSubscribed,
+}
+
+export type Hook<T> = (user: OneUser, effects: T) => {
+  headline: string,
+  refetch: () => any,
+  isLoading: boolean,
+  isError: boolean,
+  isSuccess: boolean,
 }
