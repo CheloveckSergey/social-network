@@ -1,1 +1,5 @@
-export * as Cards from './cards'
+import { Cards } from "./cards";
+
+export const UserUi = {
+  Cards,
+}

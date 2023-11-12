@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import { Post } from "../..";
+import { OnePost, Post } from "../..";
 import { User } from "../../../user";
 import { Comment } from "../../../comment/model";
 import { useQuery } from "react-query";
@@ -10,7 +10,7 @@ import './styles.scss';
 
 interface CSProps {
   user: User,
-  post: Post,
+  post: OnePost,
 }
 
 export const CommentSection: FC<CSProps> = ({ user, post }) => {

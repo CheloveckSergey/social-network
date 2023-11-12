@@ -29,6 +29,14 @@ export type Author = {
   type: AuthorType,
 }
 
+export interface OneAuthor {
+  id: number,
+  name: string,
+  avatar: string | undefined,
+  type: AuthorType,
+  subscribed: boolean,
+}
+
 export interface AuthorWithSubscribed {
   id: number,
   name: string,

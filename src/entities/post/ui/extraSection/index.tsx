@@ -1,10 +1,10 @@
 import { FC } from "react";
-import { Post } from "../..";
+import { OnePost, Post } from "../..";
 import './styles.scss';
 import { BsThreeDots } from "react-icons/bs";
 
 interface EPProps {
-  post: Post,
+  post: OnePost,
 }
 
 const ExtraPanel: FC<EPProps> = ({ post }) => {
@@ -20,7 +20,7 @@ const ExtraPanel: FC<EPProps> = ({ post }) => {
 }
 
 interface ESProps {
-  post: Post,
+  post: OnePost,
 }
 
 export const ExtraSection: FC<ESProps> = ({ post }) => {

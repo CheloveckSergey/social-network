@@ -25,7 +25,7 @@ const FriendsPage: FC = () => {
           <LeftMenu />
           <div className="friends-page">
             <div className="main">
-              <AllFriends />
+              <AllFriends user={user} />
             </div>
             <div className="right">
               <PossibleFriendsPanel user={user} />

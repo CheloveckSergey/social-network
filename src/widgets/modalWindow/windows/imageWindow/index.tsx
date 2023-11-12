@@ -6,6 +6,7 @@ import { getImgSrc } from "../../../../shared/service/images";
 import { AuthorCreationCard } from "../../../../entities/author/ui";
 import Favourites from "../../../../fetures/favourites";
 import { nextImage, previousImage } from "../../model/redux";
+import { Helpers } from "../../../../shared/helpers";
 
 const ImageWindow: FC = () => {
   const { images, curImageIndex } = useAppSelector(state => state.modalWindow);
@@ -29,7 +30,7 @@ const ImageWindow: FC = () => {
                 <AiOutlineDoubleLeft size={55} />
               </button>
               <img 
-                src={getImgSrc(image)} 
+                src={Helpers.getImageSrc(image.value)} 
                 alt="IMG"
                 className="image-image"
               />
@@ -48,7 +49,7 @@ const ImageWindow: FC = () => {
                 />
               </div>
               <div className="like-repost-section">
-                <Favourites.Actions.LikeButton creation={image.creation} />
+                {/* <Favourites.Actions.LikeButton creation={image.creation} /> */}
               </div>
             </div>
           </div>

@@ -1,13 +1,13 @@
 import { FC } from "react"
 import { Image } from "../../entities/image/model"
 import { AiOutlinePlus } from "react-icons/ai"
-import LoadErrorHandler from "../../shared/loadErrorHandler";
 import { useAppDispatch, useAppSelector } from "../../app/store";
 import { WindowTypes, setWindow } from "../modalWindow/model/redux";
 import { BsEyeFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import './styles.scss';
 import { OneUser } from "../../entities/user";
+import { SharedUi } from "../../shared/sharedUi";
 
 
 interface ImagesFeedProps {
@@ -36,13 +36,11 @@ const ImagesFeed: FC<ImagesFeedProps> = ({ images, isLoading, isError, allowToAd
 
   return (
     <div className="images-feed regular-panel">
-      <LoadErrorHandler 
+      <SharedUi.Helpers.LoadErrorHandler 
         isError={isError}
         isLoading={isLoading}
-        data={images}
       >
         {!images?.length ? (
-
           <div className="no-images">
             <p>Here you can keep your images</p>
             {allowToAdd && <button
@@ -82,7 +80,7 @@ const ImagesFeed: FC<ImagesFeedProps> = ({ images, isLoading, isError, allowToAd
             </div>
           </div>
         )}
-      </LoadErrorHandler>
+      </SharedUi.Helpers.LoadErrorHandler>
     </div>
   )
 }

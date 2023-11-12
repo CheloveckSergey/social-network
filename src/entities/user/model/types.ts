@@ -25,7 +25,7 @@ export type OneUser = {
   author: AuthorWithSubscribed,
 }
 
-export type Hook<T> = (user: OneUser, effects: T) => {
+export type UserHook<T> = (user: OneUser, effects: T) => {
   headline: string,
   refetch: () => any,
   isLoading: boolean,

@@ -1,10 +1,10 @@
 import { FC } from "react";
 import { OneUser, UserApi } from "../../../entities/user";
-import { useAppDispatch, useAppSelector } from "../../../app/store";
+import { useAppSelector } from "../../../app/store";
 import { getImageSrc } from "../../../shared/service/images";
 import './styles.scss';
 import { useQuery } from "react-query";
-import Rotator from "../../../shared/rotator";
+import { SharedUi } from "../../../shared/sharedUi";
 
 /////////////////////////////////////////////////////////////////////////////////
 
@@ -48,7 +48,7 @@ const CrFrButton: FC<CrFrButtProps> = ({ user, setIsFriend }) => {
     if (dlFrStatus.isLoading) {
       return (
         <div className="cr-dl-status">
-          <Rotator size={25} />
+          <SharedUi.Icons.Spinner size={25} />
         </div>
       )
     }
@@ -65,7 +65,7 @@ const CrFrButton: FC<CrFrButtProps> = ({ user, setIsFriend }) => {
     if (crFrStatus.isLoading) {
       return (
         <div className="cr-dl-status">
-          <Rotator size={25} />
+          <SharedUi.Icons.Spinner size={25} />
         </div>
       )
     }
@@ -99,11 +99,6 @@ export const UserAvatar: FC<UserAvatarProps> = ({ user, setIsFriend }) => {
         user={user}
         setIsFriend={setIsFriend}
       />
-      {/* <button
-        onClick={() => refetch()}
-      >
-        Edit
-      </button> */}
     </div>
   )
 }

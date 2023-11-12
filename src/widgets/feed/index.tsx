@@ -1,14 +1,14 @@
 import { FC } from "react";
-import { Post } from "../../entities/post";
+import { OnePost, Post } from "../../entities/post";
 import { PostUi } from "../../entities/post";
 import './styles.scss';
 
 interface FeedProps {
-  posts: Post[]
+  posts: OnePost[]
 }
 
 const Feed: FC<FeedProps> = ({ posts }) => {
-  let revercedPosts: Post[] = [];
+  let revercedPosts: OnePost[] = [];
   for (let post of posts) {
     revercedPosts.unshift(post)
   }

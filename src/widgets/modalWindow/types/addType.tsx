@@ -5,7 +5,7 @@ import { FC, FormEvent, ReactNode, useRef, useState } from "react";
 import './styles.scss';
 import { AxiosResponse } from "axios";
 import { useQuery } from "react-query";
-import Rotator from "../../../shared/rotator";
+import { SharedUi } from "../../../shared/sharedUi";
 
 interface AddWindowTypeProps {
   children: ReactNode | ReactNode[],
@@ -68,7 +68,7 @@ const AddWindowType: FC<AddWindowTypeProps> = ({ children, queryName, inputs, ap
           </button>
           <p className="message">
             {isLoading ? (
-              <Rotator size={20} />
+              <SharedUi.Icons.Spinner size={20} />
             ) : (
               message
             )}

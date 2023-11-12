@@ -1,0 +1,38 @@
+.user-friend-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 90px;
+  width: 100%;
+  margin-top: 10px;
+  border-radius: var(--regular-border-radius);
+
+  .black-out {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: var(--regular-border-radius);
+  }
+
+  img {
+    height: 80px;
+    width: 80px;
+    object-fit: cover;
+    border-radius: 50em;
+  }
+
+  .main-info {
+    flex-grow: 3;
+
+    .login {
+      display: inline;
+      cursor: pointer;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}

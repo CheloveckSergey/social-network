@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import React, { FC } from "react";
-import { Image } from "../../../entities/image/model";
+import { OneImage } from "../../../entities/image/model";
 import { Author } from "../../../entities/author";
 import { Group } from "../../../entities/group";
 
@@ -20,7 +20,7 @@ export enum WindowTypes {
 interface ModalWindow {
   switch: boolean,
   windowType: WindowTypes | undefined,
-  images: Image[],
+  images: OneImage[],
   curImageIndex: number,
   subAuthor: Author | undefined,
   author: Author | undefined,
@@ -40,7 +40,7 @@ type WindowAction = {
 }
 
 type ImageWindowAction = {
-  images: Image[],
+  images: OneImage[],
   curImageIndex: number,
 }
 

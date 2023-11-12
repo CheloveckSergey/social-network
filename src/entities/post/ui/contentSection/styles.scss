@@ -1,0 +1,25 @@
+.body {
+  
+  p.description {
+    margin-top: 10px;
+  }
+
+  .post-images {
+
+    img.post-image {
+      width: 100%;
+      height: 450px;
+      object-fit: cover;
+      margin-top: 10px;
+      border-radius: 10px;
+    }
+
+    .indexes {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      margin-top: 10px;
+    }
+  }
+}

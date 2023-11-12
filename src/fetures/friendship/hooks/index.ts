@@ -1,13 +1,14 @@
 import { useQuery } from "react-query";
 import { useAppSelector } from "../../../app/store";
-import { Hook, OneUser, UserApi } from "../../../entities/user";
+import { OneUser, UserApi } from "../../../entities/user";
 import { useState } from "react";
+import { Hook } from "../../../shared/types";
 
 export interface FriendshipEffects {
   setFriendship: (isFriend: boolean) => void,
 }
 
-export const useFriendship: Hook<FriendshipEffects> = (user: OneUser, effects: FriendshipEffects) => {
+const useFriendship: Hook<OneUser, FriendshipEffects> = (user: OneUser, effects: FriendshipEffects) => {
   const { user: curUser } = useAppSelector(state => state.user);
 
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
@@ -63,33 +64,6 @@ export const useFriendship: Hook<FriendshipEffects> = (user: OneUser, effects: F
   }
 }
 
-// export const useCreateFriendship: Hook = (user: OneUser) => {
-//   const { user: curUser } = useAppSelector(state => state.user);
-
-//   const [isSuccess, setIsSuccess] = useState<boolean>(false);
-
-//   const { data, isLoading, isError, refetch } = useQuery(
-//     ['deleteFriend', user.id],
-//     () => {
-//       if (curUser) {
-//         return UserApi.addFriend(curUser.id, user.id);
-//       }
-//     },
-//     {
-//       enabled: false,
-//       onSuccess: () => {
-//         setIsSuccess(true);
-//       }
-//     }
-//   );
-
-//   return { refetch, isLoading, isError, isSuccess, headline: 'Get friend' }
-// }
-
-// export const useFriendshipHook: Hook = (user: OneUser) => {
-//   if (user.isFriend) {
-//     return useDeleteFriendship(user);
-//   } else {
-//     return useCreateFriendship(user);
-//   }
-// }
+export const Hooks = {
+  useFriendship,
+}

@@ -13,7 +13,7 @@ export const GroupFeed: FC<GroupFeedProps> = ({ group }) => {
     ['getGroupPosts', group.author.id],
     () => {
       if (group) {
-        return PostApi.getAllPostsByAuthorId(group.author.id);
+        return PostApi.getAllOnePostsByAuthorId(group.author.id);
       }
     }
   )

@@ -6,11 +6,11 @@ import CommentApi from "../../api"
 import { BsFileEarmarkPlay } from "react-icons/bs"
 import { Comment } from "../../model"
 import './styles.scss';
-import { CrTypeCodes, CrTypesNames, Creation } from "../../../creation"
+import { CrTypeCodes, CrTypesNames, Creation, OneCreation } from "../../../creation"
 
 interface CCInterface {
   user: User,
-  creation: Creation,
+  creation: OneCreation,
   addComment: (comment: Comment) => void,
 }
 

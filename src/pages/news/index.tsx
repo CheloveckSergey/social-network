@@ -1,7 +1,7 @@
 import React, { FC, useState } from 'react';
 import Upbar from '../../widgets/upbar';
 import Feed from '../../widgets/feed';
-import { Post, PostApi } from '../../entities/post';
+import { OnePost, Post, PostApi } from '../../entities/post';
 import LeftMenu from '../../widgets/leftMenu';
 import { useAppSelector } from '../../app/store';
 import { useQuery } from 'react-query';
@@ -11,13 +11,13 @@ const NewsPage: FC = () => {
 
   const { user } = useAppSelector(state => state.user);
 
-  const [feed, setFeed] = useState<Post[]>([]);
+  const [feed, setFeed] = useState<OnePost[]>([]);
 
   const feedStatus = useQuery(
     ['getFeed', user?.id],
     () => {
       if (user) {
-        return PostApi.getAllPostsByAuthorId(user.author.id);
+        return PostApi.getAllOnePostsByAuthorId(user.author.id);
       }
     }, {
       onSuccess: (data) => {

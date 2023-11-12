@@ -1,5 +1,9 @@
 import { Actions } from "./actions";
+import { Hooks } from "./hooks";
 
-const Favourites = { Actions };
+const Favourites = { 
+  Actions, 
+  Hooks,
+ };
 
 export default Favourites;

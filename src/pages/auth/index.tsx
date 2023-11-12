@@ -2,9 +2,8 @@ import React, { ChangeEvent, FC, useState } from "react";
 import './styles.scss';
 import { useAppDispatch, useAppSelector } from "../../app/store";
 import { useNavigate } from "react-router-dom";
-
-import Rotator from "../../shared/rotator";
 import { MyRejectValue, authThunks } from "../../fetures/auth";
+import { SharedUi } from "../../shared/sharedUi";
 
 interface RegLogSectionProps {
   toggleLogReg: React.Dispatch<React.SetStateAction<boolean>>,
@@ -174,7 +173,7 @@ const AuthPage: FC = () => {
         <div className="auth-panel regular-panel">
           {loading && 
           <div className="blackout-auth">
-            <Rotator size={50} />
+            <SharedUi.Icons.Spinner size={50} />
           </div>}
           <h1 className="icon">
             Здесь будет иконка

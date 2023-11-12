@@ -14,7 +14,7 @@ export const UserFeed: FC<UserFeedProps> = ({ user }) => {
     ['loadQuery', user?.id],
     () => {
       if (user?.id) {
-        return PostApi.getAllPostsByAuthorId(user.author.id);
+        return PostApi.getAllOnePostsByAuthorId(user.author.id);
       }
     }
   )

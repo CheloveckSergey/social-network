@@ -1,12 +1,16 @@
 import api from "../../../shared/http";
-import { Post } from "../model";
+import { OnePost, Post } from "../model";
 
 const INITIAL_URL = '/posts';
 
 export class PostApi {
   static async getAllPostsByAuthorId(authorId: number) {
-    console.log('Траляля');
     const response = await api.get<Post[]>(INITIAL_URL + '/getAllPostByAuthorId/' + authorId);
+    return response.data;
+  }
+
+  static async getAllOnePostsByAuthorId(authorId: number) {
+    const response = await api.get<OnePost[]>(INITIAL_URL + '/getAllOnePostsByAuthorId/' + authorId);
     return response.data;
   }
 

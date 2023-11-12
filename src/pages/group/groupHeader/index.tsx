@@ -1,15 +1,14 @@
 import { FC, useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../app/store";
-import LoadErrorHandler from "../../../shared/loadErrorHandler";
 import { Group, GroupWithSubscribed } from "../../../entities/group";
 import { WindowTypes, setWindow } from "../../../widgets/modalWindow/model/redux";
 import './styles.scss';
 import { useQuery } from "react-query";
 import { AuthorApi } from "../../../entities/author/api";
-import Rotator from "../../../shared/rotator";
 import { AiFillDelete } from "react-icons/ai";
 import { GroupApi } from "../../../entities/group/api";
 import { useNavigate } from "react-router-dom";
+import { SharedUi } from "../../../shared/sharedUi";
 
 interface SBProps {
   group: GroupWithSubscribed | undefined;
@@ -39,7 +38,7 @@ const UnsubscribeButton: FC<SBProps> = ({ group, setSubscribed }) => {
   if (status === 'loading') {
     return (
       <div className="loading-subscribe">
-        <Rotator />
+        <SharedUi.Icons.Spinner />
       </div>
     )
   }
@@ -79,7 +78,7 @@ const SubscribeButton: FC<SBProps> = ({ group, setSubscribed }) => {
   if (status === 'loading') {
     return (
       <div className="loading-subscribe">
-        <Rotator />
+        <SharedUi.Icons.Spinner />
       </div>
     )
   }
@@ -144,7 +143,7 @@ const DeleteGroupButton: FC<DGBProps> = ({ group }) => {
   if (isLoading) {
     return (
       <button className="delete-group-button">
-        <Rotator size={25} />
+        <SharedUi.Icons.Spinner size={25} />
       </button>
     )
   }
@@ -171,10 +170,9 @@ export const GroupHeader: FC<GroupPanelProps> = ({ group, isLoading, isError }) 
 
   return (
     <div className="group-header regular-panel">
-      <LoadErrorHandler 
+      <SharedUi.Helpers.LoadErrorHandler 
         isLoading={isLoading}
         isError={isError}
-        data={group}
       >
         <div className="avatar">
           <img src={process.env.REACT_APP_BACK_URL && group?.avatar 
@@ -194,7 +192,7 @@ export const GroupHeader: FC<GroupPanelProps> = ({ group, isLoading, isError }) 
           <SubscribePanel group={group} />
         </div>
         <DeleteGroupButton group={group} />
-      </LoadErrorHandler>
+      </SharedUi.Helpers.LoadErrorHandler>
     </div>
   )
 }

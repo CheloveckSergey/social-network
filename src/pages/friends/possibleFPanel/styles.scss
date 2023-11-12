@@ -3,37 +3,6 @@
   >.pfc-list {
     margin-top: 10px;
 
-    >.possible-friend-card {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      height: 60px;
-      width: 100%;
-
-      img {
-        height: 50px;
-        width: 50px;
-        object-fit: cover;
-        border-radius: 50em;
-      }
-
-      .main-info {
-        flex-grow: 3;
-
-        .login {
-          display: inline;
-          cursor: pointer;
-
-          &:hover {
-            text-decoration: underline;
-          }
-        }
-      }
-
-      button.add-button {
-        // padding: 10px;
-      }
-    }
   }
 
   .no-friends {

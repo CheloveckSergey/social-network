@@ -1,14 +1,15 @@
 import { useState } from "react";
 import { useAppSelector } from "../../../app/store";
-import { Hook, OneUser, UserApi } from "../../../entities/user";
+import { OneUser } from "../../../entities/user";
 import { useQuery } from "react-query";
 import { AuthorApi } from "../../../entities/author";
+import { Hook } from "../../../shared/types";
 
 export interface SubscriptionEffects {
   setSubscription: (isSubscribed: boolean) => void,
 }
 
-export const useSubscription: Hook<SubscriptionEffects> = (user: OneUser, effects: SubscriptionEffects) => {
+export const useSubscription: Hook<OneUser, SubscriptionEffects> = (user: OneUser, effects: SubscriptionEffects) => {
   const { user: curUser } = useAppSelector(state => state.user);
 
   const [isSuccess, setIsSuccess] = useState<boolean>(false);

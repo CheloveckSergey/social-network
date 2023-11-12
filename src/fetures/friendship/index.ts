@@ -1,4 +1,7 @@
-import * as Hooks from './hooks';
+import { Hooks } from "./hooks"
+import { Ui } from "./ui"
+
 export const Friendship = {
-  Hooks
+  Hooks,
+  Ui,
 }

@@ -4,8 +4,8 @@ import { FiEdit2 } from "react-icons/fi";
 import { useQuery } from "react-query";
 import { useAppSelector } from "../../../../app/store";
 import { DescApi } from "../../../../entities/description";
-import Rotator from "../../../../shared/rotator";
 import { AiOutlineSend } from "react-icons/ai";
+import { SharedUi } from "../../../../shared/sharedUi";
 
 interface PropProps {
   propName: string,
@@ -51,7 +51,7 @@ const Prop: FC<PropProps> = ({ value, propName, apiFunction, inputVal, setInputV
           <>
             {children}
             {isLoading ? (
-              <Rotator size={18} />
+              <SharedUi.Icons.Spinner size={18} />
             ) : (
               <button 
                 className="white"
@@ -217,7 +217,7 @@ export const ChangeDescWindow: FC = () => {
   if (isLoading) {
     return (
       <div className="loader">
-        <Rotator size={50} />
+        <SharedUi.Icons.Spinner size={50} />
       </div>
     )
   }
@@ -246,72 +246,3 @@ export const ChangeDescWindow: FC = () => {
     </div>
   )
 }
-
-// interface DatePropProps {
-//   value: string | undefined,
-// }
-// const DateProp: FC<DatePropProps> = ({ value }) => {
-
-//   const [edited, setEdited] = useState<boolean>(false);
-//   const [val, setVal] = useState<string>('');
-//   const [inputVal, setInputVal] = useState<string>('');
-
-//   const { data, isLoading, isError, refetch } = useQuery(
-//     ['editDate', inputVal],
-//     () => {
-//       return DescApi.updateDate(inputVal);
-//     },
-//     {
-//       enabled: false,
-//     }
-//   ) 
-
-//   useEffect(() => {
-//     if (value) {
-//       setVal(value);
-//     }
-//   }, []);
-
-//   return (
-//     <div className="prop">
-//       <p className="name">Date</p>
-//       <span>
-//         {!edited ? (
-//           value ? <p className="value">
-//             {val}
-//           </p> : <p className="empty">
-//             Empty
-//           </p>
-//         ) : (
-//           <>
-//             <input 
-//               type="text" 
-//               value={inputVal} 
-//               onChange={(e: ChangeEvent<HTMLInputElement>) => setInputVal(e.target.value)} 
-//             />
-//             {isLoading ? (
-//               <Rotator size={18} />
-//             ) : (
-//               <button 
-//                 className="white"
-//                 onClick={() => refetch()
-//                   .then(() => {
-//                     setVal(inputVal);
-//                     setEdited(false);
-//                   })}
-//               >
-//                 <AiOutlineSend size={18} />
-//               </button>
-//             )}
-//           </>
-//         )}
-//         <button 
-//           className="white"
-//           onClick={() => setEdited(!edited)}
-//         >
-//           <FiEdit2 size={18} />
-//         </button>
-//       </span>
-//     </div>
-//   )
-// }

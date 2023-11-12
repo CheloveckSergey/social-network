@@ -5,58 +5,10 @@
 
   .home-extra {
     width: 200px;
-    
-    .home-avatar {
-
-      img {
-        height: 200px;
-        width: 100%;
-        object-fit: cover;
-        border-radius: 5px;
-      }
-
-      button {
-        height: 40px;
-        width: 100%;
-        margin-top: 5px;
-        border-radius: 5px;
-        background-color: var(--pale-green);
-
-        &:hover {
-          background-color: var(--green);
-        }
-      }
-    }
   }
 
   .home-main {
     width: var(--regular-feed-width);
     margin-left: 10px;
-    
-    // .info {
-      
-    //   .string-info {
-    //     display: flex;
-    //     justify-content: space-between;
-    //     align-items: center;
-    //     margin-top: 5px;
-    //   }
-
-    //   .add-info {
-    //     display: flex;
-    //     justify-content: center;
-    //     margin-top: 5px;
-    //   }
-    // }
-
-    // .add-post {
-    //   display: flex;
-    //   justify-content: center;
-      
-    //   button {
-    //     display: flex;
-    //     gap: 5px;
-    //   }
-    // }
   }
 }

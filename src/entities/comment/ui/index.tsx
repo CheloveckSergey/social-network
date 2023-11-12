@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import { Post } from "../../post";
+import { OnePost, Post } from "../../post";
 import { BiComment } from "react-icons/bi";
 import { Comment } from "../model";
 import { useAppSelector } from "../../../app/store";
@@ -8,7 +8,7 @@ import { getImageSrc } from "../../../shared/service/images";
 import { AiOutlineHeart } from "react-icons/ai";
 
 interface PCBProps {
-  post: Post,
+  post: OnePost,
   opened: boolean,
   setOpened: React.Dispatch<React.SetStateAction<boolean>>,
 }
@@ -16,27 +16,28 @@ interface PCBProps {
 export const PostCommentButton: FC<PCBProps> = ({ post, setOpened, opened }) => {
 
   const { user } = useAppSelector(state => state.user);  
-  const { commented, setCommented } = useComments(post.creation.comments);
+  // const { commented, setCommented } = useComments(post.creation.comments);
 
   //жопно работает, setCommented пока бесполезен
-  function useComments(comments: Comment[]) {
-    let _isCommented: boolean;
-    if (comments.find(comment => comment.ownCreation.author.id === user?.author.id)) {
-      _isCommented = true;
-    } else {
-      _isCommented = false;
-    }
-    const [commented, setCommented] = useState<boolean>(_isCommented);
-    return { commented, setCommented };
-  }
+  // function useComments(comments: Comment[]) {
+  //   let _isCommented: boolean;
+  //   if (comments.find(comment => comment.ownCreation.author.id === user?.author.id)) {
+  //     _isCommented = true;
+  //   } else {
+  //     _isCommented = false;
+  //   }
+  //   const [commented, setCommented] = useState<boolean>(_isCommented);
+  //   return { commented, setCommented };
+  // }
 
   return (
     <button 
       className='comment-button'
       onClick={() => setOpened(!opened)}
     >
-      <BiComment size={25} className={`${commented ? 'commented' : ''}`} />
-      <p className="extra">{post.creation.comments.length}</p>
+      <BiComment size={25} />
+      {/* <BiComment size={25} className={`${commented ? 'commented' : ''}`} /> */}
+      <p className="extra">{post.creation.commentNumber}</p>
     </button>
   )
 }
