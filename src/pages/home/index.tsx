@@ -5,7 +5,7 @@ import './styles.scss';
 import { User } from "../../entities/user";
 import { useAppDispatch, useAppSelector } from "../../app/store";
 import { WindowTypes, setWindow } from "../../widgets/modalWindow/model/redux";
-import AddPostPanel from "../../shared/addPost";
+import AddPostPanel from "../../widgets/addPost";
 import { getImageSrc } from "../../shared/service/images";
 import HomeImages from "./homeImages";
 import { Info } from "./homeInfo";

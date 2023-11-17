@@ -2,7 +2,6 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import React, { FC } from "react";
 import { OneImage } from "../../../entities/image/model";
 import { Author } from "../../../entities/author";
-import { Group } from "../../../entities/group";
 
 export enum WindowTypes {
   LOAD_USER_AVATAR = 'loadUserAvatar',

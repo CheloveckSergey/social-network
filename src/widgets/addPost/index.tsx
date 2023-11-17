@@ -1,6 +1,6 @@
 import { BsPencilSquare } from "react-icons/bs";
 import { useAppDispatch } from "../../app/store";
-import { WindowTypes, setAddPostWindow, setWindow } from "../../widgets/modalWindow/model/redux";
+import { WindowTypes, setAddPostWindow, setWindow } from "../modalWindow/model/redux";
 import { FC } from "react";
 import './styles.scss';
 import { Author } from "../../entities/author";

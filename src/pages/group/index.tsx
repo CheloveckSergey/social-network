@@ -5,7 +5,7 @@ import './styles.scss';
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import { GroupApi } from "../../entities/group/api";
-import AddPostPanel from "../../shared/addPost";
+import AddPostPanel from "../../widgets/addPost";
 import { WindowTypes, setWindow } from "../../widgets/modalWindow/model/redux";
 import { GroupFeed } from "./groupFeed";
 import { Group, GroupWithSubscribed } from "../../entities/group";

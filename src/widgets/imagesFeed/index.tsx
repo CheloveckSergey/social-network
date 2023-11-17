@@ -52,7 +52,6 @@ const ImagesFeed: FC<ImagesFeedProps> = ({ images, isLoading, isError, allowToAd
           </div>
 
         ) : (
-
           <div className="yes-images">
             <div className="images">
               {images.map((image, index) => (
