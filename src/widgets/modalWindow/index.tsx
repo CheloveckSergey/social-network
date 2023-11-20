@@ -12,6 +12,7 @@ import { AiOutlineCloseCircle } from "react-icons/ai";
 import ShowSubsWindow from "./windows/showSubs";
 import { ChangeDescWindow } from "./windows/changeDesc";
 import { AddPostWindow } from "./windows/addPost";
+import { WriteMessageWindow } from "./windows/writeMessage";
 
 
 const ModalWindow: FC = () => {
@@ -41,6 +42,8 @@ const ModalWindow: FC = () => {
         <ShowSubsWindow />
       ) : windowType === WindowTypes.CHANGE_DESC_WINDOW ? (
         <ChangeDescWindow />
+      ) : windowType === WindowTypes.WRITE_MESSAGE_WINDOW ? (
+        <WriteMessageWindow />
       ) : ''}
       <button 
         className="close-button white"

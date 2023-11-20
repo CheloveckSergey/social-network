@@ -22,6 +22,11 @@ export class UserApi {
     return response.data;
   }
 
+  static async getOneUserById(userId: number) {
+    const response = await api.get<OneUser>('/users/getOneUserById/' + userId);
+    return response.data;
+  }
+
   static async loadAvatar(formData: FormData) {
     const response = await api.post(
       '/users/createAvatar',

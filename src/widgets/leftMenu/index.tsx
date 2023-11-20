@@ -22,7 +22,7 @@ const LeftMenu: FC = () => {
         <FaUserFriends size={20}/>
         <h3 className="menu">Friends</h3>
       </Link>
-      <Link to="/messages" >
+      <Link to="/rooms" >
         <BiSolidMessageSquare size={20}/>
         <h3 className="menu">Messages</h3>
       </Link>

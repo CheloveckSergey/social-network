@@ -19,7 +19,7 @@ const UserPage: FC = () => {
   const { data, isLoading, isError } = useQuery(
     ['loadOneUser', userId],
     () => {
-      return UserApi.getUserById(Number(userId));
+      return UserApi.getOneUserById(Number(userId));
     },
     {
       onSuccess: data => {

@@ -13,12 +13,8 @@
     margin-top: 5px;
     border-radius: 5px;
 
-    &.get-friend {
-      background-color: var(--pale-green);
-
-      &:hover {
-        background-color: var(--green);
-      }
+    &.disabled {
+      filter: brightness(0.5);
     }
   }
 
