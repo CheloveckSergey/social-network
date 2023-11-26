@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from "../../../../app/store";
 import { useNavigate } from "react-router-dom";
 import { closeWindow } from "../../model/redux";
 import { RoomApi } from "../../../../entities/room";
+import { MessageApi } from "../../../../entities/message";
 
 export const WriteMessageWindow: FC = () => {
 
@@ -20,7 +21,7 @@ export const WriteMessageWindow: FC = () => {
       return
     }
 
-    RoomApi.createPersonalRoom(curUser.id, user.id)
+    RoomApi.createPRoomAndWMessage(curUser.id, user.id, message)
       .then(room => {
         dispatch(closeWindow({}));
         navigate('/room/' + room.id);

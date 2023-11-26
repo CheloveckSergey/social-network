@@ -5,5 +5,7 @@ export interface Message {
   id: number,
   text: string,
   user: OneUser,
-  room: Room
+  room: Room,
+  createdAt: string,
+  updatedAt: string,
 }

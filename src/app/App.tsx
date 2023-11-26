@@ -15,7 +15,7 @@ function App() {
     dispatch(authThunks.refreshThunk({}))
     .unwrap()
     .then(() => {
-      // navigate('/home');
+      dispatch({type: 'socket/connect'})
     } )
     .catch((error: MyRejectValue) => {
       navigate('/auth');

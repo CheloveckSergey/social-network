@@ -1,0 +1,12 @@
+.message-line {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  img.user-avatar {
+    height: 50px;
+    width: 50px;
+    border-radius: 50em;
+    object-fit: cover;
+  }
+}

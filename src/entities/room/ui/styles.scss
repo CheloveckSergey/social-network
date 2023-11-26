@@ -1,0 +1,38 @@
+.room-line {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border-top: var(--regular-border);
+  cursor: pointer;
+
+  &:first-child {
+    border-top: none;
+  }
+
+  &:hover {
+    background-color: var(--back-2xlight-gray);
+  }
+
+  .room-avatar {
+    height: 60px;
+    width: 60px;
+    border-radius: 50em;
+    object-fit: cover;
+  }
+
+  .description {
+    flex-grow: 3;
+
+    .last-message {
+
+    }
+  }
+
+  .right {
+
+    .date {
+
+    }
+  }
+}

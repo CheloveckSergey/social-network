@@ -24,6 +24,7 @@ export const ContentSection: FC<CSProps> = ({ post }) => {
             />
             <div className="indexes">
               {post.postImages.map((image, index) => <button
+                key={index}
                 onClick={(e: MouseEvent<HTMLButtonElement>) => {
                   e.preventDefault();
                   setCurImageIndex(index);

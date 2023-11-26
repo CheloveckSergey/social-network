@@ -1,18 +1,22 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { MeUser } from "../../../entities/user/model/types";
 import AuthApi, { LogoutRes, ReqAuthDto, ResAuthDto } from "../api";
 import { AxiosError } from "axios";
+import { Socket, io } from "socket.io-client";
+import { useAppDispatch, useAppSelector } from "../../../app/store";
 
 interface UserState {
   user: MeUser | undefined,
   loading: boolean,
   error: string | undefined,
+  socket: Socket | undefined,
 }
 
 const initialState: UserState = {
   user: undefined,
   loading: false,
   error: undefined,
+  socket: undefined,
 }
 
 export interface MyRejectValue {
@@ -30,6 +34,7 @@ const registerThunk = createAsyncThunk<
   'auth/register',
   async (reqAuthDto, thunkAPI) => {
     console.log('РЕГИСТЕРСАНК');
+    const dispatch = useAppDispatch();
     try {
       const response = await AuthApi.registration(reqAuthDto);
       localStorage.setItem('accessToken', response.data.accessToken);

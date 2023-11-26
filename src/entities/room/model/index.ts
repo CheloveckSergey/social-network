@@ -15,5 +15,10 @@ export interface Room {
   name: string | undefined,
   roomMembers: RoomMember[],
   messages: Message[],
-  type: RoomType
+  type: RoomType,
+  avatar: string | undefined,
+  createdAt: string,
+  updatedAt: string,
 }
+
+export type RoomMemberStatus = 'online' | 'offline';
