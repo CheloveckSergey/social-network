@@ -1,10 +1,14 @@
 import { Socket, io } from "socket.io-client"
 
 export default class SocketClient {
-  socket: Socket | null | undefined
+  socket: Socket | null | undefined;
 
-  connect() {
-    this.socket = io('http://localhost:5000');
+  connect(payload: any) {
+    this.socket = io('http://localhost:5000', {
+      auth: {
+        authDto: payload,
+      }
+    });
   }
 
   disconnect() {
@@ -20,9 +24,16 @@ export default class SocketClient {
     }
   }
 
-  on(eventName: string, func: () => void) {
+  on(eventName: string, func: (...args: any) => void) {
     if (this.socket) {
       this.socket.on(eventName, func)
+    }
+  }
+
+  off(eventName: string) {
+    if (this.socket) {
+      console.log('Сработал off в классе SocketClient');
+      this.socket.off(eventName);
     }
   }
 }

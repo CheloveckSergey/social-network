@@ -34,7 +34,6 @@ const registerThunk = createAsyncThunk<
   'auth/register',
   async (reqAuthDto, thunkAPI) => {
     console.log('РЕГИСТЕРСАНК');
-    const dispatch = useAppDispatch();
     try {
       const response = await AuthApi.registration(reqAuthDto);
       localStorage.setItem('accessToken', response.data.accessToken);

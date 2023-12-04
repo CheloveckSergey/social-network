@@ -4,7 +4,7 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { mwSlice } from "../../widgets/modalWindow/model/redux";
 import { socketMiddleware } from "../../fetures/socket";
 import SocketClient from "../../fetures/socket/model";
-import { messagesSlice } from "../../entities/message/model/redux";
+import { messagesSlice } from "../../entities/message";
 
 const socket = new SocketClient();
 
@@ -27,6 +27,7 @@ export const useAppDispatch: () => AppDispatch = useDispatch;
 const rootReducer = combineReducers({
   user: userSlice.reducer,
   modalWindow: mwSlice.reducer,
+  messages: messagesSlice.reducer,
 })
 
 export type RootState = ReturnType<typeof rootReducer>;

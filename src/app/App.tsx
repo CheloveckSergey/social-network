@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import './app.scss';
 import Routing from '../pages';
 import { useNavigate } from 'react-router-dom';
@@ -10,16 +10,27 @@ function App() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const window = useAppSelector(state => state.modalWindow);
+
+  const isExecuted = useRef(false);
  
   useEffect(() => {
-    dispatch(authThunks.refreshThunk({}))
-    .unwrap()
-    .then(() => {
-      dispatch({type: 'socket/connect'})
-    } )
-    .catch((error: MyRejectValue) => {
-      navigate('/auth');
-    });
+    //Можно воспользоваться useRef, но я хочу
+    if (!isExecuted.current) {
+      dispatch(authThunks.refreshThunk({}))
+      .unwrap()
+      .then((data) => {
+        dispatch({type: 'socket/connect', payload: data})
+      })
+      .catch((error: MyRejectValue) => {
+        navigate('/auth');
+      });
+      isExecuted.current = true;
+    }
+
+    return () => {
+      dispatch({type: 'socket/unrefresh'});
+      console.log('unrefresh');
+    }
   }, []);
 
   return (

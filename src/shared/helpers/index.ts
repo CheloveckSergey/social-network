@@ -1,3 +1,6 @@
+import { Message } from "../../entities/message";
+import { MyDate } from "../types";
+
 const getImageSrc = (src: string | undefined) => {
   const backUrl = process.env.REACT_APP_BACK_URL;
   let imageSrc: string;
@@ -9,6 +12,45 @@ const getImageSrc = (src: string | undefined) => {
   return imageSrc;
 }
 
+const getTimeFromMySQLDate: (date: string) => string = (date: string) => {
+  const regExp = /T\d{2}:\d{2}/;
+  const concidences = date.match(regExp);
+  if (concidences) {
+    return concidences[0].slice(1);
+  } else {
+    return 'Unknown date';
+  }
+}
+
+// const getTodayDate: (date: string) => string = (date: string) => {
+//   const regExp = /\d{4}-\d{2}-\d{2}/;
+//   const concidences = date.match(regExp);
+//   if (concidences) {
+//     return concidences[0];
+//   } else {
+//     return 'Unknown date';
+//   }
+// }
+
+// const getDateObject: (date: string) =>
+
+export function isTheFirstMessageToday(message: Message, messages: Message[]): boolean {
+  const curMessageIndex = messages.findIndex(_message => _message.id === message.id);
+  if (curMessageIndex === 0) {
+    return true;
+  }
+  const previousMessageIndex = curMessageIndex - 1;
+  const prMesDate = new MyDate(messages[previousMessageIndex].createdAt);
+  const date = new MyDate(message.createdAt);
+  if (date.isMoreThen(prMesDate)) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 export const Helpers = {
   getImageSrc,
+  getTimeFromMySQLDate,
+  isTheFirstMessageToday,
 }

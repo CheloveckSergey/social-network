@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, ReactNode } from "react";
 import { BsThreeDots } from "react-icons/bs";
 import './styles.scss';
 import { Hook } from "../../types";
@@ -99,7 +99,27 @@ const CreationActionButton: FC<CABProps> = ({
   )
 }
 
+interface EBProps {
+  Icon: IconType,
+  iconSize?: number,
+  children: ReactNode | ReactNode[],
+}
+const ExtraButton: FC<EBProps> = ({ Icon, children, iconSize = 25 }) => {
+
+  return (
+    <div className="extra-section-button">
+      <button className="white">
+        <Icon size={iconSize}/>
+      </button>
+      <div className="extra-user-panel extra-panel">
+        {children}
+      </div>
+    </div>
+  )
+}
+
 export const Buttons = {
   CreationActionButton,
   ExtraSection,
+  ExtraButton,
 }

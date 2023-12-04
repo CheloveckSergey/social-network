@@ -9,3 +9,11 @@ export interface Message {
   createdAt: string,
   updatedAt: string,
 }
+
+export interface SentMessage {
+  text: string,
+  userId: number,
+  roomId: number,
+}
+
+export * from './redux';

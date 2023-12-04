@@ -23,9 +23,11 @@ const RegSection: FC<RegLogSectionProps> = ({ toggleLogReg, setEMessage }) => {
     if (!validation(login, password, cPassword, setEMessage)) {
       return;
     }
+    // alert('lalal');
     dispatch(authThunks.registerThunk({login, password}))
     .unwrap()
-    .then(() => {
+    .then((data) => {
+      dispatch({type: 'socket/connect', payload: data});
       navigate('/home');
     } )
     .catch((error: MyRejectValue) => {
@@ -120,7 +122,8 @@ const LoginSection: FC<RegLogSectionProps> = ({ toggleLogReg, setEMessage }) => 
   async function log() {
     dispatch(authThunks.loginThunk({login, password}))
     .unwrap()
-    .then(() => {
+    .then((data) => {
+      dispatch({type: 'socket/connect', payload: data});
       navigate('/home');
     } )
     .catch((error: MyRejectValue) => {

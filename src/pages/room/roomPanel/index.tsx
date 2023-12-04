@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useState } from "react";
+import { ChangeEvent, FC, useEffect, useState } from "react";
 import { MeUser } from "../../../entities/user";
 import './styles.scss'
 import { useNavigate, useParams } from "react-router-dom";
@@ -6,8 +6,10 @@ import { Room, RoomApi, RoomHelpers, RoomMemberStatus } from "../../../entities/
 import { useQuery } from "react-query";
 import { Helpers } from "../../../shared/helpers";
 import { SharedUi } from "../../../shared/sharedUi";
-import { MessageLine } from "../../../entities/message";
+import { Message, MessageLine, SentMessage } from "../../../entities/message";
 import { IoMdSend } from "react-icons/io";
+import { useAppDispatch, useAppSelector } from "../../../app/store";
+import { MyDate } from "../../../shared/types";
 
 interface CMSProps {
   room: Room,
@@ -16,6 +18,8 @@ interface CMSProps {
 const CreatingMessageSection: FC<CMSProps> = ({ room, user }) => {
 
   const [message, setMessage] = useState<string>('');
+
+  const dispatch = useAppDispatch();
 
   return (
     <div className="creating-message-section section">
@@ -26,6 +30,14 @@ const CreatingMessageSection: FC<CMSProps> = ({ room, user }) => {
       />
       <button
         className="inherit-to-green"
+        onClick={() => {
+          const sendMessage: SentMessage = {
+            text: message,
+            roomId: room.id,
+            userId: user.id,
+          }
+          dispatch({type: 'socket/send', payload: sendMessage})
+        }}
       >
         <IoMdSend size={25} />   
       </button>
@@ -37,6 +49,10 @@ interface RPProps {
   user: MeUser,
 }
 export const RoomPanel: FC<RPProps> = ({ user }) => {
+
+  const { messages: allMessages } = useAppSelector(state => state.messages)
+
+  const [messages, setMessages] = useState<Message[]>([]);
   const [room, setRoom] = useState<Room>();
   const [status, setStatus] = useState<RoomMemberStatus>('offline');
 
@@ -52,9 +68,28 @@ export const RoomPanel: FC<RPProps> = ({ user }) => {
     {
       onSuccess: (data) => {
         setRoom(data);
+        if (data?.messages) {
+          setMessages(data?.messages);
+        }
       }
     }
   )
+
+  function addMessage(message: Message) {
+    console.log('addMessageFunction');
+    console.log(message);
+    setMessages([...messages, message]);
+  }
+
+  useEffect(() => {
+    const lastMessage = allMessages.at(-1)
+    if (lastMessage && lastMessage.room.id === room?.id) {
+      console.log('addMessage');
+      addMessage(lastMessage);
+    }
+    // console.log('useEffectMotherFucker');
+    console.log(lastMessage);
+  }, [allMessages]);
 
   const navigate = useNavigate();
 
@@ -87,12 +122,27 @@ export const RoomPanel: FC<RPProps> = ({ user }) => {
                 />
               </div>
             </div>
-            <div className="section">
-              {room.messages.map((message, index) => <MessageLine 
-                key={index}
-                message={message}
-                user={user}
-              />)}
+            <div className="messages section">
+              {messages.map((message, index) => (
+                Helpers.isTheFirstMessageToday(message, messages) ? (
+                  <>
+                    <p className="date extra">{new MyDate(message.createdAt).getStringDate()}</p>
+                    <MessageLine 
+                      key={index}
+                      message={message}
+                      user={user}
+                    />
+                  </>
+                ) : (
+                  <MessageLine 
+                    key={index}
+                    message={message}
+                    user={user}
+                  />
+                )
+              ))}
+                
+              
             </div>
             <CreatingMessageSection 
               room={room}
