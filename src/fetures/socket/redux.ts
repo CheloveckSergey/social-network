@@ -51,6 +51,10 @@ export const socketMiddleware = (socket: SocketClient) => {
         socket.emit('message', payload);
         break;
       }
+      case 'socket/createRoom': {
+        socket.emit('createRoom', payload);
+        break
+      }
       //Проблема в том, что почему-то обработчики не отваливаются, как бы я не старался
       case 'socket/unrefresh': {
         console.log('socket/unrefresh')

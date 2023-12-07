@@ -25,6 +25,7 @@ export const WriteMessageWindow: FC = () => {
       .then(room => {
         dispatch(closeWindow({}));
         navigate('/room/' + room.id);
+        dispatch({type: 'socket/createRoom', payload: room});
       })
       .catch(error => console.log('Fuck you'));
   }

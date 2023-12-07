@@ -10,6 +10,8 @@ export class MyDate {
   year: number;
   day: number;
   month: number;
+  hour: number;
+  minute: number;
 
   constructor(date: string) {
     const regExp = /\d{4}-\d{2}-\d{2}/;
@@ -18,15 +20,24 @@ export class MyDate {
       this.year = 0;
       this.day = 0;
       this.month = 0;
-      return
+    } else {
+      const todayDate = concidences[0];
+      const stringYear = todayDate.slice(0, 4);
+      const stringMonth = todayDate.slice(5, 7);
+      const stringDay = todayDate.slice(8, 10);
+      this.year = Number(stringYear);
+      this.month = Number(stringMonth);
+      this.day = Number(stringDay);
     }
-    const todayDate = concidences[0];
-    const stringYear = todayDate.slice(0, 4);
-    const stringMonth = todayDate.slice(5, 7);
-    const stringDay = todayDate.slice(8, 10);
-    this.year = Number(stringYear);
-    this.month = Number(stringMonth);
-    this.day = Number(stringDay);
+    
+    const time = this.getTimeFromMySQLDate(date);
+    if (time) {
+      this.hour = time.hour;
+      this.minute = time.minute;
+    } else {
+      this.hour = 0;
+      this.minute = 0;
+    }
   }
 
   isMoreThen(date: MyDate): boolean {
@@ -61,11 +72,34 @@ export class MyDate {
     return true;
   }
 
+  private getStringValue(value: number): string {
+    const stringValue: string = value > 9 ? ''+value : '0' + value;
+    return stringValue;
+  }
+
   getStringDate(): string {
     const stringDay: string = this.day > 9 ? ''+this.day : '0' + this.day;
     const stringMonth: string = this.month > 9 ? ''+this.month : '0' + this.month;
     const stringYear: string = this.year > 9 ? ''+this.year : '0' + this.year;
     return `${stringDay}.${stringMonth}.${stringYear}`;
+  }
+
+  getStringTime(): string {
+    const stringHour: string = this.getStringValue(this.hour);
+    const stringMinute: string = this.getStringValue(this.minute);
+    return stringHour + ':' + stringMinute;
+  }
+
+  private getTimeFromMySQLDate(date: string): {hour: number, minute: number} | undefined {
+    const regExp = /T\d{2}:\d{2}/;
+    const concidences = date.match(regExp);
+    if (concidences) {
+      const hour = Number(concidences[0].slice(1, 3)) + 3;
+      const minute = Number(concidences[0].slice(4, 6));
+      return { hour, minute }
+    } else {
+      return undefined;
+    }
   }
 
   // isTheFirstToday(dates: MyDate[]): boolean {

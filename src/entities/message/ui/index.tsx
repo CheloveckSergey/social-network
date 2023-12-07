@@ -38,9 +38,7 @@ export const MessageLine: FC<MLProps> = ({ message, user }) => {
             {message.user.login}
           </h3>
           <p className="extra">
-            {/* {Helpers.getTimeFromMySQLDate(message.createdAt)} */}
-            {message.createdAt}
-            {new MyDate(message.createdAt).getStringDate()}
+            {new MyDate(message.createdAt).getStringTime()}
           </p>
         </div>
         <p>

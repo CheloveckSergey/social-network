@@ -12,16 +12,6 @@ const getImageSrc = (src: string | undefined) => {
   return imageSrc;
 }
 
-const getTimeFromMySQLDate: (date: string) => string = (date: string) => {
-  const regExp = /T\d{2}:\d{2}/;
-  const concidences = date.match(regExp);
-  if (concidences) {
-    return concidences[0].slice(1);
-  } else {
-    return 'Unknown date';
-  }
-}
-
 // const getTodayDate: (date: string) => string = (date: string) => {
 //   const regExp = /\d{4}-\d{2}-\d{2}/;
 //   const concidences = date.match(regExp);
@@ -51,6 +41,5 @@ export function isTheFirstMessageToday(message: Message, messages: Message[]): b
 
 export const Helpers = {
   getImageSrc,
-  getTimeFromMySQLDate,
   isTheFirstMessageToday,
 }

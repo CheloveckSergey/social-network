@@ -48,7 +48,7 @@ export class RoomApi {
   }
 
   static async createPRoomAndWMessage(userId1: number, userId2: number, text: string) {
-    const response = await api.post<Message>(
+    const response = await api.post<Room>(
       INITIAL_URL + '/createPRoomAndWMessage',
       {
         userId1,
