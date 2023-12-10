@@ -36,6 +36,14 @@ export class RoomApi {
     return response.data;
   }
 
+  static async createGeneralRoom(form: FormData) {
+    const response = await api.post<Room>(
+      INITIAL_URL + '/createGeneralRoom',
+      form,
+    );
+    return response.data;
+  }
+
   static async createPersonalRoom(userId1: number,  userId2: number) {
     const response = await api.post<Room>(
       INITIAL_URL + '/createPersonalRoom',

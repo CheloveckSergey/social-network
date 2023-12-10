@@ -36,7 +36,9 @@ const CreatingMessageSection: FC<CMSProps> = ({ room, user }) => {
             roomId: room.id,
             userId: user.id,
           }
-          dispatch({type: 'socket/send', payload: sendMessage})
+          const a = 2;
+          console.log('XYI');
+          dispatch({type: 'socket/send', payload: sendMessage});
         }}
       >
         <IoMdSend size={25} />   

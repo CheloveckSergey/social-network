@@ -1,11 +1,9 @@
 import { ChangeEvent, FC, FormEvent, ReactNode, useEffect, useRef, useState, MouseEvent } from "react";
 import { PostApi } from "../../../../entities/post/api";
 import './styles.scss';
-import MyImgLabel from "../../../../shared/myImgLabel";
-import AddWindowType from "../../types/addType";
 import { useAppSelector } from "../../../../app/store";
 import { BiImageAdd, BiSolidVideos } from "react-icons/bi";
-import { BsCircle, BsFileEarmarkMusic, BsFillCircleFill, BsFillRecordCircleFill } from "react-icons/bs";
+import { BsFileEarmarkMusic, BsFillCircleFill, BsFillRecordCircleFill } from "react-icons/bs";
 import { useQuery } from "react-query";
 
 
@@ -117,7 +115,8 @@ export const AddPostWindow: FC<AddPostProps> = ({  }) => {
       <div className="bottom section">
         <div className="options">
           <label>
-            <input className="img"
+            <input 
+              className="img"
               type="file" 
               multiple={true}
               name={'img'} 

@@ -1,8 +1,9 @@
 import { useAppSelector } from "../../app/store";
 import LeftMenu from "../../widgets/leftMenu"
-import Upbar from "../../widgets/upbar"
+import Upbar from "../../widgets/upbar";
 import { RoomsFeed } from "./roomsFeed";
 import './styles.scss';
+import { RoomsUpbar } from "./upbar";
 
 export const RoomsPage = () => {
 
@@ -23,6 +24,9 @@ export const RoomsPage = () => {
         <LeftMenu />
         <div className="rooms">
           <div className="main">
+            <RoomsUpbar
+              user={user}
+            />
             <RoomsFeed 
               user={user}
             />

@@ -2,7 +2,7 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import React, { FC } from "react";
 import { OneImage } from "../../../entities/image/model";
 import { Author } from "../../../entities/author";
-import { OneUser } from "../../../entities/user";
+import { MeUser, OneUser } from "../../../entities/user";
 
 export enum WindowTypes {
   LOAD_USER_AVATAR = 'loadUserAvatar',
@@ -15,7 +15,8 @@ export enum WindowTypes {
   IMAGE_WINDOW = 'imageWindow',
   SHOW_SUBS_WINDOW = 'showSubsWindow',
   CHANGE_DESC_WINDOW = 'changeDescWindow',
-  WRITE_MESSAGE_WINDOW = 'writeMessageWindow'
+  WRITE_MESSAGE_WINDOW = 'writeMessageWindow',
+  CREATE_GENERAL_ROOM_WINDOW = 'createGeneralRoomWindow',
 }
 
 interface ModalWindow {
@@ -26,6 +27,7 @@ interface ModalWindow {
   subAuthor: Author | undefined,
   author: Author | undefined,
   user: OneUser | undefined,
+  meUser: MeUser | undefined,
 }
 
 const initialState: ModalWindow = {
@@ -35,7 +37,8 @@ const initialState: ModalWindow = {
   curImageIndex: 0,
   subAuthor: undefined,
   author: undefined,
-  user: undefined
+  user: undefined,
+  meUser: undefined,
 }
 
 type WindowAction = {
@@ -57,6 +60,10 @@ type AddPostAction = {
 
 type WriteMessageWindow = {
   user: OneUser,
+}
+
+type CreateGRoomAction = {
+  user: MeUser,
 }
 
 export const mwSlice = createSlice({
@@ -105,6 +112,11 @@ export const mwSlice = createSlice({
       state.windowType = WindowTypes.WRITE_MESSAGE_WINDOW;
       state.user = action.payload.user;
       state.switch = true;
+    },
+    setCreateGRoomWindow(state, action: PayloadAction<CreateGRoomAction>) {
+      state.windowType = WindowTypes.CREATE_GENERAL_ROOM_WINDOW;
+      state.switch = true;
+      state.meUser = action.payload.user;
     }
   }
 });
@@ -117,5 +129,6 @@ export const {
   previousImage, 
   setSubsWindow, 
   setAddPostWindow, 
-  setWriteMessageWindow 
+  setWriteMessageWindow,
+  setCreateGRoomWindow,
 } = mwSlice.actions;

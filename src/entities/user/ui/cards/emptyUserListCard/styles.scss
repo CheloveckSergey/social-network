@@ -1,0 +1,29 @@
+.empty-user-list-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  margin-top: 10px;
+  border-radius: var(--regular-border-radius);
+
+  img {
+    height: 40px;
+    width: 40px;
+    object-fit: cover;
+    border-radius: 50em;
+  }
+
+  .main-info {
+    flex-grow: 3;
+
+    .login {
+      display: inline;
+      cursor: pointer;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}

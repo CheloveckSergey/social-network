@@ -13,6 +13,7 @@ import ShowSubsWindow from "./windows/showSubs";
 import { ChangeDescWindow } from "./windows/changeDesc";
 import { AddPostWindow } from "./windows/addPost";
 import { WriteMessageWindow } from "./windows/writeMessage";
+import { CreateGRoomWindow } from "./windows/createGRoom";
 
 
 const ModalWindow: FC = () => {
@@ -44,6 +45,8 @@ const ModalWindow: FC = () => {
         <ChangeDescWindow />
       ) : windowType === WindowTypes.WRITE_MESSAGE_WINDOW ? (
         <WriteMessageWindow />
+      ) : windowType === WindowTypes.CREATE_GENERAL_ROOM_WINDOW ? (
+        <CreateGRoomWindow />
       ) : ''}
       <button 
         className="close-button white"
