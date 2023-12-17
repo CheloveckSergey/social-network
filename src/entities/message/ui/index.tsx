@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import './styles.scss';
 import { SharedUi } from "../../../shared/sharedUi";
 import { FiMessageSquare } from "react-icons/fi";
-import { useAppSelector } from "../../../app/store";
+import { useAppDispatch, useAppSelector } from "../../../app/store";
 import { MyDate } from "../../../shared/types";
 
 interface MLProps {
@@ -15,12 +15,19 @@ interface MLProps {
 }
 export const MessageLine: FC<MLProps> = ({ message, user }) => {
 
-  const navigate = useNavigate();
+  const { messages } = useAppSelector(state => state.messages);
 
-  // useEffect(() => {
-  //   const time = Helpers.getTimeFromMySQLDate(message.createdAt);
-  //   console.log(time);
-  // }, []);
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (messages.find(_message => _message.id === message.id)) {
+      dispatch({
+        type: 'socket/readMessage', 
+        payload: {userId: user.id, messageId: message.id, roomId: message.roomId}
+      });
+    }
+  }, []);
 
   return (
     <div className="message-line">

@@ -5,8 +5,11 @@ import { BsPersonFill, BsMusicNoteBeamed } from 'react-icons/bs';
 import { FaUserFriends, FaUserSecret } from 'react-icons/fa';
 import { CgCommunity } from 'react-icons/cg';
 import "./styles.scss";
+import { useAppSelector } from "../../app/store";
 
 const LeftMenu: FC = () => {
+
+  const { messages } = useAppSelector(state => state.messages);
 
   return (
     <div className="left-menu">
@@ -25,6 +28,7 @@ const LeftMenu: FC = () => {
       <Link to="/rooms" >
         <BiSolidMessageSquare size={20}/>
         <h3 className="menu">Messages</h3>
+        <span className="number">{messages.length}</span>
       </Link>
       <Link to="/groups" >
         <CgCommunity size={20}/>

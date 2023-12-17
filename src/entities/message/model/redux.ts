@@ -14,7 +14,7 @@ interface AddMessageAction {
 }
 
 interface DeleteMessageAction {
-  message: Message,
+  messageId: number,
 }
 
 export const messagesSlice = createSlice({
@@ -25,7 +25,7 @@ export const messagesSlice = createSlice({
       state.messages = [...state.messages, action.payload.message];
     },
     deleteMessage(state, action: PayloadAction<DeleteMessageAction>) {
-      state.messages = state.messages.filter(message => message.id !== action.payload.message.id);
+      state.messages = state.messages.filter(message => message.id !== action.payload.messageId);
     }
   }
 })

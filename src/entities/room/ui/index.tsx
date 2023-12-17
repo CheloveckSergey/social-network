@@ -1,11 +1,13 @@
 import { FC, useState } from "react"
-import { Room } from "../model"
+import { Room, RoomMember } from "../model"
 import { useAppSelector } from "../../../app/store"
 import { Helpers } from "../../../shared/helpers";
 import './styles.scss';
 import { Message } from "../../message";
 import { useNavigate } from "react-router-dom";
 import { RoomHelpers } from "../helpers";
+import { SharedUi } from "../../../shared/sharedUi";
+import { RoomMembership } from "../../../fetures/roomMembership";
 
 interface RLProps {
   _room: Room,
@@ -51,6 +53,45 @@ const RoomLine: FC<RLProps> = ({ _room }) => {
   )
 }
 
+interface RMLProps {
+  roomMember: RoomMember,
+}
+const RoomMemberLine: FC<RMLProps> = ({ roomMember }) => {
+
+  const [deleted, setDeleted] = useState<boolean>(false);
+
+  const navigate = useNavigate();
+
+  interface Effects {
+    setDeleted: React.Dispatch<React.SetStateAction<boolean>>,
+  }
+
+  return (
+    <div className={`room-member-line ${deleted ? 'shadowed' : ''}`}>
+      <img 
+        className="avatar"
+        src={Helpers.getImageSrc(roomMember.user.avatar)} 
+        alt="AVATAR" 
+      />
+      <div className="main">
+        <p 
+          className="ref"
+          onClick={() => navigate('/user/' + roomMember.user.id)}
+        >
+          {roomMember.user.login}
+        </p>
+        <p className="extra">{roomMember.type}</p>
+      </div>
+      <SharedUi.Buttons.ExtraSection<RoomMember, Effects> 
+        entity={roomMember}
+        effects={{setDeleted}}
+        hooks={[RoomMembership.Hooks.useDeleteMember]}
+      />
+    </div>
+  )
+}
+
 export const RoomUi = {
   RoomLine,
+  RoomMemberLine,
 }

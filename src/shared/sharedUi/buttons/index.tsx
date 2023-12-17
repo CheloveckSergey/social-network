@@ -2,7 +2,6 @@ import { FC, ReactNode } from "react";
 import { BsThreeDots } from "react-icons/bs";
 import './styles.scss';
 import { Hook } from "../../types";
-import { AiOutlineHeart } from "react-icons/ai";
 import { IconType } from "react-icons/lib";
 import { SharedUi } from "..";
 

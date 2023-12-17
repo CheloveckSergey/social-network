@@ -3,6 +3,7 @@ import React, { FC } from "react";
 import { OneImage } from "../../../entities/image/model";
 import { Author } from "../../../entities/author";
 import { MeUser, OneUser } from "../../../entities/user";
+import { Room } from "../../../entities/room";
 
 export enum WindowTypes {
   LOAD_USER_AVATAR = 'loadUserAvatar',
@@ -17,6 +18,8 @@ export enum WindowTypes {
   CHANGE_DESC_WINDOW = 'changeDescWindow',
   WRITE_MESSAGE_WINDOW = 'writeMessageWindow',
   CREATE_GENERAL_ROOM_WINDOW = 'createGeneralRoomWindow',
+  ADD_ROOM_MEMBER_WINDOW = 'addRoomMemberWindow',
+  ROOM_MEMBERS_WINDOW = 'roomMembersWindow',
 }
 
 interface ModalWindow {
@@ -28,6 +31,7 @@ interface ModalWindow {
   author: Author | undefined,
   user: OneUser | undefined,
   meUser: MeUser | undefined,
+  room: Room | undefined,
 }
 
 const initialState: ModalWindow = {
@@ -39,6 +43,7 @@ const initialState: ModalWindow = {
   author: undefined,
   user: undefined,
   meUser: undefined,
+  room: undefined,
 }
 
 type WindowAction = {
@@ -64,6 +69,14 @@ type WriteMessageWindow = {
 
 type CreateGRoomAction = {
   user: MeUser,
+}
+
+type AddRMemberAction = {
+  room: Room,
+}
+
+type RoomMembersWindow = {
+  room: Room,
 }
 
 export const mwSlice = createSlice({
@@ -117,6 +130,16 @@ export const mwSlice = createSlice({
       state.windowType = WindowTypes.CREATE_GENERAL_ROOM_WINDOW;
       state.switch = true;
       state.meUser = action.payload.user;
+    },
+    setAddRoomMemberWindow(state, action: PayloadAction<AddRMemberAction>) {
+      state.windowType = WindowTypes.ADD_ROOM_MEMBER_WINDOW;
+      state.switch = true;
+      state.room = action.payload.room;
+    },
+    setRoomMembersWindow(state, action: PayloadAction<RoomMembersWindow>) {
+      state.windowType = WindowTypes.ROOM_MEMBERS_WINDOW;
+      state.switch = true;
+      state.room = action.payload.room;
     }
   }
 });
@@ -131,4 +154,6 @@ export const {
   setAddPostWindow, 
   setWriteMessageWindow,
   setCreateGRoomWindow,
+  setAddRoomMemberWindow,
+  setRoomMembersWindow,
 } = mwSlice.actions;

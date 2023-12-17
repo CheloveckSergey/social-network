@@ -14,6 +14,8 @@ import { ChangeDescWindow } from "./windows/changeDesc";
 import { AddPostWindow } from "./windows/addPost";
 import { WriteMessageWindow } from "./windows/writeMessage";
 import { CreateGRoomWindow } from "./windows/createGRoom";
+import { AddRoomMember } from "./windows/addRoomMember";
+import { RoomMembersWindow } from "./windows/roomMemebersWindow";
 
 
 const ModalWindow: FC = () => {
@@ -47,6 +49,10 @@ const ModalWindow: FC = () => {
         <WriteMessageWindow />
       ) : windowType === WindowTypes.CREATE_GENERAL_ROOM_WINDOW ? (
         <CreateGRoomWindow />
+      ) : windowType === WindowTypes.ADD_ROOM_MEMBER_WINDOW ? (
+        <AddRoomMember />
+      ) : windowType === WindowTypes.ROOM_MEMBERS_WINDOW ? (
+        <RoomMembersWindow />
       ) : ''}
       <button 
         className="close-button white"

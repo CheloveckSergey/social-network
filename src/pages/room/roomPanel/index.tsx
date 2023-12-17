@@ -10,6 +10,11 @@ import { Message, MessageLine, SentMessage } from "../../../entities/message";
 import { IoMdSend } from "react-icons/io";
 import { useAppDispatch, useAppSelector } from "../../../app/store";
 import { MyDate } from "../../../shared/types";
+import { BsThreeDots } from "react-icons/bs";
+import { FaUserPlus, FaUsers } from "react-icons/fa";
+import { setAddRoomMemberWindow, setRoomMembersWindow } from "../../../widgets/modalWindow/model/redux";
+
+
 
 interface CMSProps {
   room: Room,
@@ -60,6 +65,8 @@ export const RoomPanel: FC<RPProps> = ({ user }) => {
 
   const { roomId } = useParams();
 
+  const dispatch = useAppDispatch();
+
   const { data, isLoading, isError } = useQuery(
     ['loadRoom', roomId],
     () => {
@@ -89,7 +96,6 @@ export const RoomPanel: FC<RPProps> = ({ user }) => {
       console.log('addMessage');
       addMessage(lastMessage);
     }
-    // console.log('useEffectMotherFucker');
     console.log(lastMessage);
   }, [allMessages]);
 
@@ -117,6 +123,24 @@ export const RoomPanel: FC<RPProps> = ({ user }) => {
                 </p>
               </div>
               <div className="right">
+                <SharedUi.Buttons.ExtraButton 
+                  Icon={BsThreeDots }
+                >
+                  <ul className="function-list">
+                    <li
+                      onClick={() => dispatch(setAddRoomMemberWindow({room}))}
+                    >
+                      <FaUserPlus />
+                      <span>Add member</span>
+                    </li>
+                    <li
+                      onClick={() => dispatch(setRoomMembersWindow({room}))}
+                    >
+                      <FaUsers />
+                      <span>Members</span>
+                    </li>
+                  </ul>
+                </SharedUi.Buttons.ExtraButton>
                 <img 
                   className="room-avatar"
                   src={Helpers.getImageSrc(RoomHelpers.getRoomImage(room, user))} 

@@ -1,12 +1,15 @@
 import { Message } from "../../message";
-import { OneUser } from "../../user"
+import { OneUser, User } from "../../user"
 
 export type RoomMemberType = 'admin' | 'moderator' | 'user';
 
 export type RoomType = 'general' | 'personal';
 
 export interface RoomMember {
-  user: OneUser,
+  id: number
+  userId: number
+  user: User,
+  roomId: number,
   type: RoomMemberType,
 }
 

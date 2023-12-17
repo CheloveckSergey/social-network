@@ -1,5 +1,6 @@
 import api from "../../../shared/http";
 import { Message } from "../../message";
+import { OneUser } from "../../user";
 import { Room, RoomMember, RoomType } from "../model";
 
 const INITIAL_URL = '/rooms';
@@ -21,6 +22,24 @@ export class RoomApi {
       {
         userId1, userId2,
       }
+    );
+    return response.data;
+  }
+
+  static async getAllPossibleMembers(roomId: number, userId: number) {
+    const response = await api.post<OneUser[]>(
+      INITIAL_URL + '/getAllPossibleMembers',
+      {
+        userId,
+        roomId,
+      }
+    );
+    return response.data;
+  }
+
+  static async getAllMembersByRoom(roomId: number) {
+    const response = await api.get<RoomMember[]>(
+      INITIAL_URL + '/getAllMembersByRoom/' + roomId,
     );
     return response.data;
   }
@@ -72,6 +91,17 @@ export class RoomApi {
       INITIAL_URL + '/addRoomMember',
       {
         userId,
+        roomId,
+      }
+    );
+    return response.data;
+  }
+
+  static async addRoomMembers(userIds: number[], roomId: number) {
+    const response = await api.post<RoomMember[]>(
+      INITIAL_URL + '/addRoomMembers',
+      {
+        userIds,
         roomId,
       }
     );

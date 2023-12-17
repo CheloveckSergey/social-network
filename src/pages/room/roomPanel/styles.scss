@@ -25,12 +25,29 @@
     }
 
     .right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
   
       .room-avatar {
         height: 50px;
         width: 50px;
         border-radius: 50em;
         object-fit: cover;
+      }
+
+      ul.function-list {
+
+        li {
+          display: flex;
+          gap: 10px;
+          padding: 10px;
+
+          &:hover {
+            background-color: rgb(58,58,58);
+            cursor: pointer;
+          }
+        }
       }
     }
   }

@@ -3,7 +3,7 @@ import { Dispatch } from 'redux'
 import { RootState } from "../../app/store";
 import SocketClient from "./model";
 import { MessageSliceActions } from "../../entities/message/model/redux";
-import { Message } from "../../entities/message";
+import { Message, Status } from "../../entities/message";
 
 // Here can be any dispatch to open a connection
 const INIT_KEY = 'socket/connect';
@@ -19,6 +19,7 @@ export const socketMiddleware = (socket: SocketClient) => {
     RootState
   > = (params: SocketMiddlewareParams) => (next) => (action) => {
     const { dispatch } = params;
+    const state = params.getState();
     const { type, payload } = action;
 
     if (type === INIT_KEY) {
@@ -34,9 +35,15 @@ export const socketMiddleware = (socket: SocketClient) => {
       })
 
       socket.on('message', (message: Message) => {
-        // dispatch(MessageSliceActions.addMessage({message}))
         console.log(message);
         dispatch(MessageSliceActions.addMessage({message}))
+      })
+
+      socket.on('readMessage', (newStatus: Status) => {
+        console.log(newStatus);
+        if (newStatus.userId === state.user.user?.id) {
+          dispatch(MessageSliceActions.deleteMessage({messageId: newStatus.messageId}));
+        }
       })
     }
 
@@ -54,6 +61,10 @@ export const socketMiddleware = (socket: SocketClient) => {
       case 'socket/createRoom': {
         socket.emit('createRoom', payload);
         break
+      }
+      case 'socket/readMessage': {
+        socket.emit('readMessage', payload);
+        break;
       }
       //Проблема в том, что почему-то обработчики не отваливаются, как бы я не старался
       case 'socket/unrefresh': {

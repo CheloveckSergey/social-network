@@ -1,0 +1,20 @@
+.add-room-member-window {
+  max-height: 500px;
+  width: 400px;
+  padding: 0;
+
+  .section {
+    padding: 10px;
+    border-top: var(--regular-border);
+
+    &:first-child {
+      border-top: 0;
+    }
+  }
+
+  .head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+}
