@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from './store';
 import ModalWindow from '../widgets/modalWindow';
 import { MyRejectValue, authThunks } from '../fetures/auth';
-import { MessageApi, MessageSliceActions } from '../entities/message';
+
 
 function App() {
   const navigate = useNavigate();
@@ -19,13 +19,7 @@ function App() {
       dispatch(authThunks.refreshThunk({}))
       .unwrap()
       .then((data) => {
-        dispatch({type: 'socket/connect', payload: data})
-        MessageApi.getAllUnread(data.id)
-        .then((data) => {
-          data.forEach((message) => {
-            dispatch(MessageSliceActions.addMessage({message}))
-          });
-        });
+
       })
       .catch((error: MyRejectValue) => {
         navigate('/auth');

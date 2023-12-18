@@ -13,6 +13,7 @@ import { MyDate } from "../../../shared/types";
 import { BsThreeDots } from "react-icons/bs";
 import { FaUserPlus, FaUsers } from "react-icons/fa";
 import { setAddRoomMemberWindow, setRoomMembersWindow } from "../../../widgets/modalWindow/model/redux";
+import { SocketActions } from "../../../fetures/socket";
 
 
 
@@ -43,7 +44,7 @@ const CreatingMessageSection: FC<CMSProps> = ({ room, user }) => {
           }
           const a = 2;
           console.log('XYI');
-          dispatch({type: 'socket/send', payload: sendMessage});
+          dispatch(SocketActions.sendMessage(sendMessage));
         }}
       >
         <IoMdSend size={25} />   

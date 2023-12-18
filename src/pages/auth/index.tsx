@@ -27,7 +27,6 @@ const RegSection: FC<RegLogSectionProps> = ({ toggleLogReg, setEMessage }) => {
     dispatch(authThunks.registerThunk({login, password}))
     .unwrap()
     .then((data) => {
-      dispatch({type: 'socket/connect', payload: data});
       navigate('/home');
     } )
     .catch((error: MyRejectValue) => {
@@ -123,7 +122,6 @@ const LoginSection: FC<RegLogSectionProps> = ({ toggleLogReg, setEMessage }) => 
     dispatch(authThunks.loginThunk({login, password}))
     .unwrap()
     .then((data) => {
-      dispatch({type: 'socket/connect', payload: data});
       navigate('/home');
     } )
     .catch((error: MyRejectValue) => {

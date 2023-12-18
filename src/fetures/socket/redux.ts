@@ -4,9 +4,64 @@ import { RootState } from "../../app/store";
 import SocketClient from "./model";
 import { MessageSliceActions } from "../../entities/message/model/redux";
 import { Message, Status } from "../../entities/message";
+import { Room } from "../../entities/room";
 
 // Here can be any dispatch to open a connection
 const INIT_KEY = 'socket/connect';
+
+export enum SocketActionTypes {
+  CONNECT = 'socket/connect',
+  DISCONNECT = 'socket/disconnect',
+  SEND = 'socket/send',
+  CREATE_ROOM = 'socket/createRoom',
+  READ_MESSAGE = 'socket/readMessage',
+  UNREFRESH = 'socket/unrefresh',
+}
+
+//Приходится делать payload any из-за того, что в мидлтваре всегда должен быть пэйлоад сука
+interface ConnectAction {
+  type: SocketActionTypes.CONNECT,
+  payload: any,
+}
+
+interface DisconnectAction {
+  type: SocketActionTypes.DISCONNECT,
+  payload: any,
+}
+
+type SendMessage = {
+  text: string;
+  userId: number;
+  roomId: number;
+}
+
+interface SendAction {
+  type: SocketActionTypes.SEND,
+  payload: SendMessage,
+}
+
+interface CreateRoomAction {
+  type: SocketActionTypes.CREATE_ROOM,
+  payload: Room,
+}
+
+type ReadMessage = {
+  messageId: number,
+  userId: number,
+  roomId: number,
+}
+
+interface ReadMessageAction {
+  type: SocketActionTypes.READ_MESSAGE,
+  payload: ReadMessage,
+}
+
+interface UnrefreshAction {
+  type: SocketActionTypes.UNREFRESH,
+  payload: any,
+}
+
+type SocketAction = ConnectAction | DisconnectAction | SendAction | CreateRoomAction | ReadMessageAction | UnrefreshAction;
 
 interface SocketMiddlewareParams {
   dispatch: Dispatch
@@ -17,7 +72,7 @@ export const socketMiddleware = (socket: SocketClient) => {
   const middleware: Middleware<
     {},
     RootState
-  > = (params: SocketMiddlewareParams) => (next) => (action) => {
+  > = (params: SocketMiddlewareParams) => (next) => (action: SocketAction) => {
     const { dispatch } = params;
     const state = params.getState();
     const { type, payload } = action;
@@ -25,7 +80,6 @@ export const socketMiddleware = (socket: SocketClient) => {
     if (type === INIT_KEY) {
       socket.connect(payload);
 
-      // Example ON
       socket.on('connect', () => {
         console.log("СОКЕТ ПОДКЛЮЧИЛСЯ ЕБАТЬ!");
       });
@@ -41,7 +95,9 @@ export const socketMiddleware = (socket: SocketClient) => {
 
       socket.on('readMessage', (newStatus: Status) => {
         console.log(newStatus);
-        if (newStatus.userId === state.user.user?.id) {
+        console.log(state.user);
+        if (newStatus.userId === payload.id) {
+          console.log('Лал');
           dispatch(MessageSliceActions.deleteMessage({messageId: newStatus.messageId}));
         }
       })
@@ -49,7 +105,7 @@ export const socketMiddleware = (socket: SocketClient) => {
 
     switch (type) {
       // Example EMIT
-      case 'user/disconnect': {
+      case 'socket/disconnect': {
         socket.disconnect();
         console.log('SOCKET_DISCONNECT');
         break
@@ -83,26 +139,49 @@ export const socketMiddleware = (socket: SocketClient) => {
   }
 
   return middleware;
-} 
-
-interface SocketStore {
-  socket: SocketClient | undefined,
 }
 
-const initialState: SocketStore = {
-  socket: undefined,
+const connectSocket = () => {
+  return (dispatch: Dispatch<SocketAction>) => {
+    dispatch({type: SocketActionTypes.CONNECT, payload: ''});
+  }
 }
 
-interface SetSocketAction {
-  socket: SocketClient,
+const disconnectSocket = () => {
+  return (dispatch: Dispatch<SocketAction>) => {
+    dispatch({type: SocketActionTypes.DISCONNECT, payload: ''});
+  }
 }
 
-// export const socketSlice = createSlice({
-//   name: 'socket',
-//   initialState,
-//   reducers: {
-//     setSocket(state, action: PayloadAction<SetSocketAction>) {
-//       state.socket = action.payload.socket
-//     }
-//   }
-// })
+const sendMessage = (sendMessage: SendMessage) => {
+  return (dispatch: Dispatch<SocketAction>) => {
+    dispatch({type: SocketActionTypes.SEND, payload: sendMessage});
+  }
+}
+
+const createRoom = (room: Room) => {
+  return (dispatch: Dispatch<SocketAction>) => {
+    dispatch({type: SocketActionTypes.CREATE_ROOM, payload: room});
+  }
+}
+
+const readMessage = (readMessage: ReadMessage) => {
+  return (dispatch: Dispatch<SocketAction>) => {
+    dispatch({type: SocketActionTypes.READ_MESSAGE, payload: readMessage});
+  }
+}
+
+const unrefresh = () => {
+  return (dispatch: Dispatch<SocketAction>) => {
+    dispatch({type: SocketActionTypes.UNREFRESH, payload: ''});
+  }
+}
+
+export const SocketActions = {
+  connect: connectSocket,
+  disconnect: disconnectSocket,
+  sendMessage,
+  createRoom,
+  readMessage,
+  unrefresh,
+}
