@@ -1,71 +1,99 @@
-.room-panel {
+.room-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+  // border: 3px solid red;
 
-  &.regular-panel {
-    padding: 0;
+  main {
+    overflow: hidden;
+    // border: 3px solid blue;
   }
 
-  .section {
-    padding: 10px;
-    border-top: var(--regular-border);
-
-    &:first-child {
-      border-top: 0;
-    }
+  .room {
+    height: 100%;
+    // border: 3px solid green;
+    overflow: hidden;
   }
 
-  .head-section {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  .main {
+    height: 100%;
+    overflow: hidden;
+    padding-bottom: 10px;
+  }
 
-    .name-status {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+  .room-panel {
+    height: 100%;
+    overflow: auto;
+    // border: 3px solid yellow;
+
+    &.regular-panel {
+      padding: 0;
     }
 
-    .right {
+    .section {
+      padding: 10px;
+      border-top: var(--regular-border);
+
+      &:first-child {
+        border-top: 0;
+      }
+    }
+
+    .head-section {
       display: flex;
       align-items: center;
-      gap: 10px;
-  
-      .room-avatar {
-        height: 50px;
-        width: 50px;
-        border-radius: 50em;
-        object-fit: cover;
+      justify-content: space-between;
+
+      .name-status {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
       }
 
-      ul.function-list {
+      .right {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    
+        .room-avatar {
+          height: 50px;
+          width: 50px;
+          border-radius: 50em;
+          object-fit: cover;
+        }
 
-        li {
-          display: flex;
-          gap: 10px;
-          padding: 10px;
+        ul.function-list {
 
-          &:hover {
-            background-color: rgb(58,58,58);
-            cursor: pointer;
+          li {
+            display: flex;
+            gap: 10px;
+            padding: 10px;
+
+            &:hover {
+              background-color: rgb(58,58,58);
+              cursor: pointer;
+            }
           }
         }
       }
     }
-  }
 
-  .messages {
+    .messages {
 
-    .date {
-      text-align: center;
+      .date {
+        text-align: center;
+      }
     }
-  }
 
-  .creating-message-section {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+    .creating-message-section {
+      display: flex;
+      align-items: center;
+      gap: 10px;
 
-    .message-input {
-      flex-grow: 3;
+      .message-input {
+        flex-grow: 3;
+      }
     }
   }
 }

@@ -17,4 +17,7 @@ export type Comment = {
   id: number,
   text: string,
   ownCreation: Creation,
+  ownCreationId: number,
+  creationId: number,
+  creation: Creation,
 }

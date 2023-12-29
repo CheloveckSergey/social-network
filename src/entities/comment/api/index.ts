@@ -3,14 +3,14 @@ import { Comment } from "../model";
 
 const INITIAL_URL = '/comments';
 
-class CommentApi {
+export class CommentApi {
   static async getAllCommentsByCreationId(creationId: number) {
     const response = await api.get<Comment[]>(INITIAL_URL + '/getCommentsToCreationId/' + creationId);
     return response.data;
   }
 
   static async createComment(authorId: number, creationId: number, text: string) {
-    const response = await api.post(
+    const response = await api.post<Comment>(
       INITIAL_URL + '/createComment',
       {
         authorId, 

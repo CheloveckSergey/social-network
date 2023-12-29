@@ -7,6 +7,7 @@ import { BsFileEarmarkPlay } from "react-icons/bs"
 import { Comment } from "../../model"
 import './styles.scss';
 import { CrTypeCodes, CrTypesNames, Creation, OneCreation } from "../../../creation"
+import { CommentsLib } from "../../lib"
 
 interface CCInterface {
   user: User,
@@ -18,39 +19,9 @@ export const CreateComment: FC<CCInterface> = ({ user, creation, addComment }) =
 
   const [text, setText] = useState<string>('');
 
-  const formRef= useRef<HTMLFormElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
 
-  const { refetch } = useQuery(
-    ['loadComment', user?.id, text],
-    () => {
-      if (formRef.current) {
-        // const formData = new FormData(formRef.current);
-        // formData.append('creationId', String(post.id));
-        return CommentApi.createComment(user.author.id, creation.id, text);
-      }
-    },
-    {
-      enabled: false,
-      onSuccess: () => {
-        addComment({
-          id: 9999,
-          text: text,
-          ownCreation: {
-            id: 9999,
-            type: {
-              id: 9999,
-              code: CrTypeCodes.COMMENT,
-              name: CrTypesNames.COMMENT,
-            },
-            author: user.author,
-            createdAt: 'Только что',
-            likes: [],
-            comments: [],
-          },
-        })
-      }
-    }
-  )
+  const { sendComment } = CommentsLib.useCreateComment(creation.id, addComment);
 
   return (
     <div className="create-comment">
@@ -72,7 +43,8 @@ export const CreateComment: FC<CCInterface> = ({ user, creation, addComment }) =
           className="inherit-to-green"
           onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
             e.preventDefault();
-            refetch();
+            console.log('createCommentButton_Click');
+            sendComment(text);
           }}
         >
           <BsFileEarmarkPlay size={40} />

@@ -5,6 +5,8 @@ import SocketClient from "./model";
 import { MessageSliceActions } from "../../entities/message/model/redux";
 import { Message, Status } from "../../entities/message";
 import { Room } from "../../entities/room";
+import { CommentsSliceActions } from "../../entities/comment/model/redux";
+import { Comment } from '../../entities/comment';
 
 // Here can be any dispatch to open a connection
 const INIT_KEY = 'socket/connect';
@@ -16,6 +18,8 @@ export enum SocketActionTypes {
   CREATE_ROOM = 'socket/createRoom',
   READ_MESSAGE = 'socket/readMessage',
   UNREFRESH = 'socket/unrefresh',
+  SEND_COMMENT = 'socket/sendComment',
+  CONNECT_COMMENTS = 'socket/connectComments',
 }
 
 //Приходится делать payload any из-за того, что в мидлтваре всегда должен быть пэйлоад сука
@@ -61,7 +65,34 @@ interface UnrefreshAction {
   payload: any,
 }
 
-type SocketAction = ConnectAction | DisconnectAction | SendAction | CreateRoomAction | ReadMessageAction | UnrefreshAction;
+type SendComment = {
+  creationId: number,
+  text: string,
+}
+
+interface SendCommentAction {
+  type: SocketActionTypes.SEND_COMMENT,
+  payload: SendComment,
+}
+
+type ConnectCommentsDto = {
+  creationId: number,
+}
+
+type DisconnectCommentsDto = {
+  creationId: number,
+}
+
+interface ConnectCommentsAction {
+  type: SocketActionTypes.CONNECT_COMMENTS,
+  payload: ConnectCommentsDto,
+}
+
+interface CommentResDto {
+  comment: Comment,
+}
+
+type SocketAction = ConnectAction | DisconnectAction | SendAction | CreateRoomAction | ReadMessageAction | UnrefreshAction | SendCommentAction | ConnectCommentsAction;
 
 interface SocketMiddlewareParams {
   dispatch: Dispatch
@@ -76,6 +107,8 @@ export const socketMiddleware = (socket: SocketClient) => {
     const { dispatch } = params;
     const state = params.getState();
     const { type, payload } = action;
+
+    const { user } = state.user;
 
     if (type === INIT_KEY) {
       socket.connect(payload);
@@ -100,26 +133,50 @@ export const socketMiddleware = (socket: SocketClient) => {
           console.log('Лал');
           dispatch(MessageSliceActions.deleteMessage({messageId: newStatus.messageId}));
         }
+      });
+
+      socket.on('connectComments', (connectCommentsDto: ConnectCommentsDto) => {
+        dispatch(CommentsSliceActions.connectRoom({creationId: connectCommentsDto.creationId}));
+      });
+
+      socket.on('disconnectComments', (disconnectCommentsDto: DisconnectCommentsDto) => {
+        dispatch(CommentsSliceActions.disconnectRoom({creationId: disconnectCommentsDto.creationId}));
+      })
+
+      socket.on('comment', (commentResDto: CommentResDto) => {
+        console.log('comment in socket');
+        dispatch(CommentsSliceActions.addComment({comment: commentResDto.comment}));
       })
     }
 
     switch (type) {
       // Example EMIT
-      case 'socket/disconnect': {
+      case SocketActionTypes.DISCONNECT: {
         socket.disconnect();
         console.log('SOCKET_DISCONNECT');
         break
       }
-      case 'socket/send': {
+      case SocketActionTypes.SEND: {
         socket.emit('message', payload);
         break;
       }
-      case 'socket/createRoom': {
+      case SocketActionTypes.CREATE_ROOM: {
         socket.emit('createRoom', payload);
         break
       }
-      case 'socket/readMessage': {
+      case SocketActionTypes.READ_MESSAGE: {
         socket.emit('readMessage', payload);
+        break;
+      }
+      case SocketActionTypes.SEND_COMMENT: {
+        socket.emit('sendComment', {...payload, authorId: user?.author.id});
+        break;
+      }
+      case SocketActionTypes.CONNECT_COMMENTS: {
+        const conCommReqDto: ConnectCommentsDto = {
+          creationId: payload.creationId,
+        }
+        socket.emit('connectComments', conCommReqDto);
         break;
       }
       //Проблема в том, что почему-то обработчики не отваливаются, как бы я не старался
@@ -177,6 +234,18 @@ const unrefresh = () => {
   }
 }
 
+const sendComment = (sendComment: SendComment) => {
+  return (dispatch: Dispatch<SocketAction>) => {
+    dispatch({type: SocketActionTypes.SEND_COMMENT, payload: sendComment});
+  }
+}
+
+const connectComments = (connectCommentsDto: ConnectCommentsDto) => {
+  return (dispatch: Dispatch<SocketAction>) => {
+    dispatch({type: SocketActionTypes.CONNECT_COMMENTS, payload: connectCommentsDto});
+  }
+}
+
 export const SocketActions = {
   connect: connectSocket,
   disconnect: disconnectSocket,
@@ -184,4 +253,6 @@ export const SocketActions = {
   createRoom,
   readMessage,
   unrefresh,
-}
+  sendComment,
+  connectComments,
+} 

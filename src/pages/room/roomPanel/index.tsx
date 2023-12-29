@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useEffect, useState } from "react";
+import { ChangeEvent, FC, useEffect, useRef, useState } from "react";
 import { MeUser } from "../../../entities/user";
 import './styles.scss'
 import { useNavigate, useParams } from "react-router-dom";
@@ -21,7 +21,7 @@ interface CMSProps {
   room: Room,
   user: MeUser,
 }
-const CreatingMessageSection: FC<CMSProps> = ({ room, user }) => {
+const CreatingMessageSection: FC<CMSProps> = ({ room, user, }) => {
 
   const [message, setMessage] = useState<string>('');
 
@@ -42,8 +42,6 @@ const CreatingMessageSection: FC<CMSProps> = ({ room, user }) => {
             roomId: room.id,
             userId: user.id,
           }
-          const a = 2;
-          console.log('XYI');
           dispatch(SocketActions.sendMessage(sendMessage));
         }}
       >
@@ -67,6 +65,8 @@ export const RoomPanel: FC<RPProps> = ({ user }) => {
   const { roomId } = useParams();
 
   const dispatch = useAppDispatch();
+
+  const ref = useRef<HTMLDivElement>(null);
 
   const { data, isLoading, isError } = useQuery(
     ['loadRoom', roomId],
@@ -97,13 +97,25 @@ export const RoomPanel: FC<RPProps> = ({ user }) => {
       console.log('addMessage');
       addMessage(lastMessage);
     }
-    console.log(lastMessage);
+
+    if (ref.current) {
+      ref.current.scrollIntoView();
+    }
+
   }, [allMessages]);
+
+  useEffect(() => {
+    if (ref.current) {
+      ref.current.scrollIntoView();
+    }
+  })
 
   const navigate = useNavigate();
 
   return (
-    <div className="room-panel regular-panel">
+    <div 
+      className="room-panel regular-panel"
+    >
       <SharedUi.Helpers.LoadErrorHandler 
         isError={isError}
         isLoading={isLoading}
@@ -175,6 +187,7 @@ export const RoomPanel: FC<RPProps> = ({ user }) => {
               room={room}
               user={user}
             />
+            <div ref={ref}></div>
           </>
         ) : (
           <div>

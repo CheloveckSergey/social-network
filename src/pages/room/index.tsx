@@ -17,7 +17,7 @@ export const RoomPage = () => {
   }
   
   return (
-    <>
+    <div className="room-page">
       <Upbar />
       <main>
         <LeftMenu />
@@ -29,6 +29,6 @@ export const RoomPage = () => {
           </div>
         </div>
       </main>
-    </>
+    </div>
   )
 }

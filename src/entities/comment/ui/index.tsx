@@ -2,10 +2,52 @@ import { FC, useState } from "react";
 import { OnePost, Post } from "../../post";
 import { BiComment } from "react-icons/bi";
 import { Comment } from "../model";
-import { useAppSelector } from "../../../app/store";
+import { useAppDispatch, useAppSelector } from "../../../app/store";
 import './styles.scss';
 import { getImageSrc } from "../../../shared/service/images";
 import { AiOutlineHeart } from "react-icons/ai";
+import { useDispatch } from "react-redux";
+import { useQuery } from "react-query";
+import CommentApi from "../api";
+import { SocketActions } from "../../../fetures/socket";
+
+const useComments = (creationId: number) => {
+  const { user } = useAppSelector(state => state.user);
+
+  const dispatch = useAppDispatch();
+  
+  const commentStatus = useQuery(
+    ['loadComments', creationId],
+    () => {
+      return CommentApi.getAllCommentsByCreationId(creationId);
+    },
+    {
+      enabled: false,
+      // onSuccess: (data) => {
+      //   if (data) {
+      //     setComments(data);
+      //   }
+      // }
+    }
+  );
+
+  function connectComments() {
+    if (!user) {
+      return
+    }
+
+    commentStatus.refetch();
+
+    dispatch(SocketActions.connectComments({creationId}));
+  }
+
+  return {
+    isLoading: commentStatus.isLoading,
+    isError: commentStatus.isError,
+    refetch: connectComments,
+    data: commentStatus.data,
+  }
+}
 
 interface PCBProps {
   post: OnePost,
