@@ -8,6 +8,7 @@ import { SharedUi } from "../../../shared/sharedUi";
 import { FiMessageSquare } from "react-icons/fi";
 import { useAppDispatch, useAppSelector } from "../../../app/store";
 import { MyDate } from "../../../shared/types";
+import { MessagesLib } from "../lib";
 
 interface MLProps {
   message: Message,
@@ -85,4 +86,47 @@ export const AllMessagesButton: FC = () => {
       </div>
     </SharedUi.Buttons.ExtraButton>
   )
+}
+
+interface MListProps {
+  messages: Message[],
+  isLoading: boolean,
+  isError: boolean,
+  error: any,
+}
+export const MessagesList: FC<MListProps> = ({ messages, isLoading, isError, error }) => {
+
+  const { user } = useAppSelector(state => state.user);
+
+  return (
+    <div className="messages-list">
+      <SharedUi.Helpers.LoadErrorHandler 
+        isLoading={isLoading}
+        isError={isError}
+      >
+        {messages.map((message, index) => (
+          Helpers.isTheFirstMessageToday(message, messages) ? (
+            <>
+              <p className="date extra">{new MyDate(message.createdAt).getStringDate()}</p>
+              <MessageLine 
+                key={index}
+                message={message}
+                user={user!}
+              />
+            </>
+          ) : (
+            <MessageLine 
+              key={index}
+              message={message}
+              user={user!}
+            />
+          )
+        ))}
+      </SharedUi.Helpers.LoadErrorHandler>
+    </div>
+  )
+}
+
+export const MessagesUi = {
+  MessagesList,
 }

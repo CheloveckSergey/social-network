@@ -11,6 +11,13 @@ export class MessageApi {
     );
     return response.data;
   }
+
+  static async getMessageByRoomId(roomId: number) {
+    const response = await api.get<Message[]>(
+      INITIAL_URL + '/getMessagesByRoom/' + roomId,
+    );
+    return response.data;
+  }
 }
 
 export class MReadHistoryApi {

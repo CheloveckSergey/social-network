@@ -6,7 +6,7 @@ import { Room, RoomApi, RoomHelpers, RoomMemberStatus } from "../../../entities/
 import { useQuery } from "react-query";
 import { Helpers } from "../../../shared/helpers";
 import { SharedUi } from "../../../shared/sharedUi";
-import { Message, MessageLine, SentMessage } from "../../../entities/message";
+import { Message, MessagesLib, MessageLine, SentMessage, messagesSlice, MessagesUi } from "../../../entities/message";
 import { IoMdSend } from "react-icons/io";
 import { useAppDispatch, useAppSelector } from "../../../app/store";
 import { MyDate } from "../../../shared/types";
@@ -14,53 +14,15 @@ import { BsThreeDots } from "react-icons/bs";
 import { FaUserPlus, FaUsers } from "react-icons/fa";
 import { setAddRoomMemberWindow, setRoomMembersWindow } from "../../../widgets/modalWindow/model/redux";
 import { SocketActions } from "../../../fetures/socket";
-
-
-
-interface CMSProps {
-  room: Room,
-  user: MeUser,
-}
-const CreatingMessageSection: FC<CMSProps> = ({ room, user, }) => {
-
-  const [message, setMessage] = useState<string>('');
-
-  const dispatch = useAppDispatch();
-
-  return (
-    <div className="creating-message-section section">
-      <textarea 
-        className="message-input"
-        value={message}
-        onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setMessage(e.target.value)}
-      />
-      <button
-        className="inherit-to-green"
-        onClick={() => {
-          const sendMessage: SentMessage = {
-            text: message,
-            roomId: room.id,
-            userId: user.id,
-          }
-          dispatch(SocketActions.sendMessage(sendMessage));
-        }}
-      >
-        <IoMdSend size={25} />   
-      </button>
-    </div>
-  )
-}
+import { MessageActionsUi } from "../../../fetures/messages";
+import { RoomLib } from "../../../entities/room/lib";
 
 interface RPProps {
   user: MeUser,
 }
 export const RoomPanel: FC<RPProps> = ({ user }) => {
 
-  const { messages: allMessages } = useAppSelector(state => state.messages)
-
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [room, setRoom] = useState<Room>();
-  const [status, setStatus] = useState<RoomMemberStatus>('offline');
+  const [status, setStatus] = useState<'online' | 'offline'>('offline');
 
   const { roomId } = useParams();
 
@@ -68,47 +30,26 @@ export const RoomPanel: FC<RPProps> = ({ user }) => {
 
   const ref = useRef<HTMLDivElement>(null);
 
-  const { data, isLoading, isError } = useQuery(
-    ['loadRoom', roomId],
-    () => {
-      if (roomId) {
-        return RoomApi.getRoomById(Number(roomId));
-      }
-    },
-    {
-      onSuccess: (data) => {
-        setRoom(data);
-        if (data?.messages) {
-          setMessages(data?.messages);
-        }
-      }
-    }
-  )
+  const {
+    room,
+    isLoading: isRoomLoading,
+    isError: isRoomError,
+    error: roomError,
+  } = RoomLib.useRoom(Number(roomId))
 
-  function addMessage(message: Message) {
-    console.log('addMessageFunction');
-    console.log(message);
-    setMessages([...messages, message]);
-  }
-
-  useEffect(() => {
-    const lastMessage = allMessages.at(-1)
-    if (lastMessage && lastMessage.room.id === room?.id) {
-      console.log('addMessage');
-      addMessage(lastMessage);
-    }
-
-    if (ref.current) {
-      ref.current.scrollIntoView();
-    }
-
-  }, [allMessages]);
+  const {
+    messages,
+    isLoading: isMessagesLoading,
+    isError: isMessagesError,
+    error: messagesError,
+    addMessage
+  } = MessagesLib.useMessages(Number(roomId!), user!);
 
   useEffect(() => {
     if (ref.current) {
       ref.current.scrollIntoView();
     }
-  })
+  }, [])
 
   const navigate = useNavigate();
 
@@ -117,10 +58,10 @@ export const RoomPanel: FC<RPProps> = ({ user }) => {
       className="room-panel regular-panel"
     >
       <SharedUi.Helpers.LoadErrorHandler 
-        isError={isError}
-        isLoading={isLoading}
+        isError={isRoomError}
+        isLoading={isRoomLoading}
       >
-        {data && room ? (
+        {room ? (
           <>
             <div className="head-section section">
               <button 
@@ -162,30 +103,16 @@ export const RoomPanel: FC<RPProps> = ({ user }) => {
               </div>
             </div>
             <div className="messages section">
-              {messages.map((message, index) => (
-                Helpers.isTheFirstMessageToday(message, messages) ? (
-                  <>
-                    <p className="date extra">{new MyDate(message.createdAt).getStringDate()}</p>
-                    <MessageLine 
-                      key={index}
-                      message={message}
-                      user={user}
-                    />
-                  </>
-                ) : (
-                  <MessageLine 
-                    key={index}
-                    message={message}
-                    user={user}
-                  />
-                )
-              ))}
-                
-              
+              <MessagesUi.MessagesList 
+                messages={messages}
+                isLoading={isMessagesLoading}
+                isError={isMessagesError}
+                error={messagesError}
+              />
             </div>
-            <CreatingMessageSection 
+            <MessageActionsUi.MessageCreator 
               room={room}
-              user={user}
+              addMessage={addMessage}
             />
             <div ref={ref}></div>
           </>
