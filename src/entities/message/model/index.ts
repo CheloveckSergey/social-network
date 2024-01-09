@@ -1,5 +1,5 @@
 import { Room } from "../../room";
-import { OneUser } from "../../user";
+import { OneUser, User } from "../../user";
 
 export interface Message {
   id: number,
@@ -10,6 +10,7 @@ export interface Message {
   room: Room,
   createdAt: string,
   updatedAt: string,
+  read: boolean,
 }
 
 export interface SentMessage {
@@ -21,9 +22,10 @@ export interface SentMessage {
 export interface Status {
   id: number,
   userId: number,
+  user: User,
   messageId: number,
   message: Message,
-  statud: boolean,
+  status: boolean,
 }
 
 export * from './redux';

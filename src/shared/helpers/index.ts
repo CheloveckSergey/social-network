@@ -12,6 +12,14 @@ const getImageSrc = (src: string | undefined) => {
   return imageSrc;
 }
 
+function getImageUrlFromFile(file: File | undefined) {
+  if (file) {
+    return URL.createObjectURL(file);
+  } else {
+    return process.env.REACT_APP_DEFAULT_IMAGE;
+  }
+}
+
 // const getTodayDate: (date: string) => string = (date: string) => {
 //   const regExp = /\d{4}-\d{2}-\d{2}/;
 //   const concidences = date.match(regExp);
@@ -42,4 +50,5 @@ export function isTheFirstMessageToday(message: Message, messages: Message[]): b
 export const Helpers = {
   getImageSrc,
   isTheFirstMessageToday,
+  getImageUrlFromFile
 }

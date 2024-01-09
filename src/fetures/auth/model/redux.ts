@@ -5,6 +5,7 @@ import { AxiosError } from "axios";
 import { Socket, io } from "socket.io-client";
 import { useAppDispatch, useAppSelector } from "../../../app/store";
 import { MessageThunks } from "../../../entities/message";
+import { SocketActions } from "../../socket";
 
 interface UserState {
   user: MeUser | undefined,
@@ -37,7 +38,7 @@ const registerThunk = createAsyncThunk<
     console.log('РЕГИСТЕРСАНК');
     try {
       const response = await AuthApi.registration(reqAuthDto);
-      thunkAPI.dispatch({type: 'socket/connect', payload: response.data});
+      thunkAPI.dispatch(SocketActions.connect(response.data));
       localStorage.setItem('accessToken', response.data.accessToken);
       return response.data;
     } catch (error) {
@@ -59,7 +60,7 @@ const loginThunk = createAsyncThunk<
     console.log('ЛОГИНСАНК');
     try {
       const response = await AuthApi.login(reqAuthDto);
-      thunkAPI.dispatch({type: 'socket/connect', payload: response.data});
+      thunkAPI.dispatch(SocketActions.connect(response.data));
       thunkAPI.dispatch(MessageThunks.getAllUnreadThunk({userId: response.data.id}));
       localStorage.setItem('accessToken', response.data.accessToken);
       return response.data;
@@ -85,7 +86,7 @@ const refreshThunk = createAsyncThunk<
       // thunkAPI.dispatch({type: 'socket/connect', payload: response.data});
       // Если диспатчить socket/connect здесь, то получится так, что обработчик навесится ещё
       // до того, как в состоянии появится юзер
-      thunkAPI.dispatch({type: 'socket/connect', payload: response.data});
+      thunkAPI.dispatch(SocketActions.connect(response.data));
       thunkAPI.dispatch(MessageThunks.getAllUnreadThunk({userId: response.data.id}));
       localStorage.setItem('accessToken', response.data.accessToken);
       return response.data;

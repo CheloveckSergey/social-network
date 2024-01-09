@@ -42,14 +42,27 @@ export const RoomPanel: FC<RPProps> = ({ user }) => {
     isLoading: isMessagesLoading,
     isError: isMessagesError,
     error: messagesError,
-    addMessage
+    addMessage,
+    deleteMessage,
+    toggleReadMessage,
   } = MessagesLib.useMessages(Number(roomId!), user!);
 
+  // useEffect(() => {
+  //   if (ref.current) {
+  //     console.log('scroll');
+  //     ref.current.scrollIntoView();
+  //   }
+  // }, [])
   useEffect(() => {
     if (ref.current) {
       ref.current.scrollIntoView();
     }
-  }, [])
+  }, [ref.current]);
+  useEffect(() => {
+    if (ref.current) {
+      ref.current.scrollIntoView();
+    }
+  }, [messages]);
 
   const navigate = useNavigate();
 
@@ -108,13 +121,17 @@ export const RoomPanel: FC<RPProps> = ({ user }) => {
                 isLoading={isMessagesLoading}
                 isError={isMessagesError}
                 error={messagesError}
+                deleteMessage={deleteMessage}
+                toggleReadMessage={toggleReadMessage}
+              />
+              <div ref={ref}></div>
+            </div>
+            <div className="message-creator-space section">
+              <MessageActionsUi.MessageCreator 
+                room={room}
+                addMessage={addMessage}
               />
             </div>
-            <MessageActionsUi.MessageCreator 
-              room={room}
-              addMessage={addMessage}
-            />
-            <div ref={ref}></div>
           </>
         ) : (
           <div>

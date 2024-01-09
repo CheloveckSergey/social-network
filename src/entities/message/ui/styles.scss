@@ -27,4 +27,43 @@
 
     }
   }
+
+  .extra-section {
+
+  }
+}
+
+.my-statuses {
+  max-height: 600px;
+  width: 300px;
+  padding: 5px;
+  overflow-y: auto;
+
+  .empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80px;
+  }
+
+  .status-line {
+    margin-top: 5px;
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+}
+
+.empty-list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+.messages-list {
+  min-height: 100%;
+  width: 100%;
+
 }

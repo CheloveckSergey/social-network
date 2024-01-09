@@ -102,15 +102,16 @@ interface EBProps {
   Icon: IconType,
   iconSize?: number,
   children: ReactNode | ReactNode[],
+  panelClass?: string,
 }
-const ExtraButton: FC<EBProps> = ({ Icon, children, iconSize = 25 }) => {
+const ExtraButton: FC<EBProps> = ({ Icon, children, iconSize = 25, panelClass }) => {
 
   return (
     <div className="extra-section-button">
       <button className="white">
         <Icon size={iconSize}/>
       </button>
-      <div className="extra-user-panel extra-panel">
+      <div className={`extra-user-panel extra-panel ${panelClass}`}>
         {children}
       </div>
     </div>

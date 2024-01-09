@@ -12,6 +12,7 @@ export class MyDate {
   month: number;
   hour: number;
   minute: number;
+  seconds: number;
 
   constructor(date: string) {
     const regExp = /\d{4}-\d{2}-\d{2}/;
@@ -34,9 +35,11 @@ export class MyDate {
     if (time) {
       this.hour = time.hour;
       this.minute = time.minute;
+      this.seconds = time.seconds;
     } else {
       this.hour = 0;
       this.minute = 0;
+      this.seconds = 0;
     }
   }
 
@@ -56,6 +59,24 @@ export class MyDate {
     if (this.day > date.day) {
       return true;
     } else if ( this.day < date.day) {
+      return false;
+    }
+
+    if (this.hour > date.hour) {
+      return true;
+    } else if ( this.hour < date.hour) {
+      return false;
+    }
+
+    if (this.minute > date.minute) {
+      return true;
+    } else if ( this.minute < date.minute) {
+      return false;
+    }
+
+    if (this.seconds > date.seconds) {
+      return true;
+    } else if ( this.seconds < date.seconds) {
       return false;
     }
 
@@ -87,16 +108,18 @@ export class MyDate {
   getStringTime(): string {
     const stringHour: string = this.getStringValue(this.hour);
     const stringMinute: string = this.getStringValue(this.minute);
-    return stringHour + ':' + stringMinute;
+    const stringSeconds: string = this.getStringValue(this.seconds);
+    return stringHour + ':' + stringMinute + ':' + stringSeconds;
   }
 
-  private getTimeFromMySQLDate(date: string): {hour: number, minute: number} | undefined {
-    const regExp = /T\d{2}:\d{2}/;
+  private getTimeFromMySQLDate(date: string): {hour: number, minute: number, seconds: number} | undefined {
+    const regExp = /T\d{2}:\d{2}:\d{2}/;
     const concidences = date.match(regExp);
     if (concidences) {
       const hour = Number(concidences[0].slice(1, 3)) + 3;
       const minute = Number(concidences[0].slice(4, 6));
-      return { hour, minute }
+      const seconds = Number(concidences[0].slice(7, 9));
+      return { hour, minute, seconds }
     } else {
       return undefined;
     }

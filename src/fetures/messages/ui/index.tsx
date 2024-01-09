@@ -1,9 +1,10 @@
 import { ChangeEvent, FC, useState } from "react";
 import { Room } from "../../../entities/room";
 import { useAppDispatch, useAppSelector } from "../../../app/store";
-import { MessagesLib } from "../lib";
+import { MessageActionsLib } from "../lib";
 import { Message } from "../../../entities/message";
 import { IoMdSend } from "react-icons/io";
+import './styles.scss';
 
 interface CMSProps {
   room: Room,
@@ -13,7 +14,7 @@ const MessageCreator: FC<CMSProps> = ({ room, addMessage }) => {
 
   const { user } = useAppSelector(state => state.user);
 
-  const { sendMessage } = MessagesLib.useCreateMessage(room.id, addMessage, user!)
+  const { sendMessage } = MessageActionsLib.useCreateMessage(room.id, addMessage, user!)
 
   const [message, setMessage] = useState<string>('');
 
@@ -26,7 +27,7 @@ const MessageCreator: FC<CMSProps> = ({ room, addMessage }) => {
   }
 
   return (
-    <div className="creating-message-section section">
+    <div className="creating-message-section">
       <textarea 
         className="message-input"
         value={message}

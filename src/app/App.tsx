@@ -15,6 +15,7 @@ function App() {
   const isExecuted = useRef(false);
  
   useEffect(() => {
+    console.log('APP_USE_EFFECT');
     if (!isExecuted.current) {
       dispatch(authThunks.refreshThunk({}))
       .unwrap()

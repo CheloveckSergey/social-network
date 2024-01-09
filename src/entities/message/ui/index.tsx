@@ -9,29 +9,28 @@ import { FiMessageSquare } from "react-icons/fi";
 import { useAppDispatch, useAppSelector } from "../../../app/store";
 import { MyDate } from "../../../shared/types";
 import { MessagesLib } from "../lib";
+import { BiCheckboxChecked } from "react-icons/bi";
+import { AiFillAppstore, AiFillDelete } from "react-icons/ai";
+import { MessageActionsLib } from "../../../fetures/messages";
 
 interface MLProps {
   message: Message,
   user: MeUser, 
+  deleteMessage: (message: Message) => void,
+  toggleReadMessage: (message: Message) => void,
 }
-export const MessageLine: FC<MLProps> = ({ message, user }) => {
+export const MessageLine: FC<MLProps> = ({ message, user, deleteMessage, toggleReadMessage }) => {
 
-  const { messages } = useAppSelector(state => state.messages);
+  MessagesLib.useMessage(message, deleteMessage, toggleReadMessage);
 
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    if (messages.find(_message => _message.id === message.id)) {
-      dispatch({
-        type: 'socket/readMessage', 
-        payload: {userId: user.id, messageId: message.id, roomId: message.roomId}
-      });
-    }
-  }, []);
+  const { sendDeleteMessage } = MessageActionsLib.useDeleteMessage(message);
 
   return (
-    <div className="message-line">
+    <div 
+      className="message-line"
+    >
       <img 
         className="user-avatar"
         src={Helpers.getImageSrc(message.user.avatar)} 
@@ -52,6 +51,17 @@ export const MessageLine: FC<MLProps> = ({ message, user }) => {
         <p>
           {message.text}
         </p>
+      </div>
+      <div className="extra-section">
+        <span className="read-or-not">
+          {message.read && <BiCheckboxChecked size={25} />}
+        </span>
+        <button
+          className="white"
+          onClick={() => sendDeleteMessage()}
+        >
+          <AiFillDelete size={25} /> 
+        </button>
       </div>
     </div>
   )
@@ -93,40 +103,82 @@ interface MListProps {
   isLoading: boolean,
   isError: boolean,
   error: any,
+  deleteMessage: (message: Message) => void,
+  toggleReadMessage: (message: Message) => void,
 }
-export const MessagesList: FC<MListProps> = ({ messages, isLoading, isError, error }) => {
+export const MessagesList: FC<MListProps> = ({ messages, isLoading, isError, error, deleteMessage, toggleReadMessage }) => {
 
   const { user } = useAppSelector(state => state.user);
 
   return (
-    <div className="messages-list">
-      <SharedUi.Helpers.LoadErrorHandler 
-        isLoading={isLoading}
-        isError={isError}
-      >
-        {messages.map((message, index) => (
-          Helpers.isTheFirstMessageToday(message, messages) ? (
-            <>
-              <p className="date extra">{new MyDate(message.createdAt).getStringDate()}</p>
+    <SharedUi.Helpers.LoadErrorHandler 
+      isLoading={isLoading}
+      isError={isError}
+    >
+      {!messages.length ? (
+        <div className="empty-list">
+          Do something! You're smart, right?! Do that! Do that thing!!!
+        </div>
+      ) : (
+        <div className="messages-list">
+          {messages.map((message, index) => (
+            Helpers.isTheFirstMessageToday(message, messages) ? (
+              <>
+                <p className="date extra">{new MyDate(message.createdAt).getStringDate()}</p>
+                <MessageLine 
+                  key={index}
+                  message={message}
+                  user={user!}
+                  deleteMessage={deleteMessage}
+                  toggleReadMessage={toggleReadMessage}
+                />
+              </>
+            ) : (
               <MessageLine 
                 key={index}
                 message={message}
                 user={user!}
+                deleteMessage={deleteMessage}
+                toggleReadMessage={toggleReadMessage}
               />
-            </>
-          ) : (
-            <MessageLine 
-              key={index}
-              message={message}
-              user={user!}
-            />
-          )
-        ))}
-      </SharedUi.Helpers.LoadErrorHandler>
-    </div>
+            )
+          ))}
+        </div>
+      )}
+    </SharedUi.Helpers.LoadErrorHandler>
+  )
+}
+
+const MyMessageStatuses: FC = () => {
+
+  const { statuses } = useAppSelector(state => state.messageStatuses);
+
+  return (
+    <SharedUi.Buttons.ExtraButton 
+      Icon={AiFillAppstore}
+      panelClass="my-statuses"
+    >
+      {(!statuses.length) ? (
+        <>
+          <div className="empty">
+            Пока нет никаких статусов
+          </div>
+        </>
+      ) : statuses.map((status, index) => (
+        <div 
+          key={index}
+          className="status-line"
+        >
+          {`Сообщение с ID ${status.messageId} пользователя с ID ${status.message.userId}
+          прочитано пользователем ${status.user.login} с ID ${status.user.login}`}
+        </div>
+      ))}
+      
+    </SharedUi.Buttons.ExtraButton>
   )
 }
 
 export const MessagesUi = {
   MessagesList,
+  MyMessageStatuses,
 }

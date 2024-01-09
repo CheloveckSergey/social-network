@@ -1,3 +1,5 @@
+import { Helpers } from "../../../shared/helpers";
+import { MyDate } from "../../../shared/types";
 import { Message } from "../../message";
 import { MeUser } from "../../user";
 import { Room } from "../model";
@@ -54,10 +56,37 @@ function getLastMessageDate(room: Room, user: MeUser): string {
   }
 }
 
+function getSortedByLastMessageRooms(rooms: Room[]): Room[]  {
+  const newRooms: Room[] = rooms.sort((a, b) => {
+    const aMessageExist = a.messages && a.messages.length;
+    const bMessageExist = b.messages && b.messages.length;
+    if (!aMessageExist && !bMessageExist) {
+      return 0;
+    }
+    if (!aMessageExist) {
+      return 1;
+    }
+    if (!bMessageExist) {
+      return -1;
+    }
+    const aDate = new MyDate(a.messages[0].createdAt);
+    const bDate = new MyDate(b.messages[0].createdAt);
+    if (aDate.isMoreThen(bDate)) {
+      return -1
+    } else if (bDate.isMoreThen(aDate)) {
+      return 1;
+    } else {
+      return 0;
+    }
+  });
+  return newRooms;
+}
+
 export const RoomHelpers = {
   getRoomImage,
   getName,
   getLastMessage,
   getLastMessageText,
   getLastMessageDate,
+  getSortedByLastMessageRooms,
 }

@@ -6,6 +6,10 @@
   border-top: var(--regular-border);
   cursor: pointer;
 
+  &.has-new-message {
+    background-color: var(--border);
+  }
+
   &:first-child {
     border-top: none;
   }

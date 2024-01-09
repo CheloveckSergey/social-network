@@ -1,9 +1,11 @@
 import { useQuery } from "react-query"
 import { MessageApi } from "../api"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { Message } from "../model"
 import { MeUser } from "../../user"
-import { useAppSelector } from "../../../app/store"
+import { useAppDispatch, useAppSelector } from "../../../app/store"
+import { SocketActions } from "../../../fetures/socket"
+import { DeleteMessagesActions } from "../../../fetures/messages/model"
 
 const messagesKeys = {
   messages: {
@@ -30,6 +32,24 @@ const useMessages = (roomId: number, user: MeUser) => {
     setMessages([...messages, message]);
   }
 
+  function deleteMessage(message: Message) {
+    const newMessages = messages.filter(_message => _message.id !== message.id);
+    setMessages(newMessages);
+  }
+
+  function toggleReadMessage(message: Message) {
+    const newMessages = messages.map(_message => {
+      if (_message.id === message.id) {
+        return {
+          ..._message,
+          read: true,
+        }
+      }
+      return _message;
+    });
+    setMessages(newMessages);
+  }
+
   useSocketMessages(roomId, user, addMessage);
 
   return {
@@ -38,6 +58,8 @@ const useMessages = (roomId: number, user: MeUser) => {
     isError: messagesStatus.isError,
     error: messagesStatus.error,
     addMessage,
+    deleteMessage,
+    toggleReadMessage,
   }
 }
 
@@ -53,6 +75,45 @@ const useSocketMessages = (roomId: number, user: MeUser, addMessage: (message: M
   }, [messages]);
 }
 
+const useMessage = (
+  message: Message, 
+  deleteMessage: (message: Message) => void, 
+  toggleReadMessage: (message: Message) => void,
+) => {
+  
+  const { user } = useAppSelector(state => state.user);
+  const { messages } = useAppSelector(state => state.messages);
+  const { deletedMessages } = useAppSelector(state => state.deletedMessages);
+  const { statuses } = useAppSelector(state => state.messageStatuses);
+
+  const dispatch = useAppDispatch();
+
+  const ref = useRef(null);
+
+  useEffect(() => {
+    if (messages.find(_message => _message.id === message.id)) {
+      dispatch(SocketActions.readMessage({userId: user!.id, messageId: message.id, roomId: message.roomId}));
+    }
+  }, []);
+
+  useEffect(() => {
+    const lastMessage = deletedMessages.at(-1);
+    if (lastMessage?.id === message.id) {
+      deleteMessage(message);
+      dispatch(DeleteMessagesActions.deleteMessage({message: lastMessage}))
+    }
+  }, [deletedMessages]);
+
+  useEffect(() => {
+    const lastStatus = statuses.at(-1);
+    // console.log(lastStatus);
+    if (lastStatus && lastStatus.messageId === message.id) {
+      toggleReadMessage(message)
+    }
+  }, [statuses])
+}
+
 export const MessagesLib = {
   useMessages,
+  useMessage,
 }

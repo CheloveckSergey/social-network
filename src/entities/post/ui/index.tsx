@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { OnePost, Post } from "../model";
 import "./styles.scss";
 import { useAppSelector } from "../../../app/store";

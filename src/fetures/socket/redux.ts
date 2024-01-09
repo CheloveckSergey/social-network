@@ -7,6 +7,9 @@ import { Message, Status } from "../../entities/message";
 import { Room } from "../../entities/room";
 import { CommentsSliceActions } from "../../entities/comment/model/redux";
 import { Comment } from '../../entities/comment';
+import { ResAuthDto } from "../auth/api";
+import { MessageStatusesActions } from "../../entities/message/model/statusesRedux";
+import { DeleteMessagesActions } from "../messages/model";
 
 // Here can be any dispatch to open a connection
 const INIT_KEY = 'socket/connect';
@@ -20,12 +23,13 @@ export enum SocketActionTypes {
   UNREFRESH = 'socket/unrefresh',
   SEND_COMMENT = 'socket/sendComment',
   CONNECT_COMMENTS = 'socket/connectComments',
+  DELETE_MESSAGE = 'socket/deleteMessage',
 }
 
 //Приходится делать payload any из-за того, что в мидлтваре всегда должен быть пэйлоад сука
 interface ConnectAction {
   type: SocketActionTypes.CONNECT,
-  payload: any,
+  payload: ResAuthDto,
 }
 
 interface DisconnectAction {
@@ -92,7 +96,16 @@ interface CommentResDto {
   comment: Comment,
 }
 
-type SocketAction = ConnectAction | DisconnectAction | SendAction | CreateRoomAction | ReadMessageAction | UnrefreshAction | SendCommentAction | ConnectCommentsAction;
+interface DeleteMessageAction {
+  type: SocketActionTypes.DELETE_MESSAGE,
+  payload: DeleteMessagePayload,
+}
+
+interface DeleteMessagePayload {
+  message: Message,
+}
+
+type SocketAction = ConnectAction | DisconnectAction | SendAction | CreateRoomAction | ReadMessageAction | UnrefreshAction | SendCommentAction | ConnectCommentsAction | DeleteMessageAction;
 
 interface SocketMiddlewareParams {
   dispatch: Dispatch
@@ -122,20 +135,23 @@ export const socketMiddleware = (socket: SocketClient) => {
       })
 
       socket.on('message', (message: Message) => {
-        console.log(message);
+        console.log('onMessage');
         dispatch(MessageSliceActions.addMessage({message}))
       })
 
       socket.on('readMessage', (newStatus: Status) => {
-        console.log(newStatus);
-        console.log(state.user);
+        console.log('onReadMessage - ', newStatus.id);
         if (newStatus.userId === payload.id) {
-          console.log('Лал');
           dispatch(MessageSliceActions.deleteMessage({messageId: newStatus.messageId}));
+        }
+        if ((newStatus.message.userId === payload.id && newStatus.userId !== payload.id) 
+        || (newStatus.message.userId !== payload.id && newStatus.userId === payload.id)) {
+          dispatch(MessageStatusesActions.addStatus({status: newStatus}));
         }
       });
 
       socket.on('connectComments', (connectCommentsDto: ConnectCommentsDto) => {
+        console.log('onConnectComments');
         dispatch(CommentsSliceActions.connectRoom({creationId: connectCommentsDto.creationId}));
       });
 
@@ -147,6 +163,11 @@ export const socketMiddleware = (socket: SocketClient) => {
         console.log('comment in socket');
         dispatch(CommentsSliceActions.addComment({comment: commentResDto.comment}));
       })
+
+      socket.on('deleteMessage', (message: Message) => {
+        console.log('onDeleteMessage');
+        dispatch(DeleteMessagesActions.addMessage({message}));
+      })
     }
 
     switch (type) {
@@ -157,6 +178,7 @@ export const socketMiddleware = (socket: SocketClient) => {
         break
       }
       case SocketActionTypes.SEND: {
+        console.log('emitMessage');
         socket.emit('message', payload);
         break;
       }
@@ -165,6 +187,7 @@ export const socketMiddleware = (socket: SocketClient) => {
         break
       }
       case SocketActionTypes.READ_MESSAGE: {
+        console.log('readMessageEmit');
         socket.emit('readMessage', payload);
         break;
       }
@@ -177,6 +200,10 @@ export const socketMiddleware = (socket: SocketClient) => {
           creationId: payload.creationId,
         }
         socket.emit('connectComments', conCommReqDto);
+        break;
+      }
+      case SocketActionTypes.DELETE_MESSAGE: {
+        socket.emit('deleteMessage', payload.message);
         break;
       }
       //Проблема в том, что почему-то обработчики не отваливаются, как бы я не старался
@@ -198,9 +225,9 @@ export const socketMiddleware = (socket: SocketClient) => {
   return middleware;
 }
 
-const connectSocket = () => {
+const connectSocket = (resAuthDto: ResAuthDto) => {
   return (dispatch: Dispatch<SocketAction>) => {
-    dispatch({type: SocketActionTypes.CONNECT, payload: ''});
+    dispatch({type: SocketActionTypes.CONNECT, payload: resAuthDto});
   }
 }
 
@@ -246,6 +273,12 @@ const connectComments = (connectCommentsDto: ConnectCommentsDto) => {
   }
 }
 
+const deleteMessage = (message: Message) => {
+  return (dispatch: Dispatch<SocketAction>) => {
+    dispatch({type: SocketActionTypes.DELETE_MESSAGE, payload: { message }});
+  }
+}
+
 export const SocketActions = {
   connect: connectSocket,
   disconnect: disconnectSocket,
@@ -255,4 +288,5 @@ export const SocketActions = {
   unrefresh,
   sendComment,
   connectComments,
+  deleteMessage,
 } 

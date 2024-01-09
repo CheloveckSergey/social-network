@@ -21,6 +21,19 @@ const useCreateMessage = (roomId: number, addMessage: (message: Message) => void
   }
 }
 
-export const MessagesLib = {
+const useDeleteMessage = (message: Message) => {
+  const dispatch = useAppDispatch();
+
+  function sendDeleteMessage() {
+    dispatch(SocketActions.deleteMessage(message))
+  }
+
+  return {
+    sendDeleteMessage
+  } 
+}
+
+export const MessageActionsLib = {
   useCreateMessage,
+  useDeleteMessage,
 }

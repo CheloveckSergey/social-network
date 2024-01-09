@@ -8,15 +8,18 @@ import { useNavigate } from "react-router-dom";
 import { RoomHelpers } from "../helpers";
 import { SharedUi } from "../../../shared/sharedUi";
 import { RoomMembership } from "../../../fetures/roomMembership";
+import { RoomLib } from "../lib";
 
 interface RLProps {
-  _room: Room,
+  room: Room,
 }
-const RoomLine: FC<RLProps> = ({ _room }) => {
+const RoomLine: FC<RLProps> = ({ room }) => {
 
   const { user } = useAppSelector(state => state.user);
 
-  const [room, setRoom] = useState<Room>(_room)
+  // const [room, setRoom] = useState<Room>(_room);
+
+  const { hasNewMessage } = RoomLib.useHasNewMessage(room);
 
   const navigate = useNavigate();
 
@@ -29,7 +32,7 @@ const RoomLine: FC<RLProps> = ({ _room }) => {
   return (
     <div 
       onClick={() => navigate('/room/' + room.id)}
-      className="room-line"
+      className={`room-line ${hasNewMessage ? 'has-new-message' : ''}`}
     >
       <img 
         className="room-avatar"
@@ -46,7 +49,8 @@ const RoomLine: FC<RLProps> = ({ _room }) => {
       </div>
       <div className="right">
         <p className="date extra">
-          {RoomHelpers.getLastMessageDate(room, user)}
+          {room.id}
+          {/* {RoomHelpers.getLastMessageDate(room, user)} */}
         </p>
       </div>
     </div>

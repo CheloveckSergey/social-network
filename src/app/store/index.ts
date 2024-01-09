@@ -6,6 +6,8 @@ import { socketMiddleware } from "../../fetures/socket";
 import SocketClient from "../../fetures/socket/model";
 import { messagesSlice } from "../../entities/message";
 import { commentsSlice } from "../../entities/comment/model/redux";
+import { messageStatusesSlice } from "../../entities/message/model/statusesRedux";
+import { deletedMessagesSlice } from "../../fetures/messages/model";
 
 const socket = new SocketClient();
 
@@ -15,6 +17,8 @@ export const store = configureStore({
     modalWindow: mwSlice.reducer,
     messages: messagesSlice.reducer,
     commets: commentsSlice.reducer,
+    messageStatuses: messageStatusesSlice.reducer,
+    deletedMessages: deletedMessagesSlice.reducer,
   },
   middleware: (getDefaultMiddleware) => 
     getDefaultMiddleware()
@@ -31,6 +35,8 @@ const rootReducer = combineReducers({
   modalWindow: mwSlice.reducer,
   messages: messagesSlice.reducer,
   commets: commentsSlice.reducer,
+  messageStatuses: messageStatusesSlice.reducer,
+  deletedMessages: deletedMessagesSlice.reducer,
 })
 
 export type RootState = ReturnType<typeof rootReducer>;

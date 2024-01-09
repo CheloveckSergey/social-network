@@ -9,6 +9,8 @@ import { IoMdSend } from "react-icons/io";
 import { RoomApi } from "../../../../entities/room";
 import { useNavigate } from "react-router-dom";
 import { closeWindow } from "../../model/redux";
+import { FriendsLib } from "../../../../entities/friends";
+import { RoomActionsLib } from "../../../../fetures/roomMembership";
 
 interface ULCard {
   user: OneUser,
@@ -43,7 +45,6 @@ export const CreateGRoomWindow: FC = ( ) => {
 
   const { user } = useAppSelector(state => state.user);
 
-  const [users, setUsers] = useState<OneUser[]>([]);
   const [addedUsers, setAddedUsers] = useState<OneUser[]>([]);
 
   const [avatar, setAvatar] = useState<File>();
@@ -52,39 +53,14 @@ export const CreateGRoomWindow: FC = ( ) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const usersStatus = useQuery(
-    ['loadFriends', user?.id],
-    () => {
-      if (user) {
-        return UserApi.getAllFriends(user.id);
-      }
-    },
-    {
-      onSuccess: (data) => {
-        if (data) {
-          setUsers(data)
-        }
-      }
-    }
-  )
+  const {
+    friends,
+    isLoading: isFriendsLoading,
+    isError: isFriendsError,
+    error: frindsError,
+  } = FriendsLib.useFriends(user!.id);
 
-  const loadStatus = useQuery(
-    ['createRoom', user?.id],
-    () => {
-      if (user) {
-        return RoomApi.createGeneralRoom(getForm());
-      }
-    },
-    {
-      enabled: false,
-      onSuccess: (data) => {
-        if (data) {
-          dispatch(closeWindow({}));
-          navigate('/room/' + data.id);
-        }
-      }
-    }
-  )
+  const { mutateAsync } = RoomActionsLib.useCreateGRoom();
 
   function addDeleteUser(user: OneUser) {
     if (addedUsers.find(_user => _user.id === user.id)) {
@@ -94,28 +70,16 @@ export const CreateGRoomWindow: FC = ( ) => {
     setAddedUsers([...addedUsers, user]);
   }
 
-  function getImageUrl(file: File | undefined) {
-    if (file) {
-      return URL.createObjectURL(file);
-    } else {
-      return process.env.REACT_APP_DEFAULT_IMAGE;
-    }
-  }
-
-  function getForm() {
-    const form = new FormData();
-    form.append('adminId', String(user?.id));
-    form.append('name', name);
-    if (avatar) {
-      form.append('img', avatar);
-    }
-    addedUsers.forEach(addedUser => form.append('userIds', String(addedUser.id)));
-    return form;
-  }
-
   function send(e: MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
-    loadStatus.refetch();
+    mutateAsync({
+      adminId: user!.id, 
+      userIds: addedUsers.map(user => user.id),
+      name,
+      roomAvatar: avatar,
+    }).then((room) => {
+      navigate('/room/' + room.id);
+    })
   }
 
   return (
@@ -125,12 +89,12 @@ export const CreateGRoomWindow: FC = ( ) => {
       </div>
       <div className="users section">
         <SharedUi.Helpers.LoadErrorHandler 
-          isError={usersStatus.isError}
-          isLoading={usersStatus.isLoading}
+          isError={isFriendsError}
+          isLoading={isFriendsLoading}
         >
-          {users && users.length ? (
+          {friends && friends.length ? (
             <div className="users-list">
-              {users.map((user, index) => <UserListCard 
+              {friends.map((user, index) => <UserListCard 
                 key={index}
                 user={user}
                 addDeleteUser={addDeleteUser}
@@ -149,9 +113,9 @@ export const CreateGRoomWindow: FC = ( ) => {
         >
           <img
             className="image-avatar"
-            src={getImageUrl(avatar)}
+            src={Helpers.getImageUrlFromFile(avatar)}
             alt="AVATAR" 
-          />
+          /> 
         </SharedUi.Inputs.ImageLabel>
         <input 
           type="text" 

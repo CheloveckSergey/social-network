@@ -6,16 +6,18 @@ import { SharedUi } from "../../../shared/sharedUi";
 import { useQuery } from "react-query";
 import { MeUser } from "../../../entities/user";
 import { RoomUi } from "../../../entities/room/ui";
+import { RoomLib } from "../../../entities/room/lib";
 
 interface RFProps {
   user: MeUser,
 }
 export const RoomsFeed: FC<RFProps> = ({ user }) => {
 
-  const { data, isLoading, isError } = useQuery(
-    ['loadRooms', user.id],
-    () => RoomApi.getAllRoomsByUserId(user.id),
-  )
+  const {
+    rooms,
+    isLoading,
+    isError,
+  } = RoomLib.useRooms();
 
   return (
     <div className="rooms-feed regular-panel">
@@ -23,11 +25,11 @@ export const RoomsFeed: FC<RFProps> = ({ user }) => {
         isError={isError}
         isLoading={isLoading}
       >
-        {data && data.length ? (
+        {rooms && rooms.length ? (
           <div className="feed">
-            {data.map((room, index) => <RoomUi.RoomLine
+            {rooms.map((room, index) => <RoomUi.RoomLine
               key={index}
-              _room={room}
+              room={room}
             />)}
           </div>
         ) : (

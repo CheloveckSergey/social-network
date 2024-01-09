@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { User } from "../../../entities/user";
 import Feed from "../../../widgets/feed";
 import { useQuery } from "react-query";
@@ -18,6 +18,10 @@ export const HomeFeed: FC<HomeFeedProps> = ({ user }) => {
       }
     }
   )
+
+  useEffect(() => {
+    console.log('hopePageRenderUseEffect');
+  }, []);
 
   return (
     <>

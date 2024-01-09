@@ -55,7 +55,14 @@ export class RoomApi {
     return response.data;
   }
 
-  static async createGeneralRoom(form: FormData) {
+  static async createGeneralRoom(adminId: number, name: string, userIds: number[], roomAvatar?: File) {
+    const form = new FormData();
+    form.append('adminId', String(adminId));
+    form.append('name', name);
+    if (roomAvatar) {
+      form.append('img', roomAvatar);
+    }
+    userIds.forEach(userId => form.append('userIds[]', String(userId)));
     const response = await api.post<Room>(
       INITIAL_URL + '/createGeneralRoom',
       form,

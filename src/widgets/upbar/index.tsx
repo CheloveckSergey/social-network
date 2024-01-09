@@ -7,7 +7,7 @@ import "./styles.scss";
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/store';
 import { authThunks } from '../../fetures/auth';
-import { AllMessagesButton } from '../../entities/message';
+import { AllMessagesButton, MessagesUi } from '../../entities/message';
 
 const Upbar: FC = () => {
   const navigate = useNavigate();
@@ -27,6 +27,7 @@ const Upbar: FC = () => {
         <FaRegBell size={25} />
       </div>
       <AllMessagesButton />
+      <MessagesUi.MyMessageStatuses />
       <div>
         Minisongbar
       </div>

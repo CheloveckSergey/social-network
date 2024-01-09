@@ -6,6 +6,7 @@
   // border: 3px solid red;
 
   main {
+    flex-grow: 3;
     overflow: hidden;
     // border: 3px solid blue;
   }
@@ -23,8 +24,10 @@
   }
 
   .room-panel {
+    display: flex;
+    flex-direction: column;
     height: 100%;
-    overflow: auto;
+    overflow: hidden;
     // border: 3px solid yellow;
 
     &.regular-panel {
@@ -80,20 +83,26 @@
     }
 
     .messages {
+      flex-grow: 3;
+      overflow-y: auto;
 
       .date {
         text-align: center;
       }
     }
 
-    .creating-message-section {
-      display: flex;
-      align-items: center;
-      gap: 10px;
+    .message-creator-space {
 
-      .message-input {
-        flex-grow: 3;
-      }
     }
+
+    // .creating-message-section {
+    //   display: flex;
+    //   align-items: center;
+    //   gap: 10px;
+
+    //   .message-input {
+    //     flex-grow: 3;
+    //   }
+    // }
   }
 }
