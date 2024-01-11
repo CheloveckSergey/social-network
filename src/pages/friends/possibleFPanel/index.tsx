@@ -4,6 +4,7 @@ import { User, UserApi, UserUi } from "../../../entities/user";
 import { useQuery } from "react-query";
 import { SharedUi } from "../../../shared/sharedUi";
 import { Friendship } from "../../../fetures/friendship";
+import { FriendsApi } from "../../../entities/friends";
 
 interface PFPProps {
   user: User,
@@ -14,7 +15,7 @@ export const PossibleFriendsPanel: FC<PFPProps> = ({ user }) => {
     ['loadPossibleFriends'],
     () => {
       if (user) {
-        return UserApi.getPossibleFriends(user.id);
+        return FriendsApi.getPossibleFriends(user.id);
       }
     }
   )

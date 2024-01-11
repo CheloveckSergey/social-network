@@ -14,22 +14,22 @@ interface AFBProps {
 }
 const AddFriendButton: FC<AFBProps> = ({ user, effects }) => {
 
-  const { refetch, isLoading, isError } = Hooks.useFriendship(user, effects);
+  // const { refetch, isLoading, isError } = Hooks.useFriendship(user, effects);
 
-  if (isLoading) {
-    return (
-      <button
-        className="add-friend-button"
-      >
-        <SharedUi.Icons.Spinner size={25} />
-      </button>
-    )
-  }
+  // if (isLoading) {
+  //   return (
+  //     <button
+  //       className="add-friend-button"
+  //     >
+  //       <SharedUi.Icons.Spinner size={25} />
+  //     </button>
+  //   )
+  // }
 
   return (
     <button
       className="add-friend-button inherit-to-green"
-      onClick={() => refetch()}
+      // onClick={() => refetch()}
     >
       {user.isFriend ? (
         <BsFillBackspaceFill size={25} />

@@ -53,26 +53,26 @@ const WriteMessageButton: FC<WMBProps> = ({ user }) => {
 }
 /////////////////////////////////////////////////////////////////////////////////
 
-interface CrFrButtProps {
-  user: OneUser,
-  setIsFriend: (isFriend: boolean) => void,
-}
-const CrFrButton: FC<CrFrButtProps> = ({ user, setIsFriend }) => {
+// interface CrFrButtProps {
+//   user: OneUser,
+//   setIsFriend: (isFriend: boolean) => void,
+// }
+// const CrFrButton: FC<CrFrButtProps> = ({ user, setIsFriend }) => {
 
-  const { headline, isError, isLoading, refetch } = Friendship.Hooks.useFriendship(
-    user, { setFriendship: setIsFriend },
-  );
+//   const { headline, isError, isLoading, refetch } = Friendship.Hooks.useFriendship(
+//     user, { setFriendship: setIsFriend },
+//   );
 
-  return (
-    <button 
-      className={`green use-friendship ${isLoading || isError ? 'disabled' : ''}`}
-      disabled={isLoading || isError}
-      onClick={() => refetch()}
-    >
-      {headline}
-    </button>
-  )
-}
+//   return (
+//     <button 
+//       className={`green use-friendship ${isLoading || isError ? 'disabled' : ''}`}
+//       disabled={isLoading || isError}
+//       onClick={() => refetch()}
+//     >
+//       {headline}
+//     </button>
+//   )
+// }
 
 /////////////////////////////////////////////////////////////////////////////////
 
@@ -86,10 +86,10 @@ export const UserAvatar: FC<UserAvatarProps> = ({ user, setIsFriend }) => {
   return (
     <div className="user-avatar regular-panel">
       <img src={Helpers.getImageSrc(user.avatar)} alt={process.env.REACT_APP_BACK_URL} />
-      <CrFrButton
+      {/* <CrFrButton
         user={user}
         setIsFriend={setIsFriend}
-      />
+      /> */}
       <WriteMessageButton 
         user={user}
       />

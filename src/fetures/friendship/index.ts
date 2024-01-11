@@ -5,3 +5,5 @@ export const Friendship = {
   Hooks,
   Ui,
 }
+
+export * from './lib';

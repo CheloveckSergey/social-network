@@ -17,8 +17,6 @@ const RoomLine: FC<RLProps> = ({ room }) => {
 
   const { user } = useAppSelector(state => state.user);
 
-  // const [room, setRoom] = useState<Room>(_room);
-
   const { hasNewMessage } = RoomLib.useHasNewMessage(room);
 
   const navigate = useNavigate();
@@ -95,7 +93,38 @@ const RoomMemberLine: FC<RMLProps> = ({ roomMember }) => {
   )
 }
 
+interface RFProps {
+  rooms: Room[],
+  isLoading: boolean,
+  isError: boolean,
+}
+const RoomsFeed: FC<RFProps> = ({ rooms, isLoading, isError }) => {
+
+  return (
+    <div className="rooms-feed">
+      <SharedUi.Helpers.LoadErrorHandler 
+        isError={isError}
+        isLoading={isLoading}
+      >
+        {rooms && rooms.length ? (
+          <>
+            {rooms.map((room, index) => <RoomUi.RoomLine
+              key={index}
+              room={room}
+            />)}
+          </>
+        ) : (
+          <div className="empty">
+            Here's no rooms
+          </div>
+        )}
+      </SharedUi.Helpers.LoadErrorHandler>
+    </div>
+  )
+}
+
 export const RoomUi = {
   RoomLine,
   RoomMemberLine,
+  RoomsFeed,
 }

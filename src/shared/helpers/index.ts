@@ -47,8 +47,17 @@ export function isTheFirstMessageToday(message: Message, messages: Message[]): b
   }
 }
 
+function createIdGenerator() {
+  let id = 1;
+
+  return function idGenerator() {
+    return id++;
+  }
+}
+
 export const Helpers = {
   getImageSrc,
   isTheFirstMessageToday,
-  getImageUrlFromFile
+  getImageUrlFromFile,
+  createIdGenerator
 }

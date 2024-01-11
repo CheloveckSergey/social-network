@@ -1,6 +1,6 @@
 import { Author, AuthorWithSubscribed } from "../../author"
 
-export type User = {
+export interface User {
   id: number,
   login: string,
   avatar: string,
@@ -17,12 +17,14 @@ export type MeUser = {
   author: Author,
 }
 
-export type OneUser = {
+type FriendStatus = 'friend' | 'not-friend' | 'request';
+
+export interface OneUser {
   id: number,
   login: string,
   avatar: string,
-  isFriend: boolean,
   author: AuthorWithSubscribed,
+  friendStatus: FriendStatus;
 }
 
 export type UserHook<T> = (user: OneUser, effects: T) => {

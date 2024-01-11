@@ -1,0 +1,23 @@
+.note-line {
+  padding: 10px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--extra-panel-hover);
+  }
+
+  .header {
+    color: var(--font-green);
+  }
+}
+
+.notes-list {
+  width: 400px;
+
+  .empty {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+  }
+}

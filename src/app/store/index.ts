@@ -8,6 +8,7 @@ import { messagesSlice } from "../../entities/message";
 import { commentsSlice } from "../../entities/comment/model/redux";
 import { messageStatusesSlice } from "../../entities/message/model/statusesRedux";
 import { deletedMessagesSlice } from "../../fetures/messages/model";
+import { notesSlice } from "../../entities/notes";
 
 const socket = new SocketClient();
 
@@ -19,6 +20,7 @@ export const store = configureStore({
     commets: commentsSlice.reducer,
     messageStatuses: messageStatusesSlice.reducer,
     deletedMessages: deletedMessagesSlice.reducer,
+    notes: notesSlice.reducer,
   },
   middleware: (getDefaultMiddleware) => 
     getDefaultMiddleware()
@@ -37,6 +39,7 @@ const rootReducer = combineReducers({
   commets: commentsSlice.reducer,
   messageStatuses: messageStatusesSlice.reducer,
   deletedMessages: deletedMessagesSlice.reducer,
+  notes: notesSlice.reducer,
 })
 
 export type RootState = ReturnType<typeof rootReducer>;

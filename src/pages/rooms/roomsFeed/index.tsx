@@ -21,23 +21,11 @@ export const RoomsFeed: FC<RFProps> = ({ user }) => {
 
   return (
     <div className="rooms-feed regular-panel">
-      <SharedUi.Helpers.LoadErrorHandler 
-        isError={isError}
+      <RoomUi.RoomsFeed 
+        rooms={rooms}
         isLoading={isLoading}
-      >
-        {rooms && rooms.length ? (
-          <div className="feed">
-            {rooms.map((room, index) => <RoomUi.RoomLine
-              key={index}
-              room={room}
-            />)}
-          </div>
-        ) : (
-          <div>
-            Here's no rooms
-          </div>
-        )}
-      </SharedUi.Helpers.LoadErrorHandler>
+        isError={isError}
+      />
     </div>
   )
 }

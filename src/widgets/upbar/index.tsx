@@ -8,6 +8,8 @@ import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/store';
 import { authThunks } from '../../fetures/auth';
 import { AllMessagesButton, MessagesUi } from '../../entities/message';
+import { SharedUi } from '../../shared/sharedUi';
+import { NotesUi } from '../../entities/notes';
 
 const Upbar: FC = () => {
   const navigate = useNavigate();
@@ -23,9 +25,12 @@ const Upbar: FC = () => {
 
         </input>
       </div>
-      <div>
-        <FaRegBell size={25} />
-      </div>
+      <SharedUi.Buttons.ExtraButton
+        Icon={FaRegBell}
+        iconSize={25}
+      >
+        <NotesUi.NotesList />
+      </SharedUi.Buttons.ExtraButton>
       <AllMessagesButton />
       <MessagesUi.MyMessageStatuses />
       <div>

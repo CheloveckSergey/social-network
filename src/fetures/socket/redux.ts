@@ -10,6 +10,7 @@ import { Comment } from '../../entities/comment';
 import { ResAuthDto } from "../auth/api";
 import { MessageStatusesActions } from "../../entities/message/model/statusesRedux";
 import { DeleteMessagesActions } from "../messages/model";
+import { NotesActions } from "../../entities/notes";
 
 // Here can be any dispatch to open a connection
 const INIT_KEY = 'socket/connect';
@@ -137,6 +138,11 @@ export const socketMiddleware = (socket: SocketClient) => {
       socket.on('message', (message: Message) => {
         console.log('onMessage');
         dispatch(MessageSliceActions.addMessage({message}))
+        dispatch(NotesActions.addNote({
+          header: 'Новое сообщение',
+          body: 'Пользователь ' + message.user.login + ' написал сообщение',
+          link: '/room/' + message.roomId,
+        }))
       })
 
       socket.on('readMessage', (newStatus: Status) => {

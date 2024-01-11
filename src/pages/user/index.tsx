@@ -10,54 +10,62 @@ import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import { OneUser, UserApi } from "../../entities/user";
 
+//Эта страница недоступна пока что
 const UserPage: FC = () => {
 
-  const [user, setUser] = useState<OneUser>();
+  // const [user, setUser] = useState<OneUser>();
 
-  const { userId } = useParams();
+  // const { userId } = useParams();
 
-  const { data, isLoading, isError } = useQuery(
-    ['loadOneUser', userId],
-    () => {
-      return UserApi.getOneUserById(Number(userId));
-    },
-    {
-      onSuccess: data => {
-        setUser(data);
-      }
-    }
-  );
+  
+  // const { data, isLoading, isError } = useQuery(
+  //   ['loadOneUser', userId],
+  //   () => {
+  //     return UserApi.getOneUserById(Number(userId));
+  //   },
+  //   {
+  //     onSuccess: data => {
+  //       setUser(data);
+  //     }
+  //   }
+  // );
 
-  function setIsFriend(isFriend: boolean) {
-    if (user) {
-      setUser({...user, isFriend})
-    }
-  }
+  // function setIsFriend(isFriend: boolean) {
+  //   if (user) {
+  //     setUser({...user, isFriend})
+  //   }
+  // }
 
-  if (!user) {
-    return (
-      <div>
-        Sorry, bro. No user.
-      </div>
-    )
-  }
+  // if (!user) {
+  //   return (
+  //     <div>
+  //       Sorry, bro. No user.
+  //     </div>
+  //   )
+  // }
+
+  // return (
+  //   <>
+  //     <Upbar />
+  //     <main>
+  //       <LeftMenu />
+  //       <div className="home">
+  //         <div className="home-extra">
+  //           <UserAvatar user={user} setIsFriend={setIsFriend} />
+  //         </div>
+  //         <div className="home-main">
+  //           <Info user={user} />
+  //           {/* <UserImages user={user} /> */}
+  //           <UserFeed user={user} />
+  //         </div>
+  //       </div>
+  //     </main>
+  //   </>
+  // )
 
   return (
     <>
-      <Upbar />
-      <main>
-        <LeftMenu />
-        <div className="home">
-          <div className="home-extra">
-            <UserAvatar user={user} setIsFriend={setIsFriend} />
-          </div>
-          <div className="home-main">
-            <Info user={user} />
-            {/* <UserImages user={user} /> */}
-            <UserFeed user={user} />
-          </div>
-        </div>
-      </main>
+      Временно недоступно, прикол с api getOneUser
     </>
   )
 }

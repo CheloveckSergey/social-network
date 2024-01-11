@@ -3,6 +3,7 @@ import { useAppSelector } from "../../../app/store";
 import { OneUser, UserApi } from "../../../entities/user";
 import { useState } from "react";
 import { Hook } from "../../../shared/types";
+import { FriendsApi } from "../../../entities/friends";
 
 export interface FriendshipEffects {
   setFriendship: (isFriend: boolean) => void,
@@ -17,7 +18,7 @@ const useFriendship: Hook<OneUser, FriendshipEffects> = (user: OneUser, effects:
     ['deleteFriend', user.id],
     () => {
       if (curUser) {
-        return UserApi.deleteFriend(user.id);
+        return FriendsApi.deleteFriend(user.id);
       }
     },
     {
@@ -29,11 +30,11 @@ const useFriendship: Hook<OneUser, FriendshipEffects> = (user: OneUser, effects:
     }
   );
 
-  const addStatus = useQuery(
-    ['addFriend', user.id],
+  const cancelDeleteFriend = useQuery(
+    ['cancelDeleteFriend', user.id],
     () => {
       if (curUser) {
-        return UserApi.addFriend(curUser.id, user.id);
+        return FriendsApi.cancelDeleteFriend(curUser.id, user.id);
       }
     },
     {
@@ -55,11 +56,11 @@ const useFriendship: Hook<OneUser, FriendshipEffects> = (user: OneUser, effects:
     }
   } else {
     return {
-      refetch: addStatus.refetch,
-      isLoading: addStatus.isLoading,
-      isError: addStatus.isError,
+      refetch: cancelDeleteFriend.refetch,
+      isLoading: cancelDeleteFriend.isLoading,
+      isError: cancelDeleteFriend.isError,
       isSuccess,
-      headline: 'Add',
+      headline: 'Cancel Delete',
     }
   }
 }

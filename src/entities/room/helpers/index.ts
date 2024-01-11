@@ -82,6 +82,13 @@ function getSortedByLastMessageRooms(rooms: Room[]): Room[]  {
   return newRooms;
 }
 
+// function hasNewMessage(room: Room, messages: []): boolean {
+//   if (room.messages?.length && messages.find(message => room.messages[0].id === message.id)) {
+
+//     setHasNewMessage(true);
+//   }
+// }
+
 export const RoomHelpers = {
   getRoomImage,
   getName,
