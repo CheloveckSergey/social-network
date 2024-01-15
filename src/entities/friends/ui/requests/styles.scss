@@ -1,0 +1,28 @@
+.request-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+  padding: 5px;
+
+  &:first-child {
+    margin-top: 0px;
+  }
+
+  img.avatar {
+    height: 80px;
+    width: 80px;
+    object-fit: cover;
+    border-radius: 50em;
+  }
+
+  .main {
+    flex-grow: 3;
+
+    .buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+  }
+}

@@ -2,3 +2,27 @@
   height: 30px;
   width: 30px;
 }
+
+@mixin request-sizes-button () {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30px;
+  width: 80px;
+}
+
+button.accept-button {
+  @include request-sizes-button();
+
+  border-radius: var(--small-border-radius);
+}
+
+.success-container {
+  @include request-sizes-button();
+}
+
+.reject-button {
+  @include request-sizes-button();
+
+  border-radius: var(--small-border-radius);
+}

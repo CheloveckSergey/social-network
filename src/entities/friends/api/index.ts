@@ -1,5 +1,6 @@
 import api from "../../../shared/http";
 import { OneUser } from "../../user";
+import { FriendRequest } from "../model";
 
 const INITIAL_URL = '/friends';
 
@@ -39,13 +40,13 @@ export class FriendsApi {
   }
 
   static async getAllActiveOutcomeRequestsByUser(userId: number) {
-    const response = await api.get(INITIAL_URL + '/getAllActiveOutcomeRequestsByUser/' + userId);
-    return response;
+    const response = await api.get<FriendRequest[]>(INITIAL_URL + '/getAllActiveOutcomeRequestsByUser/' + userId);
+    return response.data;
   }
 
   static async getAllActiveIncomeRequestsByUser(userId: number) {
-    const response = await api.get(INITIAL_URL + '/getAllActiveIncomeRequestsByUser/' + userId);
-    return response;
+    const response = await api.get<FriendRequest[]>(INITIAL_URL + '/getAllActiveIncomeRequestsByUser/' + userId);
+    return response.data;
   }
 
   static async createRequest(userId1: number, userId2: number) {
@@ -72,6 +73,16 @@ export class FriendsApi {
   static async acceptRequest(requestId: number) {
     const response = await api.post(
       INITIAL_URL + '/acceptRequest',
+      {
+        requestId, 
+      }
+    );
+    return response;
+  }
+
+  static async deleteRequest(requestId: number) {
+    const response = await api.post(
+      INITIAL_URL + '/deleteRequest',
       {
         requestId, 
       }

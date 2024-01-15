@@ -1,0 +1,21 @@
+.friends-navigation-panel {
+
+  .navigation-link {
+    margin-top: 5px;
+    padding: 5px;
+    border-radius: var(--small-border-radius);
+    cursor: pointer;
+
+    &.active {
+      background-color: var(--border);
+    }
+
+    &:first-child {
+      margin-top: 0;
+    }
+
+    &:hover {
+      background-color: var(--border);
+    }
+  }
+}

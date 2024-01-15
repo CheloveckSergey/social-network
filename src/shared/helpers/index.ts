@@ -7,7 +7,7 @@ const getImageSrc = (src: string | undefined) => {
   if (src) {
     imageSrc = backUrl + src;
   } else {
-    imageSrc = 'https://i.pinimg.com/736x/b8/64/a5/b864a5224eccc107594cf2f5a84b6af8--peter-griffin-family-guy.jpg';
+    imageSrc = 'https://e7.pngegg.com/pngimages/855/884/png-clipart-peter-griffin-youtube-television-film-internet-meme-youtube-television-child.png';
   }
   return imageSrc;
 }

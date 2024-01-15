@@ -30,7 +30,7 @@ export const FriendsBlock: FC<FBProps> = ({ user }) => {
             user={user} 
             key={index} 
             hooks={[
-             Friendship.Hooks.useFriendship,
+             Friendship.Hooks.useDeleteFriend,
              Subscription.Hooks.useSubscription,
             ]}
           />)

@@ -4,21 +4,18 @@ import { User, UserApi, UserUi } from "../../../entities/user";
 import { useQuery } from "react-query";
 import { SharedUi } from "../../../shared/sharedUi";
 import { Friendship } from "../../../fetures/friendship";
-import { FriendsApi } from "../../../entities/friends";
+import { FriendsApi, FriendsLib } from "../../../entities/friends";
 
 interface PFPProps {
   user: User,
 }
 export const PossibleFriendsPanel: FC<PFPProps> = ({ user }) => {
 
-  const { data, isLoading, isError } = useQuery(
-    ['loadPossibleFriends'],
-    () => {
-      if (user) {
-        return FriendsApi.getPossibleFriends(user.id);
-      }
-    }
-  )
+  const {
+    possibleFriends,
+    isLoading,
+    isError,
+  } = FriendsLib.usePossibleFriends(user)
 
   return (
     <div className="regular-panel possible-friends-panel">
@@ -28,11 +25,11 @@ export const PossibleFriendsPanel: FC<PFPProps> = ({ user }) => {
           isError={isError}
           isLoading={isLoading}
         >
-          {data?.length ? (
-            data?.map((friend, index) => <UserUi.Cards.PossibleFriendCard
+          {possibleFriends?.length ? (
+            possibleFriends?.map((friend, index) => <UserUi.Cards.PossibleFriendCard
               key={index}
               friend={friend}
-              AddFriendButton={Friendship.Ui.AddFriendButton}
+              AddFriendButton={Friendship.Ui.CreateRequestButton}
             />)
           ) : (
             <div className="no-friends">
