@@ -16,12 +16,19 @@ export interface RoomMember {
 export interface Room {
   id: number,
   name: string | undefined,
-  roomMembers: RoomMember[],
-  messages: Message[],
   type: RoomType,
   avatar: string | undefined,
   createdAt: string,
   updatedAt: string,
+}
+
+export interface RoomWithMembers extends Room {
+  roomMembers: RoomMember[],
+}
+
+export interface RoomWithMembersAndLastMessage extends Room {
+  roomMembers: RoomMember[],
+  messages: Message[],
 }
 
 export type RoomMemberStatus = 'online' | 'offline';

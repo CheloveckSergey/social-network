@@ -1,7 +1,7 @@
 import { useQuery } from "react-query"
 import { RoomApi } from "../api";
 import { useEffect, useState } from "react";
-import { Room } from "../model";
+import { Room, RoomWithMembers, RoomWithMembersAndLastMessage } from "../model";
 import { useAppSelector } from "../../../app/store";
 import { RoomHelpers } from "../helpers";
 import { Message } from "../../message";
@@ -16,7 +16,7 @@ const roomsKeys = {
 
 const useRoom = (roomId: number) => {
 
-  const [room, setRoom] = useState<Room>();
+  const [room, setRoom] = useState<RoomWithMembers>();
 
   const { isLoading, isError, error } = useQuery({
     queryKey: roomsKeys.room.slug(roomId),
@@ -40,7 +40,7 @@ const useRooms = () => {
   const { user } = useAppSelector(state => state.user);
   const { messages } = useAppSelector(state => state.messages);
 
-  const [_rooms, setRooms] = useState<Room[]>([]);
+  const [_rooms, setRooms] = useState<RoomWithMembersAndLastMessage[]>([]);
 
   const rooms = RoomHelpers.getSortedByLastMessageRooms(_rooms);
 
@@ -84,7 +84,7 @@ const useRooms = () => {
   }
 }
 
-const useHasNewMessage = (room: Room) => {
+const useHasNewMessage = (room: RoomWithMembersAndLastMessage) => {
   const { messages } = useAppSelector(state => state.messages);
 
   const [hasNewMessage, setHasNewMessage] = useState<boolean>(false);

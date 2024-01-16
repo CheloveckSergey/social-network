@@ -37,6 +37,7 @@ const MessageCreator: FC<CMSProps> = ({ room, addMessage }) => {
         className="inherit-to-green"
         onClick={() => {
           sendMessage(message);
+          setMessage('');
         }}
       >
         <IoMdSend size={25} />   

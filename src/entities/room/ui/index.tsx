@@ -1,5 +1,5 @@
 import { FC, useState } from "react"
-import { Room, RoomMember } from "../model"
+import { Room, RoomMember, RoomWithMembersAndLastMessage } from "../model"
 import { useAppSelector } from "../../../app/store"
 import { Helpers } from "../../../shared/helpers";
 import './styles.scss';
@@ -11,7 +11,7 @@ import { RoomMembership } from "../../../fetures/roomMembership";
 import { RoomLib } from "../lib";
 
 interface RLProps {
-  room: Room,
+  room: RoomWithMembersAndLastMessage,
 }
 const RoomLine: FC<RLProps> = ({ room }) => {
 
@@ -94,7 +94,7 @@ const RoomMemberLine: FC<RMLProps> = ({ roomMember }) => {
 }
 
 interface RFProps {
-  rooms: Room[],
+  rooms: RoomWithMembersAndLastMessage[],
   isLoading: boolean,
   isError: boolean,
 }

@@ -1,23 +1,23 @@
 import api from "../../../shared/http";
 import { Message } from "../../message";
 import { OneUser } from "../../user";
-import { Room, RoomMember, RoomType } from "../model";
+import { Room, RoomMember, RoomType, RoomWithMembers, RoomWithMembersAndLastMessage } from "../model";
 
 const INITIAL_URL = '/rooms';
 
 export class RoomApi {
   static async getRoomById(id: number) {
-    const response = await api.get<Room>(INITIAL_URL + '/getRoomById/' + id);
+    const response = await api.get<RoomWithMembers>(INITIAL_URL + '/getRoomById/' + id);
     return response.data;
   }
 
   static async getAllRoomsByUserId(userId: number) {
-    const response = await api.get<Room[]>(INITIAL_URL + '/getAllRoomsByUserId/' + userId);
+    const response = await api.get<RoomWithMembersAndLastMessage[]>(INITIAL_URL + '/getAllRoomsByUserId/' + userId);
     return response.data;
   }
 
   static async getPersonalRoom(userId1: number, userId2: number) {
-    const response = await api.post<Room>(
+    const response = await api.post<RoomWithMembers>(
       INITIAL_URL + '/getPersonalRoom',
       {
         userId1, userId2,
@@ -45,7 +45,7 @@ export class RoomApi {
   }
 
   static async createRoom(userId: number, type: RoomType) {
-    const response = await api.post<Room>(
+    const response = await api.post<RoomWithMembers>(
       INITIAL_URL + '/createRoom',
       {
         userId,
@@ -63,7 +63,7 @@ export class RoomApi {
       form.append('img', roomAvatar);
     }
     userIds.forEach(userId => form.append('userIds[]', String(userId)));
-    const response = await api.post<Room>(
+    const response = await api.post<RoomWithMembers>(
       INITIAL_URL + '/createGeneralRoom',
       form,
     );
@@ -71,7 +71,7 @@ export class RoomApi {
   }
 
   static async createPersonalRoom(userId1: number,  userId2: number) {
-    const response = await api.post<Room>(
+    const response = await api.post<RoomWithMembers>(
       INITIAL_URL + '/createPersonalRoom',
       {
         userId1,
@@ -82,7 +82,7 @@ export class RoomApi {
   }
 
   static async createPRoomAndWMessage(userId1: number, userId2: number, text: string) {
-    const response = await api.post<Room>(
+    const response = await api.post<RoomWithMembers>(
       INITIAL_URL + '/createPRoomAndWMessage',
       {
         userId1,

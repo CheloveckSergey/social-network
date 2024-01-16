@@ -47,12 +47,6 @@ export const RoomPanel: FC<RPProps> = ({ user }) => {
     toggleReadMessage,
   } = MessagesLib.useMessages(Number(roomId!), user!);
 
-  // useEffect(() => {
-  //   if (ref.current) {
-  //     console.log('scroll');
-  //     ref.current.scrollIntoView();
-  //   }
-  // }, [])
   useEffect(() => {
     if (ref.current) {
       ref.current.scrollIntoView();

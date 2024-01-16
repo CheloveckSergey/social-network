@@ -2,9 +2,9 @@ import { Helpers } from "../../../shared/helpers";
 import { MyDate } from "../../../shared/types";
 import { Message } from "../../message";
 import { MeUser } from "../../user";
-import { Room } from "../model";
+import { Room, RoomWithMembers, RoomWithMembersAndLastMessage } from "../model";
 
-function getRoomImage(room: Room, user: MeUser): string | undefined {
+function getRoomImage(room: RoomWithMembers, user: MeUser): string | undefined {
   if (room.avatar) {
     return room.avatar;
   }
@@ -17,7 +17,7 @@ function getRoomImage(room: Room, user: MeUser): string | undefined {
   }
 }
 
-function getName(room: Room, user: MeUser): string | undefined {
+function getName(room: RoomWithMembers, user: MeUser): string | undefined {
   if (room.name) {
     return room.name
   }
@@ -47,7 +47,7 @@ function getLastMessageText(messages: Message[], user: MeUser): string {
   }
 }
 
-function getLastMessageDate(room: Room, user: MeUser): string {
+function getLastMessageDate(room: RoomWithMembersAndLastMessage, user: MeUser): string {
   const lastMessage = getLastMessage(room.messages, user);
   if (!lastMessage) {
     return room.createdAt
@@ -56,8 +56,8 @@ function getLastMessageDate(room: Room, user: MeUser): string {
   }
 }
 
-function getSortedByLastMessageRooms(rooms: Room[]): Room[]  {
-  const newRooms: Room[] = rooms.sort((a, b) => {
+function getSortedByLastMessageRooms(rooms: RoomWithMembersAndLastMessage[]): RoomWithMembersAndLastMessage[]  {
+  const newRooms = rooms.sort((a, b) => {
     const aMessageExist = a.messages && a.messages.length;
     const bMessageExist = b.messages && b.messages.length;
     if (!aMessageExist && !bMessageExist) {
@@ -81,13 +81,6 @@ function getSortedByLastMessageRooms(rooms: Room[]): Room[]  {
   });
   return newRooms;
 }
-
-// function hasNewMessage(room: Room, messages: []): boolean {
-//   if (room.messages?.length && messages.find(message => room.messages[0].id === message.id)) {
-
-//     setHasNewMessage(true);
-//   }
-// }
 
 export const RoomHelpers = {
   getRoomImage,
