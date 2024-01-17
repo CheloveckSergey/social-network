@@ -37,14 +37,10 @@ const useCommentSocket = (creationId: number) => {
   }
 
   useEffect(() => {
-    // console.log('USE_COMMENT_SOCKET_USEEFFECT[]');
-    // console.log(conCreationIds);
     checkConnected();
   }, []);
 
   useEffect(() => {
-    // console.log('USE_COMMENT_SOCKET_USEEFFECT[conCreationIds]');
-    // console.log(conCreationIds);
     checkConnected();
   }, [conCreationIds]);
 

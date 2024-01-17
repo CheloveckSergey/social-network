@@ -2,6 +2,7 @@ import { FC } from "react";
 import { OnePost, Post } from "../../entities/post";
 import { PostUi } from "../../entities/post";
 import './styles.scss';
+import Favourites from "../../fetures/favourites";
 
 interface FeedProps {
   posts: OnePost[]
@@ -16,7 +17,7 @@ const Feed: FC<FeedProps> = ({ posts }) => {
   return (
     <div className="feed-widget">
       {(posts.length > 0) ? revercedPosts.map((post, index) => (
-        <PostUi.PostCard key={index} post={post} />
+        <PostUi.PostCard key={index} post={post} actions={[Favourites.Actions.LikeButton]}/>
       )) : (
         <div className="regular-panel no-posts">
           <p>There's no any post here yet</p>

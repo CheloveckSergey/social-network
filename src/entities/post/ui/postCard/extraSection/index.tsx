@@ -1,7 +1,7 @@
 import { FC } from "react";
-import { OnePost, Post } from "../..";
 import './styles.scss';
 import { BsThreeDots } from "react-icons/bs";
+import { OnePost } from "../../..";
 
 interface EPProps {
   post: OnePost,

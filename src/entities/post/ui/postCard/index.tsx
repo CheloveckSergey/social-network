@@ -1,50 +1,43 @@
 import { FC, useEffect, useState } from "react";
-import { OnePost, Post } from "../model";
+import { OnePost, Post } from "../../model";
 import "./styles.scss";
-import { useAppSelector } from "../../../app/store";
+import { useAppSelector } from "../../../../app/store";
 import { CommentSection } from "./commentSection";
 import { HeadSection } from "./headSection";
 import { ContentSection } from "./contentSection";
 import { BottomSection } from "./bottomSection";
-import { CommentsLib } from "../../comment";
+import { CommentsLib } from "../../../comment";
+import { OneCreation } from "../../../creation";
+import { PostsLib } from "../../lib";
 
-export interface Effects {
+export interface PostEffects {
   setIsLiked: (isLiked: boolean) => void,
 }
 
 interface PostProps {
   post: OnePost
+  actions: React.FC<{creation: OneCreation, effects: PostEffects}>[]
 }
-export const PostCard: FC<PostProps> = ({ post: _post }) => {
-
-  const [post, setPost] = useState<OnePost>(_post);
-
-  const [commentsOpened, setCommentsOpened] = useState<boolean>(false);
+export const PostCard: FC<PostProps> = ({ post: _post, actions }) => {
   const { user } = useAppSelector(state => state.user);
 
-  function setIsLiked(isLiked: boolean): void {
-    setPost({
-      ...post,
-      creation: {
-        ...post.creation,
-        isLiked,
-        likeNumber: isLiked ? post.creation.likeNumber + 1 : post.creation.likeNumber - 1,
-      }
-    });
-  }
+  const {
+    post,
+    setIsLiked,
+  } = PostsLib.usePostInterface(_post);
+
+  const [commentsOpened, setCommentsOpened] = useState<boolean>(false);
 
   const { 
     isLoading,
     isError,
     comments,
-    error,
     addComment,
     connectComments,
     connected
   } = CommentsLib.useComments(post.creationId);
 
-
-  const effects = {
+  const effects: PostEffects = {
     setIsLiked,
   }
 
@@ -55,11 +48,12 @@ export const PostCard: FC<PostProps> = ({ post: _post }) => {
         <ContentSection post={post} />
         <BottomSection
           post={post} 
+          effects={effects}
           commentsOpened={commentsOpened}
           setCommentsOpened={setCommentsOpened}
-          effects={effects}
-          connectComments={connectComments}
           connected={connected}
+          connectComments={connectComments}
+          actions={actions}
         />
       </div>
       {commentsOpened && user && <CommentSection
@@ -69,7 +63,7 @@ export const PostCard: FC<PostProps> = ({ post: _post }) => {
           data: comments,
           isLoading,
           isError
-        }} 
+        }}
         addComment={addComment}
       />}
     </div>

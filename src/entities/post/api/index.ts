@@ -26,4 +26,13 @@ export class PostApi {
     );
     return response;
   }
+
+  ////////////////////////////////////////////////////////
+
+  static async getFeedByAuthorId(authorId: number) {
+    const response = await api.get<OnePost[]>(
+      INITIAL_URL + '/getFeedByAuthorId/' + authorId,
+    );
+    return response.data;
+  }
 }

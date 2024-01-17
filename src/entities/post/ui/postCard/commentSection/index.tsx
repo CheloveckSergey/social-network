@@ -1,15 +1,10 @@
 import { FC, useState } from "react";
-import { OnePost, Post } from "../..";
-import { User } from "../../../user";
-import { Comment } from "../../../comment/model";
-import { useQuery } from "react-query";
-import CommentApi from "../../../comment/api";
-import { CreateComment } from "../../../comment";
-import { PostCommentFeed } from "../../../comment";
 import './styles.scss';
-import { SocketActions } from "../../../../fetures/socket";
-import { useAppDispatch, useAppSelector } from "../../../../app/store";
-import { SharedUi } from "../../../../shared/sharedUi";
+import { User } from "../../../../user";
+import { OnePost } from "../../..";
+import { SharedUi } from "../../../../../shared/sharedUi";
+import { CreateComment, PostCommentFeed } from "../../../../comment";
+import { Comment } from "../../../../comment";
 
 interface CSProps {
   user: User,

@@ -1,8 +1,8 @@
 import { FC, useState, MouseEvent } from "react";
-import { OnePost, Post } from "../../model";
 import { BsFillCircleFill, BsFillRecordCircleFill } from "react-icons/bs";
 import './styles.scss';
-import { ImageUi } from "../../../image";
+import { ImageUi } from "../../../../image";
+import { OnePost } from "../../..";
 
 interface CSProps {
   post: OnePost,

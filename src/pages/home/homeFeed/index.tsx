@@ -1,27 +1,21 @@
 import { FC, useEffect } from "react";
-import { User } from "../../../entities/user";
+import { MeUser, User } from "../../../entities/user";
 import Feed from "../../../widgets/feed";
 import { useQuery } from "react-query";
-import { PostApi } from "../../../entities/post";
+import { PostApi, PostsLib } from "../../../entities/post";
 import './styles.scss';
 
 interface HomeFeedProps {
-  user: User | undefined,
+  meUser: MeUser,
 }
 
-export const HomeFeed: FC<HomeFeedProps> = ({ user }) => {
-  const { data, isLoading, isError } = useQuery(
-    ['loadQuery', user?.id],
-    () => {
-      if (user?.id) {
-        return PostApi.getAllOnePostsByAuthorId(user.author.id);
-      }
-    }
-  )
-
-  useEffect(() => {
-    console.log('hopePageRenderUseEffect');
-  }, []);
+export const HomeFeed: FC<HomeFeedProps> = ({ meUser }) => {
+  
+  const {
+    feed,
+    isLoading,
+    isError,
+  } = PostsLib.useFeedByAuthor(meUser.author.id, meUser);
 
   return (
     <>
@@ -29,10 +23,10 @@ export const HomeFeed: FC<HomeFeedProps> = ({ user }) => {
         <p>Loading...</p>
       ) : isError ? (
         <p>ErrorХуйня...</p>
-      ) : !data ? (
+      ) : !feed ? (
         <p>Something went wrong...</p>
       ) : (
-        <Feed posts={data} />
+        <Feed posts={feed} />
       )}
     </>
   )
