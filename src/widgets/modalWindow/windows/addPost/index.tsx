@@ -6,12 +6,7 @@ import { BiImageAdd, BiSolidVideos } from "react-icons/bi";
 import { BsFileEarmarkMusic, BsFillCircleFill, BsFillRecordCircleFill } from "react-icons/bs";
 import { useQuery } from "react-query";
 
-
-interface AddPostProps {
-
-}
-
-export const AddPostWindow: FC<AddPostProps> = ({  }) => {
+export const AddPostWindow: FC = ({  }) => {
 
   const { author } = useAppSelector(state => state.modalWindow);
 
@@ -38,7 +33,6 @@ export const AddPostWindow: FC<AddPostProps> = ({  }) => {
       onSuccess: () => {
         window.location.reload();
       },
-      // onError: () => setMessage('Нихуя не загружено как же блять заебало'),
     }
   )
 
@@ -155,13 +149,6 @@ export const AddPostWindow: FC<AddPostProps> = ({  }) => {
           <button className="white">
             <BsFileEarmarkMusic size={25} />
           </button>
-          {/* <label style={{display: "none"}}>
-            <input 
-              type="text"
-              name="userId"
-              value={author.id}
-            />
-          </label> */}
         </div>
         <button
           className="load-button white-back"

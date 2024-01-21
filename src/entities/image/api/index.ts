@@ -40,3 +40,5 @@ export class ImageApi {
     return response.data;
   }
 }
+
+export * from './albumImagesApi';

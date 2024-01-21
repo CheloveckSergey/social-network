@@ -1,9 +1,9 @@
 import { FC } from "react"
 import './styles.scss';
-import { OneImage } from "../model";
-import { useAppDispatch } from "../../../app/store";
-import { setImageWindow } from "../../../widgets/modalWindow/model/redux";
-import { Helpers } from "../../../shared/helpers";
+import { OneImage } from "../../model";
+import { useAppDispatch } from "../../../../app/store";
+import { setImageWindow } from "../../../../widgets/modalWindow/model/redux";
+import { Helpers } from "../../../../shared/helpers";
 
 interface ImageCardProps {
   images: OneImage[],
@@ -11,7 +11,7 @@ interface ImageCardProps {
   index: number
 }
 
-const ImageCard: FC<ImageCardProps> = ({ images, imageClass, index }) => {
+export const ImageCard: FC<ImageCardProps> = ({ images, imageClass, index }) => {
 
   const dispatch = useAppDispatch();
 
@@ -25,8 +25,4 @@ const ImageCard: FC<ImageCardProps> = ({ images, imageClass, index }) => {
       />
     </>
   )
-}
-
-export const ImageUi = {
-  ImageCard,
 }

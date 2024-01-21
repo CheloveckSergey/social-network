@@ -1,16 +1,18 @@
 import { FC } from "react";
 import { OnePost } from "../../model";
-import { PostUi } from "..";
-import Favourites from "../../../../fetures/favourites";
+import { PostsUi } from "..";
 import { SharedUi } from "../../../../shared/sharedUi";
+import { PostEffects } from "../postCard";
+import { OneCreation } from "../../../creation";
+import './styles.scss';
 
 interface PLProps {
   posts: OnePost[],
   isLoading: boolean,
   isError: boolean,
-  actions: React.FC<{post: OnePost, }>
+  actions: React.FC<{creation: OneCreation, effects: PostEffects}>[],
 }
-export const PostList: FC<PLProps> = ({ posts, isLoading, isError }) => {
+export const PostList: FC<PLProps> = ({ posts, isLoading, isError, actions }) => {
 
   return (
     <div className="post-list">
@@ -19,12 +21,10 @@ export const PostList: FC<PLProps> = ({ posts, isLoading, isError }) => {
         isError={isError}
       >
         {posts && posts.length ? (
-          posts.map((post, index) => <PostUi.PostCard 
+          posts.map((post, index) => <PostsUi.PostCard 
             key={index}
             post={post}
-            actions={[
-              Favourites.Actions.LikeButton
-            ]}
+            actions={actions}
         />)
         ) : (
           <SharedUi.Divs.Empty

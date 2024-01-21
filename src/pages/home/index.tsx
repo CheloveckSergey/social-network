@@ -34,7 +34,7 @@ const Home: FC = () => {
           </div>
           <div className="home-main">
             <Info user={user} />
-            {/* <HomeImages user={user} /> */}
+            <HomeImages user={user} />
             <AddPostPanel author={user.author} />
             <HomeFeed meUser={user} />
           </div>

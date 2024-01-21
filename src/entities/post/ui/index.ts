@@ -1,7 +1,7 @@
 import { PostCard } from "./postCard";
 import { PostList } from "./postList";
 
-export const PostUi = {
+export const PostsUi = {
   PostCard,
   PostList,
 }

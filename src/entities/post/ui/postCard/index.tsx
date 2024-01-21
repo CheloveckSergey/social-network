@@ -16,7 +16,7 @@ export interface PostEffects {
 
 interface PostProps {
   post: OnePost
-  actions: React.FC<{creation: OneCreation, effects: PostEffects}>[]
+  actions: React.FC<{creation: OneCreation, effects: PostEffects}>[],
 }
 export const PostCard: FC<PostProps> = ({ post: _post, actions }) => {
   const { user } = useAppSelector(state => state.user);
