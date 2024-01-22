@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { BsEyeFill } from "react-icons/bs";
 import { OneImage } from "../../model";
-import { useAppDispatch } from "../../../../app/store";
+import { useAppDispatch, useAppSelector } from "../../../../app/store";
 import { useNavigate } from "react-router-dom";
 import { SharedUi } from "../../../../shared/sharedUi";
 import { WindowTypes, setWindow } from "../../../../widgets/modalWindow/model/redux";
@@ -15,6 +15,7 @@ interface IBProps {
   isError: boolean,
 }
 export const ImageBar: FC<IBProps> = ({ images, isLoading, isError }) => {
+
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 

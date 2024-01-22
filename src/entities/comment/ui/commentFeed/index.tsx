@@ -1,5 +1,5 @@
 import { FC } from "react"
-import { Comment, PostComment } from '../../index';
+import { Comment, CommentsUi } from '../../index';
 
 interface CFProps {
   comments: Comment[],
@@ -9,7 +9,7 @@ const CommentFeed: FC<CFProps> = ({ comments }) => {
 
   return (
     <div className="comment-feed">
-      {comments.map((comment, index) => <PostComment 
+      {comments.map((comment, index) => <CommentsUi.CommentLine 
         key={index}
         comment={comment}
       />)}

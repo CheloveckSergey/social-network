@@ -3,8 +3,7 @@ import './styles.scss';
 import { User } from "../../../../user";
 import { OnePost } from "../../..";
 import { SharedUi } from "../../../../../shared/sharedUi";
-import { CreateComment, PostCommentFeed } from "../../../../comment";
-import { Comment } from "../../../../comment";
+import { Comment, CommentsUi } from "../../../../comment";
 
 interface CSProps {
   user: User,
@@ -38,9 +37,9 @@ export const CommentSection: FC<CSProps> = ({ user, post, commentsStatus, addCom
         isLoading={commentsStatus.isLoading}
         isError={commentsStatus.isError}
       >
-        {commentsStatus.data && <PostCommentFeed comments={commentsStatus.data} />}
+        {commentsStatus.data && <CommentsUi.PostCommentFeed comments={commentsStatus.data} />}
       </SharedUi.Helpers.LoadErrorHandler>
-      <CreateComment creation={post.creation} user={user} addComment={addComment} />
+      <CommentsUi.CreateComment creation={post.creation} user={user} addComment={addComment} />
     </div>
   )
 }

@@ -68,7 +68,6 @@ export const AddPostWindow: FC = ({  }) => {
               {(images.length > 1) ? (<div>
                 <img 
                   className="post-image"
-                  // src={`${images[curImageIndex]}`} 
                   src={URL.createObjectURL(images[curImageIndex])} 
                   alt="IMG" 
                 />
