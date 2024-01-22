@@ -31,10 +31,29 @@
       height: 50px;
       width: 50px;
       border-radius: 50em;
+      object-fit: cover;
     }
   }
 
   .main {
     flex-grow: 3;
+
+    >.body {
+      margin-top: 5px;
+    }
+
+    >.bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 3px;
+
+      >.left {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+      }
+    }
   }
 }

@@ -95,37 +95,36 @@ const useComments = (creationId: number) => {
   };
 }
 
-const useCreateComment = (creationId: number, addComment: (comment: Comment) => void) => {
+// const useCreateComment = (creationId: number, addComment: (comment: Comment) => void) => {
 
-  const { comments } = useAppSelector(state => state.commets);
+//   const { comments } = useAppSelector(state => state.commets);
 
-  const { connected } = useCommentSocket(creationId);
+//   const { connected } = useCommentSocket(creationId);
 
-  const dispatch = useAppDispatch();
+//   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    if (connected) {
-      const newComment = comments.at(-1);
-      if (newComment && newComment.creationId === creationId) {
-        addComment(newComment)
-      }
-    }
-  }, [comments]);
+//   useEffect(() => {
+//     if (connected) {
+//       const newComment = comments.at(-1);
+//       if (newComment && newComment.creationId === creationId) {
+//         addComment(newComment)
+//       }
+//     }
+//   }, [comments]);
 
-  function sendComment(text: string) {
-    if (!connected) {
-      return;
-    }
-    dispatch(SocketActions.sendComment({creationId, text}));
-  }
+//   function sendComment(text: string) {
+//     if (!connected) {
+//       return;
+//     }
+//     dispatch(SocketActions.sendComment({creationId, text}));
+//   }
 
-  return {
-    sendComment
-  }
-}
+//   return {
+//     sendComment
+//   }
+// }
 
 export const CommentsLib = {
   useCommentSocket,
   useComments,
-  useCreateComment,
 }

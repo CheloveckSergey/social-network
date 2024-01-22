@@ -4,6 +4,7 @@ import { User } from "../../../../user";
 import { OnePost } from "../../..";
 import { SharedUi } from "../../../../../shared/sharedUi";
 import { Comment, CommentsUi } from "../../../../comment";
+import { CommentsActionsUi } from "../../../../../fetures/comments";
 
 interface CSProps {
   user: User,
@@ -39,7 +40,7 @@ export const CommentSection: FC<CSProps> = ({ user, post, commentsStatus, addCom
       >
         {commentsStatus.data && <CommentsUi.PostCommentFeed comments={commentsStatus.data} />}
       </SharedUi.Helpers.LoadErrorHandler>
-      <CommentsUi.CreateComment creation={post.creation} user={user} addComment={addComment} />
+      <CommentsActionsUi.CommentCreator creation={post.creation} user={user} addComment={addComment} />
     </div>
   )
 }

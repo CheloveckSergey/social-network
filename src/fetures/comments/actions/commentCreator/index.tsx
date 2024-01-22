@@ -1,13 +1,12 @@
 import { FC, useRef, useState } from "react"
-import { User } from "../../../user"
 import { getImageSrc } from "../../../../shared/service/images"
-import { useQuery } from "react-query"
-import CommentApi from "../../api"
 import { BsFileEarmarkPlay } from "react-icons/bs"
-import { Comment } from "../../model"
+import { Comment } from "../../../../entities/comment"
 import './styles.scss';
-import { CrTypeCodes, CrTypesNames, Creation, OneCreation } from "../../../creation"
-import { CommentsLib } from "../../lib"
+import { User } from "../../../../entities/user";
+import { CommentsActionsLib } from "../../lib";
+import { OneCreation } from "../../../../entities/creation";
+
 
 interface CCInterface {
   user: User,
@@ -15,13 +14,13 @@ interface CCInterface {
   addComment: (comment: Comment) => void,
 }
 
-export const CreateComment: FC<CCInterface> = ({ user, creation, addComment }) => {
+export const CommentCreator: FC<CCInterface> = ({ user, creation, addComment }) => {
 
   const [text, setText] = useState<string>('');
 
   const formRef = useRef<HTMLFormElement>(null);
 
-  const { sendComment } = CommentsLib.useCreateComment(creation.id, addComment);
+  const { sendComment } = CommentsActionsLib.useCreateComment(creation.id, addComment);
 
   return (
     <div className="create-comment">

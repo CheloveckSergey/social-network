@@ -3,6 +3,7 @@ import { Comment } from "../..";
 import './styles.scss';
 import { Helpers } from "../../../../shared/helpers";
 import { AiOutlineHeart } from "react-icons/ai";
+import { MyDate } from "../../../../shared/types";
 
 interface CLProps {
   comment: Comment,
@@ -19,18 +20,23 @@ export const CommentLine: FC<CLProps> = ({ comment }) => {
         />
       </div>
       <div className="main">
-        <h3>{comment.ownCreation.author.name}</h3>
+        <div className="head">
+          <h3 className="ref title">{comment.ownCreation.author.name}</h3>
+        </div>
         <div className="body">
           <p>{comment.text}</p>
         </div>
         <div className="bottom">
-          <p className="date extra">{comment.ownCreation.createdAt}</p>
+          <div className="left">
+            <p className="date extra">{new MyDate(comment.ownCreation.createdAt).getDateAndTime()}</p>
+            <button className="ref">
+              Ответить
+            </button>
+          </div>
+          <button className="like-button">
+            <AiOutlineHeart size={15} />
+          </button>
         </div>
-      </div>
-      <div className="right">
-        <button className="like-button">
-          <AiOutlineHeart size={15} />
-        </button>
       </div>
     </div>
   )

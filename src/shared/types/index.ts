@@ -112,6 +112,11 @@ export class MyDate {
     return stringHour + ':' + stringMinute + ':' + stringSeconds;
   }
 
+  getDateAndTime(): string {
+    const dateAndTime: string = this.getStringDate() + ' ' + this.getStringTime();
+    return dateAndTime;
+  }
+
   private getTimeFromMySQLDate(date: string): {hour: number, minute: number, seconds: number} | undefined {
     const regExp = /T\d{2}:\d{2}:\d{2}/;
     const concidences = date.match(regExp);

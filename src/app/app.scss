@@ -16,6 +16,7 @@
 
   --font-size-extra: 0.8rem;
   --font-size-title: 1rem;
+  --font-size-regular: 0.9rem;
 
   --regular-padding: 10px;
 
@@ -168,7 +169,7 @@ h4 {
 }
 
 h3.title {
-  margin-top: 5px;
+  // margin-top: 5px;
   font-size: var(--font-size-title);
   color: var(--font-green);
 }
@@ -179,6 +180,11 @@ h2 {
 
 p {
   margin-top: 5px;
+  font-size: var(--font-size-regular);
+
+  &:first-child {
+    margin-top: 0;
+  }
 }
 
 p.extra {
