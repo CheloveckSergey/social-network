@@ -1,33 +1,32 @@
-import { FC, useRef, useState } from "react"
-import { getImageSrc } from "../../../../shared/service/images"
-import { BsFileEarmarkPlay } from "react-icons/bs"
-import { Comment } from "../../../../entities/comment"
+import { FC, useRef, useState } from "react";
 import './styles.scss';
+import { OneCreation } from "../../../../entities/creation";
 import { User } from "../../../../entities/user";
 import { CommentsActionsLib } from "../../lib";
-import { OneCreation } from "../../../../entities/creation";
+import { Comment } from "../../../../entities/comment";
 import { Helpers } from "../../../../shared/helpers";
+import { BsFileEarmarkPlay } from "react-icons/bs";
 
 interface CCInterface {
   user: User,
   creation: OneCreation,
   addComment: (comment: Comment) => void,
+  commentId: number,
 }
-
-export const CommentCreator: FC<CCInterface> = ({ user, creation, addComment }) => {
+export const CommentResponseCreator: FC<CCInterface> = ({ user, creation, addComment, commentId }) => {
 
   const [text, setText] = useState<string>('');
 
-  const formRef = useRef<HTMLFormElement>(null);
-
-  const { 
+  const {
     mutate,
     isLoading,
-    isError
+    isError,
   } = CommentsActionsLib.useCreateComment(creation.id, addComment);
 
+  const formRef = useRef<HTMLFormElement>(null);
+
   return (
-    <div className="create-comment">
+    <div className="comment-response-creator">
       <img 
         src={Helpers.getImageSrc(user?.avatar)} 
         alt="IMG" 

@@ -71,8 +71,7 @@ interface UnrefreshAction {
 }
 
 type SendComment = {
-  creationId: number,
-  text: string,
+  comment: Comment
 }
 
 interface SendCommentAction {
@@ -167,7 +166,11 @@ export const socketMiddleware = (socket: SocketClient) => {
 
       socket.on('comment', (commentResDto: CommentResDto) => {
         console.log('comment in socket');
-        dispatch(CommentsSliceActions.addComment({comment: commentResDto.comment}));
+        console.log(commentResDto);
+        console.log(payload);
+        if (commentResDto.comment.ownCreation.author.id !== payload.author.id) {
+          dispatch(CommentsSliceActions.addComment({comment: commentResDto.comment}));
+        }
       })
 
       socket.on('deleteMessage', (message: Message) => {
@@ -198,7 +201,7 @@ export const socketMiddleware = (socket: SocketClient) => {
         break;
       }
       case SocketActionTypes.SEND_COMMENT: {
-        socket.emit('sendComment', {...payload, authorId: user?.author.id});
+        socket.emit('sendComment', payload);
         break;
       }
       case SocketActionTypes.CONNECT_COMMENTS: {

@@ -1,0 +1,28 @@
+.comment-response-creator {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px;
+  border-top: var(--regular-border);
+
+  &:first-child {
+    border-top: none;
+  }
+
+  form {
+    flex-grow: 3;
+    display: flex;
+    gap: 10px;
+
+    label {
+      height: 30px;
+      flex-grow: 3;
+
+      .comment-input {
+        margin: 0;
+        height: 100%;
+        width: 100%
+      }
+    }
+  }
+}

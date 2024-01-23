@@ -51,6 +51,7 @@ const useCommentSocket = (creationId: number) => {
 }
 
 const useComments = (creationId: number) => {
+  const { comments: globalComments } = useAppSelector(state => state.commets);
 
   const { connect, connected } = useCommentSocket(creationId);
 
@@ -68,6 +69,15 @@ const useComments = (creationId: number) => {
     },
     enabled: false,
   });
+
+  useEffect(() => {
+    if (connected) {
+      const newComment = globalComments.at(-1);
+      if (newComment && newComment.creationId === creationId) {
+        addComment(newComment)
+      }
+    }
+  }, [globalComments]);
 
   function connectComments() {
     commentsStatus.refetch()

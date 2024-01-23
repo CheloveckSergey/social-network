@@ -9,16 +9,17 @@ export class CommentApi {
     return response.data;
   }
 
-  static async createComment(authorId: number, creationId: number, text: string) {
+  static async createComment(authorId: number, creationId: number, text: string, responseToCommentId?: number) {
     const response = await api.post<Comment>(
       INITIAL_URL + '/createComment',
       {
         authorId, 
         creationId, 
         text,
+        responseToCommentId
       }
     );
-    return response; 
+    return response.data; 
   }
 }
 

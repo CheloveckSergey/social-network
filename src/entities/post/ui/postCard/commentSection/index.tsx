@@ -18,20 +18,6 @@ interface CSProps {
 }
 export const CommentSection: FC<CSProps> = ({ user, post, commentsStatus, addComment }) => {
 
-  // const [comments, setComments] = useState<Comment[]>([]);
-
-  // const { data, isLoading, isError } = useQuery(
-  //   ['getCommentsByPostId', post.id],
-  //   () => CommentApi.getAllCommentsByCreationId(post.creation.id),
-  //   {
-  //     onSuccess: (data) => {
-  //       setComments(data);
-  //     }
-  //   }
-  // )
-
-
-
   return (
     <div className="comments-section">
       <SharedUi.Helpers.LoadErrorHandler 

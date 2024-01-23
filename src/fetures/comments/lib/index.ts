@@ -3,33 +3,43 @@ import { useAppDispatch, useAppSelector } from "../../../app/store";
 import { CommentsLib } from "../../../entities/comment";
 import { Comment } from "../../../entities/comment";
 import { SocketActions } from "../../socket";
+import { useMutation } from "react-query";
+import CommentApi from "../../../entities/comment/api";
+
+interface CreateCommentProps {
+  text: string,
+  responseToCommentId?: number,
+}
 
 const useCreateComment = (creationId: number, addComment: (comment: Comment) => void) => {
-
+  const { user } = useAppSelector(state => state.user);
   const { comments } = useAppSelector(state => state.commets);
 
   const { connected } = CommentsLib.useCommentSocket(creationId);
 
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    if (connected) {
-      const newComment = comments.at(-1);
-      if (newComment && newComment.creationId === creationId) {
-        addComment(newComment)
+  const { mutateAsync, isLoading, isError } = useMutation(
+    ({ text, responseToCommentId } : CreateCommentProps) => CommentApi.createComment(user!.author.id, creationId, text, responseToCommentId),
+    {
+      onSuccess: (data) => {
+        sendComment(data);
+        addComment(data);
       }
     }
-  }, [comments]);
+  )
 
-  function sendComment(text: string) {
+  const dispatch = useAppDispatch();
+
+  function sendComment(comment: Comment) {
     if (!connected) {
       return;
     }
-    dispatch(SocketActions.sendComment({creationId, text}));
+    dispatch(SocketActions.sendComment({comment}));
   }
 
   return {
-    sendComment
+    mutate: mutateAsync,
+    isLoading,
+    isError,
   }
 }
 
