@@ -24,7 +24,10 @@ export const CommentSection: FC<CSProps> = ({ user, post, commentsStatus, addCom
         isLoading={commentsStatus.isLoading}
         isError={commentsStatus.isError}
       >
-        {commentsStatus.data && <CommentsUi.PostCommentFeed comments={commentsStatus.data} />}
+        {commentsStatus.data && <CommentsUi.PostCommentFeed 
+          comments={commentsStatus.data} 
+          addComment={addComment}
+        />}
       </SharedUi.Helpers.LoadErrorHandler>
       <CommentsActionsUi.CommentCreator creation={post.creation} user={user} addComment={addComment} />
     </div>

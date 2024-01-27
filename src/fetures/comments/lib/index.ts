@@ -11,7 +11,13 @@ interface CreateCommentProps {
   responseToCommentId?: number,
 }
 
-const useCreateComment = (creationId: number, addComment: (comment: Comment) => void) => {
+const useCreateComment = (
+  creationId: number, 
+  addComment: (comment: Comment) => void, 
+  effects?: {
+    closeCreator?: () => void,
+  }
+) => {
   const { user } = useAppSelector(state => state.user);
   const { comments } = useAppSelector(state => state.commets);
 
@@ -23,6 +29,9 @@ const useCreateComment = (creationId: number, addComment: (comment: Comment) => 
       onSuccess: (data) => {
         sendComment(data);
         addComment(data);
+        if (effects?.closeCreator) {
+          effects.closeCreator();
+        }
       }
     }
   )

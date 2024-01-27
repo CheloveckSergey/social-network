@@ -1,17 +1,21 @@
 import { FC } from "react"
-import { Comment, CommentsUi } from '../../index';
+import { Comment, CommentsHelpers, CommentsUi } from '../../index';
 
 interface CFProps {
   comments: Comment[],
+  addComment: (comment: Comment) => void,
 }
 
-const CommentFeed: FC<CFProps> = ({ comments }) => {
+const CommentFeed: FC<CFProps> = ({ comments, addComment }) => {
+
+  const commentsStructure = CommentsHelpers.getCommentsStructure(comments);
 
   return (
     <div className="comment-feed">
-      {comments.map((comment, index) => <CommentsUi.CommentLine 
+      {commentsStructure.map((commentsBlock, index) => <CommentsUi.CommentsBlockUi
         key={index}
-        comment={comment}
+        commentsBlock={commentsBlock}
+        addComment={addComment}
       />)}
     </div>
   )
@@ -19,13 +23,17 @@ const CommentFeed: FC<CFProps> = ({ comments }) => {
 
 interface PCFProps {
   comments: Comment[] | undefined,
+  addComment: (comment: Comment) => void,
 }
 
-export const PostCommentFeed: FC<PCFProps> = ({ comments }) => {
+export const PostCommentFeed: FC<PCFProps> = ({ comments, addComment }) => {
 
   return (
     <>
-      {comments && comments.length > 0 && <CommentFeed comments={comments} />}
+      {comments && comments.length > 0 && <CommentFeed 
+        comments={comments} 
+        addComment={addComment}
+      />}
     </>
   )
 }

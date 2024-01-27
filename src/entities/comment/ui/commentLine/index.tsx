@@ -4,13 +4,19 @@ import './styles.scss';
 import { Helpers } from "../../../../shared/helpers";
 import { AiOutlineHeart } from "react-icons/ai";
 import { MyDate } from "../../../../shared/types";
+import { CommentsActionsUi } from "../../../../fetures/comments";
 
 interface CLProps {
   comment: Comment,
+  addComment: (comment: Comment) => void,
 }
-export const CommentLine: FC<CLProps> = ({ comment }) => {
+export const CommentLine: FC<CLProps> = ({ comment, addComment }) => {
 
   const [showResponseCreator, setShowResponseCreator] = useState<boolean>(false);
+
+  function closeCreator() {
+    setShowResponseCreator(false);
+  }
 
   return (
     <div className="comment">
@@ -25,6 +31,9 @@ export const CommentLine: FC<CLProps> = ({ comment }) => {
         <div className="main">
           <div className="head">
             <h3 className="ref title">{comment.ownCreation.author.name}</h3>
+            {comment.responseToComment && (
+              <p className="extra">{'to ' + comment.responseToComment.ownCreation.author.name}</p>
+            )}
           </div>
           <div className="body">
             <p>{comment.text}</p>
@@ -46,7 +55,14 @@ export const CommentLine: FC<CLProps> = ({ comment }) => {
         </div>
       </div>
       <div className="inner">
-        asdfasdf
+        {showResponseCreator && <CommentsActionsUi.CommentResponseCreator
+          creationId={comment.creationId}
+          addComment={addComment}
+          commentId={comment.id}
+          effects={{
+            closeCreator,
+          }}
+        />}
       </div>
     </div>
   )

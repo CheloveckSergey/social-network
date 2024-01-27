@@ -29,7 +29,7 @@ export const CommentCreator: FC<CCInterface> = ({ user, creation, addComment }) 
   return (
     <div className="create-comment">
       <img 
-        src={Helpers.getImageSrc(user?.avatar)} 
+        src={Helpers.getImageSrc(user.avatar)} 
         alt="IMG" 
         className="avatar-image"
       />

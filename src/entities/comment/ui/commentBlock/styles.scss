@@ -1,0 +1,12 @@
+.comments-block {
+  border-top: var(--regular-border);
+  
+  &:first-child {
+    border-top: none;
+  }
+
+  >.inner {
+    margin-left: 50px;
+    border-top: var(--regular-border);
+  }
+}

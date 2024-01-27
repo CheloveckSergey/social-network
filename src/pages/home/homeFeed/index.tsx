@@ -5,6 +5,7 @@ import { useQuery } from "react-query";
 import { PostApi, PostsLib, PostsUi } from "../../../entities/post";
 import './styles.scss';
 import Favourites from "../../../fetures/favourites";
+import { CommentsActionsUi } from "../../../fetures/comments";
 
 interface HomeFeedProps {
   meUser: MeUser,

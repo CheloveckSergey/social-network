@@ -20,4 +20,12 @@ export type Comment = {
   ownCreationId: number,
   creationId: number,
   creation: Creation,
+  responseToCommentId: number | null,
+  responseToComment: Comment | null,
 }
+
+export interface CommentsBlock extends Comment {
+  innerComments: Comment[],
+}
+
+export type CommentsStructure = CommentsBlock[];

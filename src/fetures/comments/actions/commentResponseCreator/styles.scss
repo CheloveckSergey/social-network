@@ -9,6 +9,13 @@
     border-top: none;
   }
 
+  img.avatar-image {
+    height: 40px;
+    width: 40px;
+    object-fit: cover;
+    border-radius: 50em;
+  }
+
   form {
     flex-grow: 3;
     display: flex;

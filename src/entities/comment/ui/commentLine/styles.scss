@@ -36,6 +36,12 @@
         object-fit: cover;
       }
     }
+
+    .head {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
   
     .main {
       flex-grow: 3;

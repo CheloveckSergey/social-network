@@ -6,14 +6,18 @@ import { CommentsActionsLib } from "../../lib";
 import { Comment } from "../../../../entities/comment";
 import { Helpers } from "../../../../shared/helpers";
 import { BsFileEarmarkPlay } from "react-icons/bs";
+import { useAppSelector } from "../../../../app/store";
 
 interface CCInterface {
-  user: User,
-  creation: OneCreation,
+  creationId: number,
   addComment: (comment: Comment) => void,
   commentId: number,
+  effects?: {
+    closeCreator?: () => void,
+  },
 }
-export const CommentResponseCreator: FC<CCInterface> = ({ user, creation, addComment, commentId }) => {
+export const CommentResponseCreator: FC<CCInterface> = ({ creationId, addComment, commentId, effects }) => {
+  const { user } = useAppSelector(state => state.user);
 
   const [text, setText] = useState<string>('');
 
@@ -21,7 +25,7 @@ export const CommentResponseCreator: FC<CCInterface> = ({ user, creation, addCom
     mutate,
     isLoading,
     isError,
-  } = CommentsActionsLib.useCreateComment(creation.id, addComment);
+  } = CommentsActionsLib.useCreateComment(creationId, addComment, effects);
 
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -46,7 +50,7 @@ export const CommentResponseCreator: FC<CCInterface> = ({ user, creation, addCom
           onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
             e.preventDefault();
             console.log('createCommentButton_Click');
-            mutate({text})
+            mutate({text, responseToCommentId: commentId})
             .then(() => {
               setText('');
             });
