@@ -23,28 +23,26 @@
     border-top: none;
   }
   
-  .comment-section {
+  >.comment-section {
     display: flex;
     gap: 10px;
     padding: 10px;
     
-    .avatar-container {
-      .avatar {
-        height: 50px;
-        width: 50px;
-        border-radius: 50em;
-        object-fit: cover;
-      }
-    }
-
-    .head {
-      display: flex;
-      gap: 10px;
-      align-items: center;
+    >img.avatar {
+      height: 50px;
+      width: 50px;
+      border-radius: 50em;
+      object-fit: cover;
     }
   
-    .main {
+    >.main {
       flex-grow: 3;
+
+      >.head {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
   
       >.body {
         margin-top: 5px;
@@ -66,7 +64,56 @@
     }
   }
 
-  .inner {
+  >.inner {
     margin-left: 50px;
+  }
+}
+
+.image-comment-line {
+  border-top: var(--regular-border);
+  
+  &:first-child {
+    border-top: none;
+  }
+  
+  >.comment-section {
+    display: flex;
+    gap: 5px;
+    padding: 5px;
+    
+    >img.avatar {
+      height: 30px;
+      width: 30px;
+      border-radius: 50em;
+      object-fit: cover;
+    }
+  
+    >.main {
+      flex-grow: 3;
+
+      >.head {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+  
+      >.body {
+        margin-top: 5px;
+      }
+  
+      >.bottom {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 3px;
+  
+        >.left {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 10px;
+        }
+      }
+    }
   }
 }

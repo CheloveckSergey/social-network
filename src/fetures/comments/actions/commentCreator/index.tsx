@@ -59,3 +59,63 @@ export const CommentCreator: FC<CCInterface> = ({ user, creation, addComment }) 
     </div>
   )
 }
+
+interface ICCProps {
+  user: User,
+  creation: OneCreation,
+  addComment: (comment: Comment) => void,
+}
+export const ImageCommentCreator: FC<ICCProps> = ({ user, creation, addComment }) => {
+
+  const [text, setText] = useState<string>('');
+
+  const { 
+    mutate,
+    isLoading,
+    isError
+  } = CommentsActionsLib.useCreateComment(creation.id, addComment);
+
+  return (
+    <div className="image-comments-creator">
+      <div
+        className="up"
+      >
+        <img
+          src={Helpers.getImageSrc(user.avatar)} 
+          alt="IMG" 
+          className="avatar-image"
+        />
+        <textarea
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          name="text"
+          className="comment-input"
+        />
+      </div>
+      <div className="down">
+        <button
+          className="cancel-button white-back"
+          onClick={() => {
+            setText('');
+          }}
+        >
+          Отменить
+        </button>
+        <button
+          className="send-button green"
+          onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+            e.preventDefault();
+            console.log('createCommentButton_Click');
+            mutate({text})
+            .then(() => {
+              setText('');
+            });
+          }}
+          disabled={text === ''}
+        >
+          Отправить
+        </button>
+      </div>
+    </div>
+  )
+}

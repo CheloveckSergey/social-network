@@ -33,3 +33,47 @@
     }
   }
 }
+
+.image-comments-creator {
+  border-top: var(--regular-border);
+
+  >.up {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px;
+
+    >img.avatar-image {
+      height: 30px;
+      width: 30px;
+      object-fit: cover;
+      border-radius: 50em;
+    }
+
+    >textarea {
+      flex-grow: 3;
+    }
+  }
+
+  >.down {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 5px;
+    padding: 5px;
+    border-top: var(--regular-border);
+
+    >button {
+      padding: 5px 10px;
+      border-radius: 5px;
+    }
+
+    >button.cancel-button {
+
+    }
+
+    >button.send-button {
+
+    }
+  }
+}

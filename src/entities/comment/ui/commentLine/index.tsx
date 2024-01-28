@@ -21,13 +21,11 @@ export const CommentLine: FC<CLProps> = ({ comment, addComment }) => {
   return (
     <div className="comment">
       <div className="comment-section">
-        <div className="avatar-container">
-          <img 
-            src={Helpers.getImageSrc(comment.ownCreation.author.avatar)} 
-            alt="IMG" 
-            className="avatar"
-            />
-        </div>
+        <img 
+          src={Helpers.getImageSrc(comment.ownCreation.author.avatar)} 
+          alt="IMG" 
+          className="avatar"
+        />
         <div className="main">
           <div className="head">
             <h3 className="ref title">{comment.ownCreation.author.name}</h3>
@@ -63,6 +61,52 @@ export const CommentLine: FC<CLProps> = ({ comment, addComment }) => {
             closeCreator,
           }}
         />}
+      </div>
+    </div>
+  )
+}
+
+interface ICLProps {
+  comment: Comment,
+  addComment: (comment: Comment) => void,
+}
+export const ImageCommentLine: FC<ICLProps> = ({ comment, addComment }) => {
+
+  return (
+    <div className="image-comment-line">
+      <div className="comment-section">
+        <img 
+          src={Helpers.getImageSrc(comment.ownCreation.author.avatar)} 
+          alt="IMG" 
+          className="avatar"
+        />
+        <div className="main">
+          <div className="head">
+            <h3 className="ref title">{comment.ownCreation.author.name}</h3>
+            {comment.responseToComment && (
+              <p className="extra">{'to ' + comment.responseToComment.ownCreation.author.name}</p>
+            )}
+          </div>
+          <div className="body">
+            <p>{comment.text}</p>
+          </div>
+          <div className="bottom">
+            <div className="left">
+              <p className="date extra">{new MyDate(comment.ownCreation.createdAt).getStringDate()}</p>
+              <button 
+                className="ref"
+                onClick={() => {
+
+                }}
+              >
+                Ответить
+              </button>
+            </div>
+            <button className="like-button">
+              <AiOutlineHeart size={15} />
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   )
