@@ -9,6 +9,7 @@ import { commentsSlice } from "../../entities/comment/model/redux";
 import { messageStatusesSlice } from "../../entities/message/model/statusesRedux";
 import { deletedMessagesSlice } from "../../fetures/messages/model";
 import { notesSlice } from "../../entities/notes";
+import { anotherModalWindowSlice } from "../../widgets/anotherModalWindow/model";
 
 const socket = new SocketClient();
 
@@ -21,6 +22,7 @@ export const store = configureStore({
     messageStatuses: messageStatusesSlice.reducer,
     deletedMessages: deletedMessagesSlice.reducer,
     notes: notesSlice.reducer,
+    anotherModalWindow: anotherModalWindowSlice.reducer,
   },
   middleware: (getDefaultMiddleware) => 
     getDefaultMiddleware()
@@ -40,6 +42,7 @@ const rootReducer = combineReducers({
   messageStatuses: messageStatusesSlice.reducer,
   deletedMessages: deletedMessagesSlice.reducer,
   notes: notesSlice.reducer,
+  anotherModalWindow: anotherModalWindowSlice.reducer,
 })
 
 export type RootState = ReturnType<typeof rootReducer>;

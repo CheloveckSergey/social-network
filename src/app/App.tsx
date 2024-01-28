@@ -35,7 +35,10 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
+    <div 
+      className="App"
+      id='App'  
+    >
       {window.switch && <ModalWindow />}
       <Routing />
     </div>

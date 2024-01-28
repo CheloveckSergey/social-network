@@ -1,37 +1,53 @@
 import { FC, useEffect, useRef, useState } from "react";
-import './styles.scss';
-import { useAppDispatch, useAppSelector } from "../../../../app/store";
+import { OneImage } from "../../../entities/image";
+import { useAppDispatch, useAppSelector } from "../../../app/store";
 import { AiOutlineDoubleLeft, AiOutlineDoubleRight } from "react-icons/ai";
-import { nextImage, previousImage } from "../../model/redux";
-import { Helpers } from "../../../../shared/helpers";
-import { OneImage } from "../../../../entities/image";
-import { AuthorUi } from "../../../../entities/author";
-import { CommentsLib, CommentsUi } from "../../../../entities/comment";
-import { CommentsActionsUi } from "../../../../fetures/comments";
+import { Helpers } from "../../../shared/helpers";
+import { CommentsLib, CommentsUi } from "../../../entities/comment";
+import { AuthorUi } from "../../../entities/author";
+import { CommentsActionsUi } from "../../../fetures/comments";
+import './styles.scss';
 
 interface ISProps {
-  image: OneImage,
+  images: OneImage[],
+  curImageIndex: number,
+  setCurImageIndex: (index: number) => void,
 }
-const ImageSection: FC<ISProps> = ({ image }) => {
+const ImageSection: FC<ISProps> = ({ images, curImageIndex, setCurImageIndex }) => {
 
-  const dispatch = useAppDispatch();
+  const curImage: OneImage = images[curImageIndex];
+
+  function previousImage() {
+    if (curImageIndex === 0) {
+      return;
+    }
+    setCurImageIndex(curImageIndex - 1);
+  }
+
+  function nextImage() {
+    if (curImageIndex === images.length - 1) {
+      return;
+    }
+    setCurImageIndex(curImageIndex + 1);
+  }
+
 
   return (
     <div className="left">
       <button
         className="turn-button left-button white"
-        onClick={() => dispatch(previousImage({}))}
+        onClick={() => previousImage()}
       >
         <AiOutlineDoubleLeft size={55} />
       </button>
       <img 
-        src={Helpers.getImageSrc(image.value)} 
+        src={Helpers.getImageSrc(curImage.value)} 
         alt="IMG"
         className="image-image"
       />
       <button
         className="turn-button right-button white"
-        onClick={() => dispatch(nextImage({}))}
+        onClick={() => nextImage()}
       >
         <AiOutlineDoubleRight size={55} />
       </button>
@@ -39,9 +55,13 @@ const ImageSection: FC<ISProps> = ({ image }) => {
   )
 }
 
-const ImageWindow: FC = () => {
+interface IWProps {
+  images: OneImage[],
+  curImageIndex: number,
+  setCurImageIndex: (index: number) => void,
+}
+export const ImageWindow: FC<IWProps> = ({ images, curImageIndex, setCurImageIndex }) => {
   const { user } = useAppSelector(state => state.user);
-  const { images, curImageIndex } = useAppSelector(state => state.modalWindow);
 
   const [image, setImage] = useState<OneImage>(images[curImageIndex]);
 
@@ -69,12 +89,14 @@ const ImageWindow: FC = () => {
     }
   }, [comments]);
 
-  const dispatch = useAppDispatch();
-
   return (
     <div className="regular-panel image-window">
       <div className="main">
-        <ImageSection image={image} />
+        <ImageSection 
+          images={images}
+          curImageIndex={curImageIndex}
+          setCurImageIndex={setCurImageIndex} 
+        />
         <div className="right">
           <div className="header">
             <AuthorUi.AuthorCard
@@ -109,5 +131,3 @@ const ImageWindow: FC = () => {
     </div>
   )
 }
-
-export default ImageWindow;
