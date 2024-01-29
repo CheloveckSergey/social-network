@@ -61,6 +61,7 @@ const ExtraSection = function<Entity, Effects>({ entity, hooks, effects } : ESPr
 interface CABProps {
   onClick: () => void,
   Icon: IconType,
+  iconSize?: number,
   isActive: boolean,
   activeColor: string,
   generalNumber: number,
@@ -70,7 +71,8 @@ interface CABProps {
 }
 const CreationActionButton: FC<CABProps> = ({ 
   onClick, 
-  Icon, 
+  Icon,
+  iconSize = 25,
   isActive, 
   activeColor, 
   generalNumber,
@@ -89,7 +91,7 @@ const CreationActionButton: FC<CABProps> = ({
         <div>asdf</div>
       ) : (
         <Icon 
-          size={25} 
+          size={iconSize} 
           style={{color: `${isActive ? activeColor : ''}`}} 
         />
       )}

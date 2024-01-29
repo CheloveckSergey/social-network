@@ -1,4 +1,4 @@
-import { Creation, OneCommentCreation } from "../../creation"
+import { Creation, OneCommentCreation, OneCreation } from "../../creation"
 
 export type Comment = {
   id: number,
@@ -15,7 +15,7 @@ export type OneComment = {
   id: number,
   text: string,
   ownCreationId: number,
-  ownCreation: OneCommentCreation,
+  ownCreation: OneCreation,
   creationId: number,
   creation: Creation,
   responseToCommentId: number,

@@ -5,13 +5,14 @@ import { Helpers } from "../../../../shared/helpers";
 import { AiOutlineHeart } from "react-icons/ai";
 import { MyDate } from "../../../../shared/types";
 import { CommentsActionsUi } from "../../../../fetures/comments";
+import { OneCreation } from "../../../creation";
 
 interface CLProps {
   comment: OneComment,
   addComment: (comment: OneComment) => void,
-//   likeButton: React.ReactNode,
+  likeButton: React.ReactNode,
 }
-export const CommentLine: FC<CLProps> = ({ comment, addComment }) => {
+export const CommentLine: FC<CLProps> = ({ comment, addComment, likeButton }) => {
 
   const [showResponseCreator, setShowResponseCreator] = useState<boolean>(false);
 
@@ -47,9 +48,7 @@ export const CommentLine: FC<CLProps> = ({ comment, addComment }) => {
                 Ответить
               </button>
             </div>
-            <button className="like-button">
-              <AiOutlineHeart size={15} />
-            </button>
+            {likeButton}
           </div>
         </div>
       </div>
@@ -70,8 +69,9 @@ export const CommentLine: FC<CLProps> = ({ comment, addComment }) => {
 interface ICLProps {
   comment: OneComment,
   addComment: (comment: OneComment) => void,
+  likeButton: React.ReactNode,
 }
-export const ImageCommentLine: FC<ICLProps> = ({ comment, addComment }) => {
+export const ImageCommentLine: FC<ICLProps> = ({ comment, addComment, likeButton }) => {
 
   return (
     <div className="image-comment-line">
@@ -103,9 +103,7 @@ export const ImageCommentLine: FC<ICLProps> = ({ comment, addComment }) => {
                 Ответить
               </button>
             </div>
-            <button className="like-button">
-              <AiOutlineHeart size={15} />
-            </button>
+            {likeButton}
           </div>
         </div>
       </div>

@@ -5,22 +5,16 @@ import './styles.scss';
 interface CBProps {
   commentsBlock: CommentsBlock,
   addComment: (comment: OneComment) => void,
+  renderComment: (comment: OneComment, key: number) => React.ReactNode, 
 }
-export const CommentsBlockUi: FC<CBProps> = ({ commentsBlock, addComment }) => {
+export const CommentsBlockUi: FC<CBProps> = ({ commentsBlock, addComment, renderComment }) => {
 
   return (
     <div className="comments-block">
-      <CommentsUi.CommentLine 
-        comment={commentsBlock}
-        addComment={addComment}
-      />
+      {renderComment(commentsBlock, commentsBlock.id)}
       {commentsBlock.innerComments.length > 0 && (
         <div className="inner">
-          {commentsBlock.innerComments.map((comment, index) => <CommentsUi.CommentLine 
-            key={index}
-            comment={comment}
-            addComment={addComment}
-          />)}
+          {commentsBlock.innerComments.map(renderComment)}
         </div>
       )}
     </div>

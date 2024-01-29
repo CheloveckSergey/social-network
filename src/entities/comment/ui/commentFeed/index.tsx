@@ -8,8 +8,9 @@ interface CFProps {
   isLoading: boolean,
   isError: boolean,
   addComment: (comment: OneComment) => void,
+  renderComment: (comment: OneComment, key: number) => React.ReactNode, 
 }
-export const PostCommentFeed: FC<CFProps> = ({ comments, isLoading, isError, addComment }) => {
+export const PostCommentFeed: FC<CFProps> = ({ comments, isLoading, isError, addComment, renderComment }) => {
 
   const commentsStructure = CommentsHelpers.getCommentsStructure(comments);
 
@@ -24,6 +25,7 @@ export const PostCommentFeed: FC<CFProps> = ({ comments, isLoading, isError, add
             key={index}
             commentsBlock={commentsBlock}
             addComment={addComment}
+            renderComment={renderComment}
           />)
         ) : (
           <SharedUi.Divs.Empty 
@@ -38,17 +40,14 @@ export const PostCommentFeed: FC<CFProps> = ({ comments, isLoading, isError, add
 interface ICFProps {
   comments: OneComment[] | undefined,
   addComment: (comment: OneComment) => void,
+  renderComment: (comment: OneComment, key: number) => React.ReactNode,
 }
-export const ImageCommentFeed: FC<ICFProps> = ({ comments, addComment }) => {
+export const ImageCommentFeed: FC<ICFProps> = ({ comments, addComment, renderComment }) => {
 
   return (
     <div className="image-comments-feed">
       {comments && comments.length > 0 ? (
-        comments.map((comment, index) => <CommentsUi.ImageCommentLine 
-          key={index}
-          comment={comment}
-          addComment={addComment}
-        />)
+        comments.map(renderComment)
       ) : (
         <SharedUi.Divs.Empty 
           body="There's no comments yet"

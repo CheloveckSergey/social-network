@@ -94,6 +94,24 @@ const useComments = (creationId: number) => {
     setComments([...comments, comment]);
   }
 
+  function setIsLiked(commentId: number, isLiked: boolean) {
+    const newComments: OneComment[] = comments.map(comment => {
+      if (comment.id === commentId) {
+        return {
+          ...comment,
+          ownCreation: {
+            ...comment.ownCreation,
+            isLiked,
+            likeNumber: isLiked ? comment.ownCreation.likeNumber + 1 : comment.ownCreation.likeNumber - 1,
+          }
+        }
+      } else {
+        return comment;
+      }
+    });
+    setComments(newComments);
+  }
+
   return {
     isLoading: commentsStatus.isLoading,
     isError: commentsStatus.isError,
@@ -102,6 +120,7 @@ const useComments = (creationId: number) => {
     connectComments,
     addComment,
     connected,
+    setIsLiked,
   };
 }
 

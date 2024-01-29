@@ -3,10 +3,11 @@ import { OneImage } from "../../../entities/image";
 import { useAppDispatch, useAppSelector } from "../../../app/store";
 import { AiOutlineDoubleLeft, AiOutlineDoubleRight } from "react-icons/ai";
 import { Helpers } from "../../../shared/helpers";
-import { CommentsLib, CommentsUi } from "../../../entities/comment";
+import { CommentsLib, CommentsUi, OneComment } from "../../../entities/comment";
 import { AuthorUi } from "../../../entities/author";
 import { CommentsActionsUi } from "../../../fetures/comments";
 import './styles.scss';
+import Favourites from "../../../fetures/favourites";
 
 interface ISProps {
   images: OneImage[],
@@ -73,6 +74,7 @@ export const ImageWindow: FC<IWProps> = ({ images, curImageIndex, setCurImageInd
     isError,
     connectComments,
     addComment,
+    setIsLiked,
   } = CommentsLib.useComments(image.creationId);
 
   useEffect(() => {
@@ -113,6 +115,26 @@ export const ImageWindow: FC<IWProps> = ({ images, curImageIndex, setCurImageInd
               <CommentsUi.ImageCommentFeed 
                 comments={comments}
                 addComment={addComment}
+                renderComment={(comment: OneComment) => {
+
+                  function _setIsLiked(isLiked: boolean) {
+                    return setIsLiked(comment.id, isLiked);
+                  }
+
+                  return (
+                    <CommentsUi.ImageCommentLine 
+                      key={comment.id}
+                      comment={comment}
+                      addComment={addComment}
+                      likeButton={<Favourites.Actions.SmallLikeButton 
+                        creation={comment.ownCreation}
+                        effects={{
+                          setIsLiked: _setIsLiked,
+                        }}
+                      />}
+                    />
+                  )
+                }} 
               />
               <div ref={scrollRef}></div>
             </div>
