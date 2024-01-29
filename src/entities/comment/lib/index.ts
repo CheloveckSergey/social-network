@@ -24,7 +24,7 @@ const useCommentSocket = (creationId: number) => {
 
   const dispatch = useAppDispatch();
 
-  function connect() {
+  function sendConnectSocket() {
     dispatch(SocketActions.connectComments({creationId}))
   }
 
@@ -46,14 +46,14 @@ const useCommentSocket = (creationId: number) => {
 
   return {
     connected,
-    connect,
+    sendConnectSocket,
   }
 }
 
 const useComments = (creationId: number) => {
   const { comments: globalComments } = useAppSelector(state => state.commets);
 
-  const { connect, connected } = useCommentSocket(creationId);
+  const { sendConnectSocket, connected } = useCommentSocket(creationId);
 
   const [comments, setComments] = useState<Comment[]>([]);
 
@@ -82,7 +82,7 @@ const useComments = (creationId: number) => {
   function connectComments() {
     commentsStatus.refetch()
     .then(() => {
-      connect();
+      sendConnectSocket();
     })
     .catch((e) => {
       console.log('Ошибка в connectComments');
@@ -104,35 +104,6 @@ const useComments = (creationId: number) => {
     connected,
   };
 }
-
-// const useCreateComment = (creationId: number, addComment: (comment: Comment) => void) => {
-
-//   const { comments } = useAppSelector(state => state.commets);
-
-//   const { connected } = useCommentSocket(creationId);
-
-//   const dispatch = useAppDispatch();
-
-//   useEffect(() => {
-//     if (connected) {
-//       const newComment = comments.at(-1);
-//       if (newComment && newComment.creationId === creationId) {
-//         addComment(newComment)
-//       }
-//     }
-//   }, [comments]);
-
-//   function sendComment(text: string) {
-//     if (!connected) {
-//       return;
-//     }
-//     dispatch(SocketActions.sendComment({creationId, text}));
-//   }
-
-//   return {
-//     sendComment
-//   }
-// }
 
 export const CommentsLib = {
   useCommentSocket,

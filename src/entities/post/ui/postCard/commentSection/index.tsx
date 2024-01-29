@@ -1,35 +1,42 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import './styles.scss';
 import { User } from "../../../../user";
 import { OnePost } from "../../..";
-import { SharedUi } from "../../../../../shared/sharedUi";
-import { Comment, CommentsUi } from "../../../../comment";
+import { CommentsLib, CommentsUi } from "../../../../comment";
 import { CommentsActionsUi } from "../../../../../fetures/comments";
 
 interface CSProps {
   user: User,
   post: OnePost,
-  commentsStatus: {
-    data: Comment[] | undefined,
-    isLoading: boolean,
-    isError: boolean,
-  }
-  addComment: (comment: Comment) => void,
 }
-export const CommentSection: FC<CSProps> = ({ user, post, commentsStatus, addComment }) => {
+export const CommentSection: FC<CSProps> = ({ user, post }) => {
+
+  const {
+    comments,
+    isLoading,
+    isError,
+    connected,
+    connectComments,
+    addComment,
+  } = CommentsLib.useComments(post.creationId);
+
+  useEffect(() => {
+    connectComments();
+  }, []);
 
   return (
     <div className="comments-section">
-      <SharedUi.Helpers.LoadErrorHandler 
-        isLoading={commentsStatus.isLoading}
-        isError={commentsStatus.isError}
-      >
-        {commentsStatus.data && <CommentsUi.PostCommentFeed 
-          comments={commentsStatus.data} 
-          addComment={addComment}
-        />}
-      </SharedUi.Helpers.LoadErrorHandler>
-      <CommentsActionsUi.CommentCreator creation={post.creation} user={user} addComment={addComment} />
+      <CommentsUi.PostCommentFeed 
+        comments={comments}
+        isLoading={isLoading}
+        isError={isError}
+        addComment={addComment}
+      />
+      <CommentsActionsUi.CommentCreator 
+        creation={post.creation} 
+        user={user} 
+        addComment={addComment} 
+      />
     </div>
   )
 }

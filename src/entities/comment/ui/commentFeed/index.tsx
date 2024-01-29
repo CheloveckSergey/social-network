@@ -5,38 +5,33 @@ import './styles.scss';
 
 interface CFProps {
   comments: Comment[],
+  isLoading: boolean,
+  isError: boolean,
   addComment: (comment: Comment) => void,
 }
-
-const CommentFeed: FC<CFProps> = ({ comments, addComment }) => {
+export const PostCommentFeed: FC<CFProps> = ({ comments, isLoading, isError, addComment }) => {
 
   const commentsStructure = CommentsHelpers.getCommentsStructure(comments);
 
   return (
-    <div className="comment-feed">
-      {commentsStructure.map((commentsBlock, index) => <CommentsUi.CommentsBlockUi
-        key={index}
-        commentsBlock={commentsBlock}
-        addComment={addComment}
-      />)}
+    <div className="post-comment-feed">
+      <SharedUi.Helpers.LoadErrorHandler 
+        isLoading={isLoading}
+        isError={isError}
+      >
+        {comments && comments.length > 0 ? (
+          commentsStructure.map((commentsBlock, index) => <CommentsUi.CommentsBlockUi
+            key={index}
+            commentsBlock={commentsBlock}
+            addComment={addComment}
+          />)
+        ) : (
+          <SharedUi.Divs.Empty 
+            body="Write some comment..."
+          />
+        )}
+      </SharedUi.Helpers.LoadErrorHandler>
     </div>
-  )
-}
-
-interface PCFProps {
-  comments: Comment[] | undefined,
-  addComment: (comment: Comment) => void,
-}
-
-export const PostCommentFeed: FC<PCFProps> = ({ comments, addComment }) => {
-
-  return (
-    <>
-      {comments && comments.length > 0 && <CommentFeed 
-        comments={comments} 
-        addComment={addComment}
-      />}
-    </>
   )
 }
 

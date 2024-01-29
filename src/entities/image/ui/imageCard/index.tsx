@@ -1,11 +1,8 @@
 import { FC, useState } from "react"
 import './styles.scss';
 import { OneImage } from "../../model";
-import { useAppDispatch } from "../../../../app/store";
-import { setImageWindow } from "../../../../widgets/modalWindow/model/redux";
 import { Helpers } from "../../../../shared/helpers";
-import { createPortal } from "react-dom";
-import AnotherModalWindow from "../../../../widgets/anotherModalWindow/ui";
+import { UseModalWindow } from "../../../../widgets/anotherModalWindow/ui";
 import { ImageWindow } from "../../../../widgets/imageWindow";
 
 interface ImageCardProps {
@@ -27,15 +24,16 @@ export const ImageCard: FC<ImageCardProps> = ({ images, imageClass, curImageInde
         className={`image ${imageClass}`}
         onClick={() => setShowImageWindow(true)}
       />
-      {showImageWindow && createPortal(<AnotherModalWindow 
-        onClose={() => {setShowImageWindow(false)}} 
+      <UseModalWindow 
+        condition={showImageWindow}
+        onClose={() => setShowImageWindow(false)}
       >
         <ImageWindow 
           images={images}
           curImageIndex={curImageIndex}
           setCurImageIndex={setCurImageIndex}
         />
-      </AnotherModalWindow>, document.getElementById('App')!)}
+      </UseModalWindow>
     </>
   )
 }
