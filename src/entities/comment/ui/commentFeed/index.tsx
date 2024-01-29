@@ -1,13 +1,13 @@
 import { FC } from "react"
-import { Comment, CommentsHelpers, CommentsUi } from '../../index';
+import { Comment, CommentsHelpers, CommentsUi, OneComment } from '../../index';
 import { SharedUi } from "../../../../shared/sharedUi";
 import './styles.scss';
 
 interface CFProps {
-  comments: Comment[],
+  comments: OneComment[],
   isLoading: boolean,
   isError: boolean,
-  addComment: (comment: Comment) => void,
+  addComment: (comment: OneComment) => void,
 }
 export const PostCommentFeed: FC<CFProps> = ({ comments, isLoading, isError, addComment }) => {
 
@@ -36,8 +36,8 @@ export const PostCommentFeed: FC<CFProps> = ({ comments, isLoading, isError, add
 }
 
 interface ICFProps {
-  comments: Comment[] | undefined,
-  addComment: (comment: Comment) => void,
+  comments: OneComment[] | undefined,
+  addComment: (comment: OneComment) => void,
 }
 export const ImageCommentFeed: FC<ICFProps> = ({ comments, addComment }) => {
 

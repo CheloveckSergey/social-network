@@ -3,7 +3,7 @@ import CommentApi from "../api"
 import { useAppDispatch, useAppSelector } from "../../../app/store"
 import { SocketActions } from "../../../fetures/socket"
 import { useEffect, useState } from "react"
-import { Comment } from "../model"
+import { Comment, OneComment } from "../model"
 
 const commentsKeys = {
   comments: {
@@ -55,7 +55,7 @@ const useComments = (creationId: number) => {
 
   const { sendConnectSocket, connected } = useCommentSocket(creationId);
 
-  const [comments, setComments] = useState<Comment[]>([]);
+  const [comments, setComments] = useState<OneComment[]>([]);
 
   const commentsStatus = useQuery({
     queryKey: commentsKeys.comments.slug(creationId),
@@ -90,7 +90,7 @@ const useComments = (creationId: number) => {
     });
   }
 
-  function addComment(comment: Comment) {
+  function addComment(comment: OneComment) {
     setComments([...comments, comment]);
   }
 

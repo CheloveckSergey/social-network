@@ -1,7 +1,7 @@
 import { FC, useRef, useState } from "react"
 import { getImageSrc } from "../../../../shared/service/images"
 import { BsFileEarmarkPlay } from "react-icons/bs"
-import { Comment } from "../../../../entities/comment"
+import { Comment, OneComment } from "../../../../entities/comment"
 import './styles.scss';
 import { User } from "../../../../entities/user";
 import { CommentsActionsLib } from "../../lib";
@@ -11,7 +11,7 @@ import { Helpers } from "../../../../shared/helpers";
 interface CCInterface {
   user: User,
   creation: OneCreation,
-  addComment: (comment: Comment) => void,
+  addComment: (comment: OneComment) => void,
 }
 
 export const CommentCreator: FC<CCInterface> = ({ user, creation, addComment }) => {
@@ -63,7 +63,7 @@ export const CommentCreator: FC<CCInterface> = ({ user, creation, addComment }) 
 interface ICCProps {
   user: User,
   creation: OneCreation,
-  addComment: (comment: Comment) => void,
+  addComment: (comment: OneComment) => void,
 }
 export const ImageCommentCreator: FC<ICCProps> = ({ user, creation, addComment }) => {
 

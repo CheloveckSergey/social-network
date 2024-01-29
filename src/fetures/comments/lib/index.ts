@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../../app/store";
-import { CommentsLib } from "../../../entities/comment";
+import { CommentsLib, OneComment } from "../../../entities/comment";
 import { Comment } from "../../../entities/comment";
 import { SocketActions } from "../../socket";
 import { useMutation } from "react-query";
@@ -13,7 +13,7 @@ interface CreateCommentProps {
 
 const useCreateComment = (
   creationId: number, 
-  addComment: (comment: Comment) => void, 
+  addComment: (comment: OneComment) => void, 
   effects?: {
     closeCreator?: () => void,
   }
@@ -38,7 +38,7 @@ const useCreateComment = (
 
   const dispatch = useAppDispatch();
 
-  function sendComment(comment: Comment) {
+  function sendComment(comment: OneComment) {
     if (!connected) {
       return;
     }

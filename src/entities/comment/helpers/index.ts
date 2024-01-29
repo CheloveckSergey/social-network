@@ -1,6 +1,6 @@
-import { Comment, CommentsStructure } from "..";
+import { Comment, CommentsStructure, OneComment } from "..";
 
-function findUpperCommentId(comment: Comment, comments: Comment[]): number | undefined {
+function findUpperCommentId(comment: OneComment, comments: OneComment[]): number | undefined {
   if (comment.responseToCommentId) {
     const responseToComment = comments.find(_comment => _comment.id == comment.responseToCommentId);
     if (!responseToComment) {
@@ -15,7 +15,7 @@ function findUpperCommentId(comment: Comment, comments: Comment[]): number | und
   }
 }
 
-function getCommentsStructure(comments: Comment[]): CommentsStructure {
+function getCommentsStructure(comments: OneComment[]): CommentsStructure {
   let commentsStructure: CommentsStructure = [];
   for (let comment of comments) {
     if (!comment.responseToCommentId) {

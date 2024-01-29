@@ -7,7 +7,6 @@ import AddGroupWindow from "./windows/addGroup/indes";
 import { AddUserImageWindow } from "./windows/addImage";
 import { AddGroupImageWindow } from "./windows/addImage";
 import ShowImages from "./windows/showImages";
-import ImageWindow from "./windows/imageWindow";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import ShowSubsWindow from "./windows/showSubs";
 import { ChangeDescWindow } from "./windows/changeDesc";
@@ -39,8 +38,6 @@ const ModalWindow: FC = () => {
         <AddGroupImageWindow />
       ) : windowType === WindowTypes.SHOW_USER_IMAGES ? (
         <ShowImages />
-      ) : windowType === WindowTypes.IMAGE_WINDOW ? (
-        <ImageWindow />
       ) : windowType === WindowTypes.SHOW_SUBS_WINDOW ? (
         <ShowSubsWindow />
       ) : windowType === WindowTypes.CHANGE_DESC_WINDOW ? (

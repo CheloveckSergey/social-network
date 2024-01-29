@@ -3,14 +3,14 @@ import './styles.scss';
 import { OneCreation } from "../../../../entities/creation";
 import { User } from "../../../../entities/user";
 import { CommentsActionsLib } from "../../lib";
-import { Comment } from "../../../../entities/comment";
+import { Comment, OneComment } from "../../../../entities/comment";
 import { Helpers } from "../../../../shared/helpers";
 import { BsFileEarmarkPlay } from "react-icons/bs";
 import { useAppSelector } from "../../../../app/store";
 
 interface CCInterface {
   creationId: number,
-  addComment: (comment: Comment) => void,
+  addComment: (comment: OneComment) => void,
   commentId: number,
   effects?: {
     closeCreator?: () => void,

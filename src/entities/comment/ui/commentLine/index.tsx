@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import { Comment } from "../..";
+import { Comment, OneComment } from "../..";
 import './styles.scss';
 import { Helpers } from "../../../../shared/helpers";
 import { AiOutlineHeart } from "react-icons/ai";
@@ -7,8 +7,9 @@ import { MyDate } from "../../../../shared/types";
 import { CommentsActionsUi } from "../../../../fetures/comments";
 
 interface CLProps {
-  comment: Comment,
-  addComment: (comment: Comment) => void,
+  comment: OneComment,
+  addComment: (comment: OneComment) => void,
+//   likeButton: React.ReactNode,
 }
 export const CommentLine: FC<CLProps> = ({ comment, addComment }) => {
 
@@ -67,8 +68,8 @@ export const CommentLine: FC<CLProps> = ({ comment, addComment }) => {
 }
 
 interface ICLProps {
-  comment: Comment,
-  addComment: (comment: Comment) => void,
+  comment: OneComment,
+  addComment: (comment: OneComment) => void,
 }
 export const ImageCommentLine: FC<ICLProps> = ({ comment, addComment }) => {
 

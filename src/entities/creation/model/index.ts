@@ -37,6 +37,18 @@ export interface OneCreation {
   updatedAt: string,
 }
 
+export interface OneCommentCreation {
+  id: number,
+  authorId: number,
+  author: OneAuthor,
+  typeId: number,
+  type: CreationType,
+  likeNumber: number,
+  isLiked: boolean,
+  createdAt: string,
+  updatedAt: string,
+}
+
 export interface Creation {
   id: number,
   author: Author,

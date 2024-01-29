@@ -1,0 +1,83 @@
+.image-window {
+  display: flex;
+  flex-direction: column;
+  height: 650px;
+  width: 1000px;
+  padding: 0;
+  overflow: hidden;
+  
+  >.main {
+    flex-grow: 3;
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    border-bottom: var(--regular-border);
+    overflow: hidden;
+
+    >.left {
+      position: relative;
+      flex-grow: 3;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+
+      >img {
+        height: 100%;
+        max-width: 100%;
+        object-fit: cover;
+      }
+
+      >.turn-button {
+        position: absolute;
+
+        &.left-button {
+          left: 10px;
+        }
+
+        &.right-button {
+          right: 10px;
+        }
+      }
+    }
+  
+    >.right {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      width: 350px;
+      border-left: var(--regular-border);
+      overflow: hidden;
+
+      >.header {
+        padding: 5px;
+      }
+
+      >.like-repost-section {
+        padding: 5px;
+        border-top: var(--regular-border);
+      }
+
+      >.comments-section {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        flex-grow: 3;
+        border-top: var(--regular-border);
+        overflow: hidden;
+
+        >.comments {
+          flex-grow: 3;
+          overflow-y: auto;
+          overflow-x: hidden;
+        }
+      }
+    }
+  }
+
+  >.bottom {
+    height: 50px;
+    width: 100%;
+  }
+
+}

@@ -1,10 +1,10 @@
 import { FC } from "react";
-import { Comment, CommentsBlock, CommentsStructure, CommentsUi } from "../..";
+import { Comment, CommentsBlock, CommentsStructure, CommentsUi, OneComment } from "../..";
 import './styles.scss';
 
 interface CBProps {
   commentsBlock: CommentsBlock,
-  addComment: (comment: Comment) => void,
+  addComment: (comment: OneComment) => void,
 }
 export const CommentsBlockUi: FC<CBProps> = ({ commentsBlock, addComment }) => {
 

@@ -1,17 +1,4 @@
-// export type Comment = {
-//   id: number,
-//   text: string,
-//   userId: number,
-//   imageId?: number | undefined,
-//   postId?: number | undefined,
-//   user: {
-//     login: string,
-//     avatar: string,
-//   },
-//   createdAt: string,
-// }
-
-import { Creation } from "../../creation"
+import { Creation, OneCommentCreation } from "../../creation"
 
 export type Comment = {
   id: number,
@@ -24,8 +11,19 @@ export type Comment = {
   responseToComment: Comment | null,
 }
 
-export interface CommentsBlock extends Comment {
-  innerComments: Comment[],
+export type OneComment = {
+  id: number,
+  text: string,
+  ownCreationId: number,
+  ownCreation: OneCommentCreation,
+  creationId: number,
+  creation: Creation,
+  responseToCommentId: number,
+  responseToComment: Comment,
+}
+
+export interface CommentsBlock extends OneComment {
+  innerComments: OneComment[],
 }
 
 export type CommentsStructure = CommentsBlock[];

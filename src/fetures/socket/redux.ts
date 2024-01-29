@@ -6,7 +6,7 @@ import { MessageSliceActions } from "../../entities/message/model/redux";
 import { Message, Status } from "../../entities/message";
 import { Room } from "../../entities/room";
 import { CommentsSliceActions } from "../../entities/comment/model/redux";
-import { Comment } from '../../entities/comment';
+import { Comment, OneComment } from '../../entities/comment';
 import { ResAuthDto } from "../auth/api";
 import { MessageStatusesActions } from "../../entities/message/model/statusesRedux";
 import { DeleteMessagesActions } from "../messages/model";
@@ -71,7 +71,7 @@ interface UnrefreshAction {
 }
 
 type SendComment = {
-  comment: Comment
+  comment: OneComment
 }
 
 interface SendCommentAction {
@@ -93,7 +93,7 @@ interface ConnectCommentsAction {
 }
 
 interface CommentResDto {
-  comment: Comment,
+  comment: OneComment,
 }
 
 interface DeleteMessageAction {

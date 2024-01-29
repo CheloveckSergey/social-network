@@ -1,9 +1,9 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { Comment } from ".";
+import { Comment, OneComment } from ".";
 import { Room } from "../../room";
 
 interface CommentsState {
-  comments: Comment[],
+  comments: OneComment[],
   conCreationIds: number[],
 }
 
@@ -18,11 +18,11 @@ export interface MyRejectValue {
 }
 
 interface AddCommentAction {
-  comment: Comment,
+  comment: OneComment,
 }
 
 interface AddCommentsAction {
-  comments: Comment[],
+  comments: OneComment[],
 }
 
 interface DeleteCommentAction {
