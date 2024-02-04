@@ -6,8 +6,9 @@ import { OnePost } from "../../..";
 
 interface CSProps {
   post: OnePost,
+  setImageLiked: (postImageId: number, isLiked: boolean) => void,
 } 
-export const ContentSection: FC<CSProps> = ({ post }) => {
+export const ContentSection: FC<CSProps> = ({ post, setImageLiked }) => {
 
   const [curImageIndex, setCurImageIndex] = useState<number>(0);
 
@@ -23,6 +24,7 @@ export const ContentSection: FC<CSProps> = ({ post }) => {
                 imageClass="post-image"
                 curImageIndex={curImageIndex}
                 setCurImageIndex={setCurImageIndex}
+                setIsLiked={setImageLiked}
               />
               <div className="indexes">
                 {post.postImages.map((image, index) => <button
@@ -47,6 +49,7 @@ export const ContentSection: FC<CSProps> = ({ post }) => {
                 curImageIndex={0}
                 images={post.postImages}
                 setCurImageIndex={setCurImageIndex}
+                setIsLiked={setImageLiked}
               />
             </div>
           )}

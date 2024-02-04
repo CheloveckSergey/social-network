@@ -3,6 +3,7 @@ import { MeUser } from "../../user"
 import { PostApi } from "../api"
 import { OnePost } from "../model"
 import { useState } from "react"
+import { OneImage } from "../../image"
 
 const feedKeys = {
   root: 'feed',
@@ -44,9 +45,32 @@ const usePostInterface = (inputPost: OnePost) => {
     });
   }
 
+  function setImageLiked(postImageId: number, isLiked: boolean): void {
+    const newPost: OnePost = {
+      ...post,
+      postImages: post.postImages.map(postImage => {
+        if (postImage.id === postImageId) {
+          const newPostImage: OneImage = {
+            ...postImage,
+            creation: {
+              ...postImage.creation,
+              isLiked,
+              likeNumber: isLiked ? postImage.creation.likeNumber + 1 : postImage.creation.likeNumber - 1,
+            }
+          }
+          return newPostImage;
+        } else {
+          return postImage;
+        }
+      }),
+    }
+    setPost(newPost);
+  }
+
   return {
     post,
     setIsLiked,
+    setImageLiked,
   }
 }
 

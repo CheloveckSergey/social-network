@@ -1,4 +1,4 @@
-import { FC, useRef, useState } from "react"
+import { FC, useEffect, useRef, useState } from "react"
 import { getImageSrc } from "../../../../shared/service/images"
 import { BsFileEarmarkPlay } from "react-icons/bs"
 import { Comment, OneComment } from "../../../../entities/comment"
@@ -64,8 +64,10 @@ interface ICCProps {
   user: User,
   creation: OneCreation,
   addComment: (comment: OneComment) => void,
+  responseToComment?: OneComment | undefined,
+  cancelResponse: () => void,
 }
-export const ImageCommentCreator: FC<ICCProps> = ({ user, creation, addComment }) => {
+export const ImageCommentCreator: FC<ICCProps> = ({ user, creation, addComment, responseToComment, cancelResponse }) => {
 
   const [text, setText] = useState<string>('');
 
@@ -74,6 +76,18 @@ export const ImageCommentCreator: FC<ICCProps> = ({ user, creation, addComment }
     isLoading,
     isError
   } = CommentsActionsLib.useCreateComment(creation.id, addComment);
+
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    if (responseToComment) {
+      setText(responseToComment.ownCreation.author.name + ', ');
+      if (textareaRef.current) {
+        // Нифига не фокусируется. Хз почему
+        textareaRef.current.focus();
+      }
+    }
+  }, [responseToComment]);
 
   return (
     <div className="image-comments-creator">
@@ -86,6 +100,7 @@ export const ImageCommentCreator: FC<ICCProps> = ({ user, creation, addComment }
           className="avatar-image"
         />
         <textarea
+          ref={textareaRef}
           value={text}
           onChange={(e) => setText(e.target.value)}
           name="text"
@@ -93,28 +108,47 @@ export const ImageCommentCreator: FC<ICCProps> = ({ user, creation, addComment }
         />
       </div>
       <div className="down">
-        <button
-          className="cancel-button white-back"
-          onClick={() => {
-            setText('');
-          }}
-        >
-          Отменить
-        </button>
-        <button
-          className="send-button green"
-          onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-            e.preventDefault();
-            console.log('createCommentButton_Click');
-            mutate({text})
-            .then(() => {
+        <div className="up">
+          <button
+            className="cancel-button white-back"
+            onClick={() => {
               setText('');
-            });
-          }}
-          disabled={text === ''}
-        >
-          Отправить
-        </button>
+            }}
+          >
+            Отменить
+          </button>
+          <button
+            className="send-button green"
+            onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+              e.preventDefault();
+              console.log('createCommentButton_Click');
+              mutate({text, responseToCommentId: responseToComment?.id})
+              .then(() => {
+                setText('');
+                cancelResponse();
+              });
+            }}
+            disabled={text === ''}
+          >
+            Отправить
+          </button>
+        </div>
+        {responseToComment && <div className="down">
+          <p
+            className="extra"
+          >
+            Response to <span className="ref">{responseToComment.ownCreation.author.name}</span>
+          </p>
+          <button
+            className="white"
+            onClick={() => {
+              cancelResponse();
+              setText('');
+            }}
+          >
+            x
+          </button>
+        </div>}
       </div>
     </div>
   )

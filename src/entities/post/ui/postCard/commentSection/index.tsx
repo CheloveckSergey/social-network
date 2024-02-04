@@ -17,14 +17,14 @@ export const CommentSection: FC<CSProps> = ({ user, post }) => {
     isLoading,
     isError,
     connected,
-    connectComments,
+    // connectComments,
     addComment,
     setIsLiked,
   } = CommentsLib.useComments(post.creationId);
 
-  useEffect(() => {
-    connectComments();
-  }, []);
+  // useEffect(() => {
+  //   connectComments();
+  // }, []);
 
   return (
     <div className="comments-section">

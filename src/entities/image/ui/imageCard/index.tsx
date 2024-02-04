@@ -10,9 +10,10 @@ interface ImageCardProps {
   curImageIndex: number,
   setCurImageIndex: (index: number) => void,
   imageClass: string,
+  setIsLiked: (imageCardId: number, isLiked: boolean) => void,
 }
 
-export const ImageCard: FC<ImageCardProps> = ({ images, imageClass, curImageIndex, setCurImageIndex }) => {
+export const ImageCard: FC<ImageCardProps> = ({ images, imageClass, curImageIndex, setCurImageIndex, setIsLiked }) => {
 
   const [showImageWindow, setShowImageWindow] = useState<boolean>(false);
 
@@ -32,6 +33,7 @@ export const ImageCard: FC<ImageCardProps> = ({ images, imageClass, curImageInde
           images={images}
           curImageIndex={curImageIndex}
           setCurImageIndex={setCurImageIndex}
+          setImageLiked={setIsLiked}
         />
       </UseModalWindow>
     </>

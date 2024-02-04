@@ -23,6 +23,7 @@ export const PostCard: FC<PostProps> = ({ post: _post, actions }) => {
   const {
     post,
     setIsLiked,
+    setImageLiked,
   } = PostsLib.usePostInterface(_post);
 
   const [commentsOpened, setCommentsOpened] = useState<boolean>(false);
@@ -35,7 +36,10 @@ export const PostCard: FC<PostProps> = ({ post: _post, actions }) => {
     <div className="post regular-panel">
       <div className="post-main">
         <HeadSection post={post} />
-        <ContentSection post={post} />
+        <ContentSection 
+          post={post} 
+          setImageLiked={setImageLiked}
+        />
         <BottomSection
           post={post} 
           effects={effects}

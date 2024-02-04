@@ -9,6 +9,8 @@ export interface Post {
 }
 
 export interface OnePost {
+  [x: string]: any;
+  post: any;
   id: number,
   description: string | undefined,
   creationId: number,

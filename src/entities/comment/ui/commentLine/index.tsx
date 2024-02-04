@@ -70,8 +70,9 @@ interface ICLProps {
   comment: OneComment,
   addComment: (comment: OneComment) => void,
   likeButton: React.ReactNode,
+  setResponseToComment: (comment: OneComment) => void,
 }
-export const ImageCommentLine: FC<ICLProps> = ({ comment, addComment, likeButton }) => {
+export const ImageCommentLine: FC<ICLProps> = ({ comment, addComment, likeButton, setResponseToComment }) => {
 
   return (
     <div className="image-comment-line">
@@ -97,7 +98,7 @@ export const ImageCommentLine: FC<ICLProps> = ({ comment, addComment, likeButton
               <button 
                 className="ref"
                 onClick={() => {
-
+                  setResponseToComment(comment);
                 }}
               >
                 Ответить

@@ -39,20 +39,27 @@ export const PostCommentFeed: FC<CFProps> = ({ comments, isLoading, isError, add
 
 interface ICFProps {
   comments: OneComment[] | undefined,
+  isLoading: boolean,
+  isError: boolean,
   addComment: (comment: OneComment) => void,
   renderComment: (comment: OneComment, key: number) => React.ReactNode,
 }
-export const ImageCommentFeed: FC<ICFProps> = ({ comments, addComment, renderComment }) => {
+export const ImageCommentFeed: FC<ICFProps> = ({ comments, addComment, renderComment, isLoading, isError }) => {
 
   return (
     <div className="image-comments-feed">
-      {comments && comments.length > 0 ? (
-        comments.map(renderComment)
-      ) : (
-        <SharedUi.Divs.Empty 
-          body="There's no comments yet"
-        />
-      )}
+      <SharedUi.Helpers.LoadErrorHandler 
+        isLoading={isLoading}
+        isError={isError}
+      >
+        {comments && comments.length > 0 ? (
+          comments.map(renderComment)
+        ) : (
+          <SharedUi.Divs.Empty 
+            body="There's no comments yet"
+          />
+        )}
+      </SharedUi.Helpers.LoadErrorHandler>
     </div>
   )
 }

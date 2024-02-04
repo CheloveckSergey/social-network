@@ -60,11 +60,19 @@ interface IWProps {
   images: OneImage[],
   curImageIndex: number,
   setCurImageIndex: (index: number) => void,
+  setImageLiked: (imageId: number, isLiked: boolean) => void,
 }
-export const ImageWindow: FC<IWProps> = ({ images, curImageIndex, setCurImageIndex }) => {
+export const ImageWindow: FC<IWProps> = ({ images, curImageIndex, setCurImageIndex, setImageLiked }) => {
   const { user } = useAppSelector(state => state.user);
 
-  const [image, setImage] = useState<OneImage>(images[curImageIndex]);
+  // const [image, setImage] = useState<OneImage>(images[curImageIndex]);
+  const image = images[curImageIndex];
+
+  const [responseToComment, setResponseToComment] = useState<OneComment>();
+
+  function cancelResponse() {
+    setResponseToComment(undefined);
+  }
 
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -72,24 +80,23 @@ export const ImageWindow: FC<IWProps> = ({ images, curImageIndex, setCurImageInd
     comments,
     isLoading,
     isError,
-    connectComments,
     addComment,
     setIsLiked,
   } = CommentsLib.useComments(image.creationId);
 
-  useEffect(() => {
-    connectComments();
-  }, [image]);
-
-  useEffect(() => {
-    setImage(images[curImageIndex]);
-  }, [curImageIndex])
+  // useEffect(() => {
+  //   setImage(images[curImageIndex]);
+  // }, [curImageIndex])
 
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollIntoView();
     }
   }, [comments]);
+
+  function _setImageLiked(isLiked: boolean) {
+    return setImageLiked(image.id, isLiked);
+  }
 
   return (
     <div className="regular-panel image-window">
@@ -107,17 +114,23 @@ export const ImageWindow: FC<IWProps> = ({ images, curImageIndex, setCurImageInd
             />
           </div>
           <div className="like-repost-section">
-            {/* <Favourites.Actions.LikeButton creation={image.creation} /> */}
-            asdfasdfasfsafsadf
+            <Favourites.Actions.LikeButton 
+              creation={image.creation}
+              effects={{
+                setIsLiked: _setImageLiked,
+              }}
+            />
           </div>
           <div className="comments-section">
             <div className="comments">
               <CommentsUi.ImageCommentFeed 
                 comments={comments}
+                isLoading={isLoading}
+                isError={isError}
                 addComment={addComment}
                 renderComment={(comment: OneComment) => {
 
-                  function _setIsLiked(isLiked: boolean) {
+                  function _setCommentLiked(isLiked: boolean) {
                     return setIsLiked(comment.id, isLiked);
                   }
 
@@ -126,10 +139,11 @@ export const ImageWindow: FC<IWProps> = ({ images, curImageIndex, setCurImageInd
                       key={comment.id}
                       comment={comment}
                       addComment={addComment}
+                      setResponseToComment={setResponseToComment}
                       likeButton={<Favourites.Actions.SmallLikeButton 
                         creation={comment.ownCreation}
                         effects={{
-                          setIsLiked: _setIsLiked,
+                          setIsLiked: _setCommentLiked,
                         }}
                       />}
                     />
@@ -143,6 +157,8 @@ export const ImageWindow: FC<IWProps> = ({ images, curImageIndex, setCurImageInd
               user={user}
               creation={image.creation}
               addComment={addComment}
+              responseToComment={responseToComment}
+              cancelResponse={cancelResponse}
             />}
           </div>
         </div>

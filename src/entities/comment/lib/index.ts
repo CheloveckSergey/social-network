@@ -65,9 +65,9 @@ const useComments = (creationId: number) => {
     onSuccess: (data) => {
       if (data) {
         setComments(data);
+        sendConnectSocket();
       }
     },
-    enabled: false,
   });
 
   useEffect(() => {
@@ -79,16 +79,21 @@ const useComments = (creationId: number) => {
     }
   }, [globalComments]);
 
-  function connectComments() {
-    commentsStatus.refetch()
-    .then(() => {
-      sendConnectSocket();
-    })
-    .catch((e) => {
-      console.log('Ошибка в connectComments');
-      console.log(e);
-    });
-  }
+
+  // useEffect(() => {
+  //   sendConnectSocket();
+  // }, [creationId]);
+
+  // function connectComments() {
+  //   commentsStatus.refetch()
+  //   .then(() => {
+  //     sendConnectSocket();
+  //   })
+  //   .catch((e) => {
+  //     console.log('Ошибка в connectComments');
+  //     console.log(e);
+  //   });
+  // }
 
   function addComment(comment: OneComment) {
     setComments([...comments, comment]);
@@ -117,7 +122,7 @@ const useComments = (creationId: number) => {
     isError: commentsStatus.isError,
     comments: comments,
     error: commentsStatus.error,
-    connectComments,
+    // connectComments,
     addComment,
     connected,
     setIsLiked,
