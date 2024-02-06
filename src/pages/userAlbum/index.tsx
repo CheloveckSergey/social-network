@@ -1,35 +1,22 @@
-// import { FC } from "react";
-// import Upbar from "../../widgets/upbar";
-// import LeftMenu from "../../widgets/leftMenu";
-// import './styles.scss';
-// import { useNavigate, useParams } from "react-router-dom";
-// import { useQuery } from "react-query";
-// import { ImageApi } from "../../entities/image";
-// import LoadErrorHandler from "../../shared/loadErrorHandler";
-// import { getImgSrc } from "../../shared/service/images";
-// import { BiArrowBack } from "react-icons/bi";
-// import { ImageCard } from "../../entities/image/ui";
-
 import { FC } from "react";
+import Upbar from "../../widgets/upbar";
+import LeftMenu from "../../widgets/leftMenu";
+import './styles.scss';
+import { useNavigate, useParams } from "react-router-dom";
+import { useQuery } from "react-query";
+import { ImageApi, ImagesLib } from "../../entities/image";
+import { getImgSrc } from "../../shared/service/images";
+import { BiArrowBack } from "react-icons/bi";
+import { SharedUi } from "../../shared/sharedUi";
 
-// interface ImagesProps {
-//   userId: number,
-// }
+interface ImagesProps {
+  userId: number,
+}
 
 // const Images: FC<ImagesProps> = ({ userId }) => {
 
-//   const { data, isLoading, isError } = useQuery(
-//     ['getUserImages', userId],
-//     () => {
-//       if (userId) {
-//         return ImageApi.getAllImagesByUserId(userId);
-//       }
-//     }
-//   );
-
 //   return (
-//     <LoadErrorHandler
-//       data={data}
+//     <SharedUi.Helpers.LoadErrorHandler
 //       isLoading={isLoading}
 //       isError={isError}
 //     >
@@ -47,35 +34,41 @@ import { FC } from "react";
 //   )
 // }
 
-// const UserAlbum: FC = () => {
-//   const { userId } = useParams();
-//   const _userId = Number(userId);
-//   const navigate = useNavigate();
+const Album: FC = () => {
+  const { authorId: _authorId } = useParams();
+  const authorId = Number(_authorId);
+  const navigate = useNavigate();
 
-//   return (
-//     <>
-//       <Upbar />
-//       <main>
-//         <LeftMenu />
-//         <div className="images-page">
-//           <div className="regular-panel images-panel">
-//             <h3>Images</h3>
-//             <button
-//               className="back-button white"
-//               onClick={() => navigate(-1)}
-//             >
-//               <BiArrowBack size={20} />
-//             </button>
-//             <hr/>
-//             {userId && <Images userId={_userId} />}
-//           </div>
-//         </div>
-//       </main>
-//     </>
-//   )
-// }
+  const {
+    albums,
+    isLoading,
+    isError,
+  } = ImagesLib.useAlbums(authorId);
 
-// export default UserAlbum;
+  return (
+    <>
+      <Upbar />
+      <main>
+        <LeftMenu />
+        <div className="images-page">
+          <div className="regular-panel images-panel">
+            <h3>Images</h3>
+            <button
+              className="back-button white"
+              onClick={() => navigate(-1)}
+            >
+              <BiArrowBack size={20} />
+            </button>
+            <hr/>
+            {/* <Images userId={_userId} /> */}
+          </div>
+        </div>
+      </main>
+    </>
+  )
+}
+
+export default Album;
 
 export const adsf: FC = () => {
   return (

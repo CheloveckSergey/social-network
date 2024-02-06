@@ -9,6 +9,14 @@ export interface Album {
   creation: Creation,
 }
 
+export interface OneAlbum {
+  id: number,
+  name: string,
+  creationId: number,
+  creation: Creation,
+  images: OneAlbumImage[],
+}
+
 export interface Image {
   id: number,
   value: string,
@@ -26,9 +34,8 @@ export interface OneImage {
 export interface OneAlbumImage {
   id: number,
   value: string,
+  albumId: number,
   creationId: number,
   creation: OneCreation,
-  albumId: number,
-  album: Album,
 }
 

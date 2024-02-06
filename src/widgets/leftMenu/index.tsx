@@ -8,7 +8,7 @@ import "./styles.scss";
 import { useAppSelector } from "../../app/store";
 
 const LeftMenu: FC = () => {
-
+  const { user } = useAppSelector(state => state.user);
   const { messages } = useAppSelector(state => state.messages);
 
   return (
@@ -34,10 +34,10 @@ const LeftMenu: FC = () => {
         <CgCommunity size={20}/>
         <h3 className="menu">Communities</h3>
       </Link>
-      <Link to="/images" >
+      {user && <Link to={"/album/" + user!.author.id}  >
         <BiSolidImageAlt size={20}/>
         <h3 className="menu">Images</h3>
-      </Link>
+      </Link>}
       <Link to="/music" >
         <BsMusicNoteBeamed size={20}/>
         <h3 className="menu">Music</h3>

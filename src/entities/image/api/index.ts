@@ -42,3 +42,4 @@ export class ImageApi {
 }
 
 export * from './albumImagesApi';
+export * from './albumsApi';

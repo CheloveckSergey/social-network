@@ -86,7 +86,7 @@ const CreationActionButton: FC<CABProps> = ({
       onClick={onClick}
     >
       {isLoading ? (
-        <SharedUi.Icons.Spinner size={25} />
+        <SharedUi.Icons.Spinner size={iconSize} />
       ) : isError ? (
         <div>asdf</div>
       ) : (
