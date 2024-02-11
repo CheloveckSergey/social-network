@@ -20,18 +20,27 @@ export const ImagesList: FC<ILProps> = ({images, isLoading, isError, setIsLiked 
         isLoading={isLoading}
         isError={isError}
       >
-        {images && images.length > 0 ? (
-          images.map((image, index) => <ImageUi.ImageCard 
-            key={index}
-            imageClass=""
-            images={images}
-            curImageIndex={curImageIndex}
-            setCurImageIndex={setCurImageIndex}
-            setIsLiked={setIsLiked}
-          />)
+        {images ? (
+          <>
+            {images.map((image, index) => <ImageUi.ImageCard 
+              key={index}
+              index={index}
+              imageClass="image-class"
+              image={image}
+              images={images}
+              curImageIndex={curImageIndex}
+              setCurImageIndex={setCurImageIndex}
+              setIsLiked={setIsLiked}
+            />)}
+            <button
+              className="image-class add-image-card gray-to-light-back"
+            >
+              +
+            </button>
+          </>
         ) : (
           <SharedUi.Divs.Empty 
-            body="There's no images yet"
+            body="There's no images cause something"
           />
         )}
       </SharedUi.Helpers.LoadErrorHandler>

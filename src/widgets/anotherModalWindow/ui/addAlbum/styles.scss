@@ -1,0 +1,27 @@
+.add-album-window {
+  width: 300px;
+  padding: 0;
+  
+  .section {
+    padding: 10px;
+  }
+
+  .main {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+
+    input.name-input {
+      flex-grow: 3;
+      padding: 5px;
+      border: var(--regular-border);
+      border-radius: 5px;
+    }
+
+    button.add-button {
+      padding: 5px 10px;
+      border-radius: 5px;
+    }
+  }
+}

@@ -1,0 +1,19 @@
+.images-list {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  width: 100%;
+  margin-top: 15px;
+
+  .image-class {
+    height: 150px;
+    width: 150px;
+  }
+
+  .add-image-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+  }
+}

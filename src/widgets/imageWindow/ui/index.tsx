@@ -10,27 +10,29 @@ import './styles.scss';
 import Favourites from "../../../fetures/favourites";
 
 interface ISProps {
-  images: OneImage[],
+  image: OneImage,
   curImageIndex: number,
   setCurImageIndex: (index: number) => void,
+  previousImage: () => void,
+  nextImage: () => void,
 }
-const ImageSection: FC<ISProps> = ({ images, curImageIndex, setCurImageIndex }) => {
+const ImageSection: FC<ISProps> = ({ image, curImageIndex, setCurImageIndex, previousImage, nextImage }) => {
 
-  const curImage: OneImage = images[curImageIndex];
+  const curImage: OneImage = image;
 
-  function previousImage() {
-    if (curImageIndex === 0) {
-      return;
-    }
-    setCurImageIndex(curImageIndex - 1);
-  }
+  // function previousImage() {
+  //   if (curImageIndex === 0) {
+  //     return;
+  //   }
+  //   setCurImageIndex(curImageIndex - 1);
+  // }
 
-  function nextImage() {
-    if (curImageIndex === images.length - 1) {
-      return;
-    }
-    setCurImageIndex(curImageIndex + 1);
-  }
+  // function nextImage() {
+  //   if (curImageIndex === images.length - 1) {
+  //     return;
+  //   }
+  //   setCurImageIndex(curImageIndex + 1);
+  // }
 
 
   return (
@@ -61,14 +63,15 @@ interface IWProps {
   curImageIndex: number,
   setCurImageIndex: (index: number) => void,
   setImageLiked: (imageId: number, isLiked: boolean) => void,
+  previousImage: () => void,
+  nextImage: () => void,
 }
-export const ImageWindow: FC<IWProps> = ({ images, curImageIndex, setCurImageIndex, setImageLiked }) => {
+export const ImageWindow: FC<IWProps> = ({ images, curImageIndex, setCurImageIndex, setImageLiked, nextImage, previousImage }) => {
   const { user } = useAppSelector(state => state.user);
 
-  // const [image, setImage] = useState<OneImage>(images[curImageIndex]);
-  const image = images[curImageIndex];
-
   const [responseToComment, setResponseToComment] = useState<OneComment>();
+
+  const image = images[curImageIndex];
 
   function cancelResponse() {
     setResponseToComment(undefined);
@@ -102,9 +105,11 @@ export const ImageWindow: FC<IWProps> = ({ images, curImageIndex, setCurImageInd
     <div className="regular-panel image-window">
       <div className="main">
         <ImageSection 
-          images={images}
+          image={image}
           curImageIndex={curImageIndex}
           setCurImageIndex={setCurImageIndex} 
+          nextImage={nextImage}
+          previousImage={previousImage}
         />
         <div className="right">
           <div className="header">

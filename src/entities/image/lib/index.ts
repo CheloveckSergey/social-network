@@ -78,9 +78,10 @@ const useAlbums = (authorId: number) => {
               creation: {
                 ...image.creation,
                 isLiked,
+                likeNumber: isLiked ? image.creation.likeNumber + 1 : image.creation.likeNumber - 1,
               }
             }
-            return image;
+            return newImage;
           } else {
             return image;
           }
@@ -90,11 +91,17 @@ const useAlbums = (authorId: number) => {
     setAlbums(newAlbums);
   }
 
+  function addAlbum(album: OneAlbum) {
+    const newAlbums: OneAlbum[] = [...albums, album];
+    setAlbums(newAlbums);
+  }
+
   return {
     albums,
     isLoading: albumsStatus.isLoading,
     isError: albumsStatus.isError,
     setIsLiked,
+    addAlbum,
   }
 }
 

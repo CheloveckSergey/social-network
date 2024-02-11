@@ -20,6 +20,8 @@ export const ContentSection: FC<CSProps> = ({ post, setImageLiked }) => {
           {(post.postImages.length > 1) ? (
             <div>
               <ImageUi.ImageCard 
+                image={post.postImages[curImageIndex]}
+                index={curImageIndex}
                 images={post.postImages}
                 imageClass="post-image"
                 curImageIndex={curImageIndex}
@@ -47,6 +49,8 @@ export const ContentSection: FC<CSProps> = ({ post, setImageLiked }) => {
               <ImageUi.ImageCard 
                 imageClass="post-image"
                 curImageIndex={0}
+                index={0}
+                image={post.postImages[0]}
                 images={post.postImages}
                 setCurImageIndex={setCurImageIndex}
                 setIsLiked={setImageLiked}

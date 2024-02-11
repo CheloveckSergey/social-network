@@ -117,6 +117,14 @@ button {
   }
 }
 
+.gray-to-light-back {
+  background-color: var(--border);
+
+  &:hover {
+    background-color: var(--back-2xlight-gray);
+  }
+}
+
 //Just because button.green doesn't work on input [file]
 .green {
   background-color: var(--pale-green);
@@ -212,6 +220,7 @@ input {
   border: none;
   outline: none;
   background-color: inherit;
+  color: inherit;
 
   &[type="text"] {
     border: var(--regular-border);

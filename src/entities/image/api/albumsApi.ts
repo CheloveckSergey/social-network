@@ -10,4 +10,15 @@ export class AlbumsApi {
     );
     return response.data;
   }
+
+  static async createAlbum(authorId: number, name: string) {
+    const response = await api.post<OneAlbum>(
+      INITIAL_URL + '/createAlbum',
+      {
+        authorId,
+        name,
+      }
+    );
+    return response.data;
+  }
 }
