@@ -4,6 +4,8 @@ import { OneImage } from "../../model";
 import { Helpers } from "../../../../shared/helpers";
 import { UseModalWindow } from "../../../../widgets/anotherModalWindow/ui";
 import { ImageWindow } from "../../../../widgets/imageWindow";
+import { SharedUi } from "../../../../shared/sharedUi";
+import { FaCommentDots } from "react-icons/fa";
 
 interface ImageCardProps {
   image: OneImage,
@@ -32,20 +34,35 @@ export const ImageCard: FC<ImageCardProps> = ({ image, index, images, imageClass
     if (curImageIndex === images.length - 1) {
       return;
     }
+    console.log('lalala');
     setCurImageIndex(curImageIndex + 1);
   }
 
+  //Модальное окно по-нормальному не работает, если поставить его в image-card-container
   return (
     <>
-      <img
-        src={Helpers.getImageSrc(image.value)} 
-        alt="IMG"
-        className={`image ${imageClass}`}
+      <div 
+        className="image-card-container"
         onClick={() => {
           setCurImageIndex(index);
           setShowImageWindow(true);
         }}
-      />
+      >
+        <img
+          src={Helpers.getImageSrc(image.value)} 
+          alt="IMG"
+          className={`image ${imageClass}`}
+        />
+        <div className="cover">
+          <div className="right-up">
+            <SharedUi.Buttons.ExtraButton
+              Icon={FaCommentDots}
+            >
+
+            </SharedUi.Buttons.ExtraButton>
+          </div>
+        </div>
+      </div>
       <UseModalWindow 
         condition={showImageWindow}
         onClose={() => setShowImageWindow(false)}

@@ -1,18 +1,22 @@
 import { FC, useState } from "react"
-import { OneImage } from "../../model"
+import { OneAlbumImage, OneImage } from "../../model"
 import './styles.scss';
 import { SharedUi } from "../../../../shared/sharedUi";
 import { ImageUi } from "..";
+import { ModalWindows, UseModalWindow } from "../../../../widgets/anotherModalWindow/ui";
 
 interface ILProps {
   images: OneImage[],
   isLoading: boolean,
   isError: boolean,
+  albumId: number,
   setIsLiked: (imageId: number, isLiked: boolean) => void,
+  addImage: (image: OneAlbumImage) => void,
 }
-export const ImagesList: FC<ILProps> = ({images, isLoading, isError, setIsLiked }) => {
+export const ImagesList: FC<ILProps> = ({images, isLoading, isError, albumId, setIsLiked, addImage }) => {
 
   const [curImageIndex, setCurImageIndex] = useState<number>(0);
+  const [showAddImageWindow, setShowAddImageWindow] = useState<boolean>(false);
 
   return (
     <div className="images-list">
@@ -34,6 +38,9 @@ export const ImagesList: FC<ILProps> = ({images, isLoading, isError, setIsLiked 
             />)}
             <button
               className="image-class add-image-card gray-to-light-back"
+              onClick={() => {
+                setShowAddImageWindow(true);
+              }}
             >
               +
             </button>
@@ -44,6 +51,20 @@ export const ImagesList: FC<ILProps> = ({images, isLoading, isError, setIsLiked 
           />
         )}
       </SharedUi.Helpers.LoadErrorHandler>
+      <UseModalWindow
+        condition={showAddImageWindow}
+        onClose={() => {
+          setShowAddImageWindow(false);
+        }}
+      >
+        <ModalWindows.AddImageWindow
+          albumId={albumId}
+          addImage={addImage}
+          onClose={() => {
+            setShowAddImageWindow(false);
+          }}
+        />
+      </UseModalWindow>
     </div>
   )
 }

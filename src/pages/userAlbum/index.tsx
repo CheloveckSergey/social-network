@@ -18,6 +18,7 @@ const ImagesPanel: FC<IPProps> = ({ authorId }) => {
     isError,
     setIsLiked,
     addAlbum,
+    addImage,
   } = ImagesLib.useAlbums(authorId);
 
   const navigate = useNavigate();
@@ -38,6 +39,7 @@ const ImagesPanel: FC<IPProps> = ({ authorId }) => {
         isError={isError}
         setIsLiked={setIsLiked}
         addAlbum={addAlbum}
+        addImage={addImage}
       />
     </div>
   )

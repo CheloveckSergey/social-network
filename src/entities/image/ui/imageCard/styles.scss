@@ -1,4 +1,33 @@
-.image {
-  object-fit: cover;
+.image-card-container {
+  position: relative;
   cursor: pointer;
+  padding: 0;
+  margin: 0;
+
+  .image {
+    object-fit: cover;
+    
+  }
+
+  .cover {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 4px;
+
+    .right-up {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      // visibility: hidden;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    &:hover .right-up {
+      // visibility: visible;
+      opacity: 1;
+    }
+  }
 }

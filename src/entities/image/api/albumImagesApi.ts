@@ -16,7 +16,7 @@ export class AlbumImagesApi {
     if (albumId) {
       form.append('albumId', String(albumId));
     }
-    const response = await api.post(
+    const response = await api.post<OneAlbumImage>(
       INITIAL_URL + '/create',
       form,
       {

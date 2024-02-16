@@ -1,13 +1,14 @@
 import { FC } from "react";
-import { OneAlbum } from "../../model";
+import { OneAlbum, OneAlbumImage } from "../../model";
 import './styles.scss';
 import { ImageUi } from "..";
 
 interface AProps {
   album: OneAlbum,
   setIsLiked: (imageId: number, isLiked: boolean) => void,
+  addImage: (image: OneAlbumImage) => void,
 }
-export const Album: FC<AProps> = ({ album, setIsLiked }) => {
+export const Album: FC<AProps> = ({ album, setIsLiked, addImage }) => {
 
   return (
     <div className="album">
@@ -16,7 +17,9 @@ export const Album: FC<AProps> = ({ album, setIsLiked }) => {
         images={album.images}
         isLoading={false}
         isError={false}
+        albumId={album.id}
         setIsLiked={setIsLiked}
+        addImage={addImage}
       />
     </div>
   )

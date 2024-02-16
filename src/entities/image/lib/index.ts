@@ -96,12 +96,28 @@ const useAlbums = (authorId: number) => {
     setAlbums(newAlbums);
   }
 
+  function addImage(image: OneAlbumImage) {
+    const newAlbums = albums.map(album => {
+      if (album.id === image.albumId) {
+        const newAlbum: OneAlbum = {
+          ...album,
+          images: [...album.images, image],
+        };
+        return newAlbum;
+      } else {
+        return album;
+      }
+    });
+    setAlbums(newAlbums);
+  }
+
   return {
     albums,
     isLoading: albumsStatus.isLoading,
     isError: albumsStatus.isError,
     setIsLiked,
     addAlbum,
+    addImage,
   }
 }
 

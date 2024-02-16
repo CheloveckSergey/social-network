@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import { OneAlbum } from "../../model";
+import { OneAlbum, OneAlbumImage } from "../../model";
 import { SharedUi } from "../../../../shared/sharedUi";
 import { ImageUi } from "..";
 import './styles.scss';
@@ -12,8 +12,9 @@ interface ALProps {
   isError: boolean,
   setIsLiked: (imageId: number, isLiked: boolean) => void,
   addAlbum: (album: OneAlbum) => void,
+  addImage: (image: OneAlbumImage) => void,
 }
-export const AlbumsList: FC<ALProps> = ({ albums, isLoading, isError, setIsLiked, addAlbum }) => {
+export const AlbumsList: FC<ALProps> = ({ albums, isLoading, isError, setIsLiked, addAlbum, addImage }) => {
 
   const { user } = useAppSelector(state => state.user);
 
@@ -31,6 +32,7 @@ export const AlbumsList: FC<ALProps> = ({ albums, isLoading, isError, setIsLiked
               key={index}
               album={album}
               setIsLiked={setIsLiked}
+              addImage={addImage}
             />)}
             <button className="add-album-panel light-back"
               onClick={() => setShowAddAlbumWindow(true)}
