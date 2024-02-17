@@ -1,6 +1,11 @@
 import api from "../../../shared/http";
 import { OnePost, Post } from "../model";
 
+interface FeedQuery {
+  offset?: number,
+  limit?: number,
+}
+
 const INITIAL_URL = '/posts';
 
 export class PostApi {
@@ -29,9 +34,12 @@ export class PostApi {
 
   ////////////////////////////////////////////////////////
 
-  static async getFeedByAuthorId(authorId: number) {
+  static async getFeedByAuthorId(authorId: number, query?: FeedQuery) {
     const response = await api.get<OnePost[]>(
       INITIAL_URL + '/getFeedByAuthorId/' + authorId,
+      {
+        params: query,
+      }
     );
     return response.data;
   }

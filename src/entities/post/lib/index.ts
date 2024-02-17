@@ -1,4 +1,4 @@
-import { useQuery } from "react-query"
+import { useInfiniteQuery, useQuery } from "react-query"
 import { MeUser } from "../../user"
 import { PostApi } from "../api"
 import { OnePost } from "../model"
@@ -10,17 +10,29 @@ const feedKeys = {
   slug: (authorId: number) => [feedKeys.root, authorId],
 }
 
-const useFeedByAuthor = (authorId: number, meUser: MeUser) => {
+const useFeedByAuthor = (authorId: number, meUser: MeUser, query: { offset: number, limit: number }) => {
 
   const [feed, setFeed] = useState<OnePost[]>([]);
 
-  const feedStatus = useQuery({
+  const feedStatus = useInfiniteQuery({
     queryKey: feedKeys.slug(authorId),
-    queryFn: () => {
-      return PostApi.getFeedByAuthorId(authorId)
+    queryFn: async ({ pageParam = query.offset }) => {
+      return PostApi.getFeedByAuthorId(authorId, { offset: pageParam, limit: query.limit });
     },
     onSuccess: (data) => {
-      setFeed(data);
+      console.log(data);
+      let newPosts: OnePost[];
+      newPosts = [...feed, ...data.pages[data.pages.length - 1]];
+      setFeed(newPosts);
+    },
+    getNextPageParam: (lastPage, pages) => {
+      if (lastPage.length < query.limit) return null;
+  
+      const nextPageParam = lastPage.length ? pages.length * query.limit : null;
+
+      console.log(nextPageParam);
+
+      return nextPageParam;
     }
   });
 
@@ -28,6 +40,9 @@ const useFeedByAuthor = (authorId: number, meUser: MeUser) => {
     feed,
     isLoading: feedStatus.isLoading,
     isError: feedStatus.isError,
+    fetchNextPage: feedStatus.fetchNextPage,
+    hasNextPage: feedStatus.hasNextPage,
+    isFetchingNextPage: feedStatus.isFetchingNextPage,
   }
 }
 

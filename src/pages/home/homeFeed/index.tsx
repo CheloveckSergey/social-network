@@ -17,13 +17,19 @@ export const HomeFeed: FC<HomeFeedProps> = ({ meUser }) => {
     feed,
     isLoading,
     isError,
-  } = PostsLib.useFeedByAuthor(meUser.author.id, meUser);
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = PostsLib.useFeedByAuthor(meUser.author.id, meUser, { offset: 0, limit: 5 });
 
   return (
     <PostsUi.PostList 
       posts={feed}
       isLoading={isLoading}
       isError={isError}
+      fetchNextPage={fetchNextPage}
+      hasNextPage={hasNextPage}
+      isFetchingNextPage={isFetchingNextPage}
       actions={[
         Favourites.Actions.LikeButton,
       ]}
