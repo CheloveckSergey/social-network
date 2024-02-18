@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useRef } from "react";
 import LeftMenu from "../../widgets/leftMenu";
 import Upbar from "../../widgets/upbar";
 import './styles.scss';
@@ -11,9 +11,21 @@ import HomeImages from "./homeImages";
 import { Info } from "./homeInfo";
 import { HomeFeed } from "./homeFeed";
 import { HomeAvatar } from "./homeAvatar";
+import { ScrollUpPanel } from "../../widgets/scrollUpPanel";
+import { setTimeout } from "timers/promises";
 
 const Home: FC = () => {
   const { user } = useAppSelector(state => state.user);
+
+  const emptyRef = useRef<HTMLDivElement>(null);
+
+  function scrollUp() {
+    if (emptyRef.current) {
+      emptyRef.current.scrollIntoView({behavior: 'smooth'});
+    }
+  }
+
+  
 
   if (!user) {
     return (
@@ -25,8 +37,14 @@ const Home: FC = () => {
 
   return (
     <>
+      <div ref={emptyRef}></div>
       <Upbar />
-      <main>
+      <ScrollUpPanel 
+        scrollUp={scrollUp}
+      />
+      <main 
+        className=""
+      >
         <LeftMenu />
         <div className="home">
           <div className="home-extra">

@@ -1,34 +1,41 @@
 import { FC } from "react";
 import { useQuery } from "react-query";
-import { PostApi } from "../../../entities/post";
+import { PostApi, PostsLib, PostsUi } from "../../../entities/post";
 import Feed from "../../../widgets/feed";
 import { Group } from "../../../entities/group";
+import { useAppSelector } from "../../../app/store";
+import Favourites from "../../../fetures/favourites";
 
 interface GroupFeedProps {
   group: Group,
 }
 
 export const GroupFeed: FC<GroupFeedProps> = ({ group }) => {
-  const { data, isLoading, isError } = useQuery(
-    ['getGroupPosts', group.author.id],
-    () => {
-      if (group) {
-        return PostApi.getAllOnePostsByAuthorId(group.author.id);
-      }
-    }
-  )
+  
+  const { user } = useAppSelector(state => state.user);
+
+  const {
+    feed,
+    isLoading,
+    isError,
+    isFetchingNextPage,
+    hasNextPage,
+    fetchNextPage
+  } = PostsLib.useFeedByAuthor(group.author.id, user!, { limit: 7, offset: 0 });
 
   return (
     <>
-      {isLoading ? (
-        <p>Loading...</p>
-      ) : isError ? (
-        <p>Error...</p>
-      ) : !data ? (
-        <p>Something went wrong...</p>
-      ) : (
-        <Feed posts={data} />
-      )}
+      <PostsUi.PostList
+        posts={feed}
+        isLoading={isLoading}
+        isError={isError}
+        isFetchingNextPage={isFetchingNextPage}
+        hasNextPage={hasNextPage}
+        fetchNextPage={fetchNextPage}
+        actions={[
+          Favourites.Actions.LikeButton,
+        ]}
+      />
     </>
   )
 }

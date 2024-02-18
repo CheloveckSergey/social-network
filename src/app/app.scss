@@ -155,6 +155,7 @@ a {
 }
 
 .App {
+  position: relative;
   height: 100vh;
   width: 100vw;
   overflow-y:scroll;
@@ -165,8 +166,10 @@ a {
 }
 
 main {
+  position: relative;
   display: flex;
   justify-content: center;
+  width: 100vw;
   margin-top: calc(var(--upbar-height) + 10px);
 }
 

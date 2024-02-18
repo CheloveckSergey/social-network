@@ -1,0 +1,17 @@
+.scroll-up-panel {
+  position: fixed;
+  z-index: 8888;
+  top: var(--upbar-height);
+  left: 0;
+  display: flex;
+  justify-content: center;
+  height: 500px;
+  width: 100px;
+  background: linear-gradient(180deg, var(--back-light-gray) 0%, rgba(0,0,0,0) 100%);
+  opacity: 0;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 1;
+  }
+}
