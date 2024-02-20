@@ -24,6 +24,7 @@ export const PostCard: FC<PostProps> = ({ post: _post, actions }) => {
     post,
     setIsLiked,
     setImageLiked,
+    addComment,
   } = PostsLib.usePostInterface(_post);
 
   const [commentsOpened, setCommentsOpened] = useState<boolean>(false);
@@ -51,6 +52,7 @@ export const PostCard: FC<PostProps> = ({ post: _post, actions }) => {
       {commentsOpened && user && <CommentSection
         user={user}
         post={post}
+        addComment={addComment}
       />}
     </div>
   )

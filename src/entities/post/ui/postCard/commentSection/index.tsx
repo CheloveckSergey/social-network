@@ -9,22 +9,23 @@ import Favourites from "../../../../../fetures/favourites";
 interface CSProps {
   user: User,
   post: OnePost,
+  addComment: () => void,
 }
-export const CommentSection: FC<CSProps> = ({ user, post }) => {
+export const CommentSection: FC<CSProps> = ({ user, post, addComment: addCommentEffect }) => {
 
   const {
     comments,
     isLoading,
     isError,
     connected,
-    // connectComments,
     addComment,
     setIsLiked,
   } = CommentsLib.useComments(post.creationId);
 
-  // useEffect(() => {
-  //   connectComments();
-  // }, []);
+  function _addComment(comment: OneComment): void {
+    addComment(comment);
+    addCommentEffect();
+  }
 
   return (
     <div className="comments-section">
@@ -32,7 +33,7 @@ export const CommentSection: FC<CSProps> = ({ user, post }) => {
         comments={comments}
         isLoading={isLoading}
         isError={isError}
-        addComment={addComment}
+        addComment={_addComment}
         renderComment={(comment: OneComment, index: number) => {
 
           function _setIsLiked(isLiked: boolean) {
@@ -43,7 +44,7 @@ export const CommentSection: FC<CSProps> = ({ user, post }) => {
             <CommentsUi.CommentLine
               key={comment.id}
               comment={comment}
-              addComment={addComment}
+              addComment={_addComment}
               likeButton={<Favourites.Actions.SmallLikeButton 
                 creation={comment.ownCreation}
                 effects={{
@@ -57,7 +58,7 @@ export const CommentSection: FC<CSProps> = ({ user, post }) => {
       <CommentsActionsUi.CommentCreator 
         creation={post.creation} 
         user={user} 
-        addComment={addComment} 
+        addComment={_addComment} 
       />
     </div>
   )

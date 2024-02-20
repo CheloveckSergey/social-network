@@ -16,22 +16,20 @@ const useFeedByAuthor = (authorId: number, meUser: MeUser, query: { offset: numb
 
   const feedStatus = useInfiniteQuery({
     queryKey: feedKeys.slug(authorId),
+
     queryFn: async ({ pageParam = query.offset }) => {
       return PostApi.getFeedByAuthorId(authorId, { offset: pageParam, limit: query.limit });
     },
+
     onSuccess: (data) => {
-      console.log(data);
       let newPosts: OnePost[];
       newPosts = [...feed, ...data.pages[data.pages.length - 1]];
       setFeed(newPosts);
     },
+
     getNextPageParam: (lastPage, pages) => {
       if (lastPage.length < query.limit) return null;
-  
       const nextPageParam = lastPage.length ? pages.length * query.limit : null;
-
-      console.log(nextPageParam);
-
       return nextPageParam;
     }
   });
@@ -82,10 +80,33 @@ const usePostInterface = (inputPost: OnePost) => {
     setPost(newPost);
   }
 
+  function addComment() {
+    const newPost: OnePost = {
+      ...post,
+      creation: {
+        ...post.creation,
+        commentNumber: post.creation.commentNumber + 1,
+      },
+    }
+    setPost(newPost);
+  }
+
+  function deleteComment() {
+    const newPost: OnePost = {
+      ...post,
+      creation: {
+        ...post.creation,
+        commentNumber: post.creation.commentNumber - 1,
+      },
+    }
+    setPost(newPost);
+  }
+
   return {
     post,
     setIsLiked,
     setImageLiked,
+    addComment,
   }
 }
 
@@ -93,3 +114,45 @@ export const PostsLib = {
   useFeedByAuthor,
   usePostInterface,
 }
+
+// export class PostsList {
+//   posts: Post[] = [];
+//   isLoading: boolean = false;
+//   isError: boolean = false;
+//   isFetchingNext: boolean = false;
+//   hasNextPage: boolean = false;
+
+//   loadMore(): Post[] {
+//     return [];
+//   }
+
+//   add(post: Post): void {
+
+//   }
+
+//   delete(post: Post): void {
+
+//   }
+// }
+
+// class Post {
+//   id: number;
+//   description: string | undefined;
+//   images: string[];
+//   likeNumber: number;
+
+//   constructor(id: number, description: string | undefined, images: string[], likeNumber: number) {
+//     this.id = id;
+//     this.description = description;
+//     this.images = images;
+//     this.likeNumber = likeNumber;
+//   }
+
+//   like() {
+//     this.likeNumber++;
+//   }
+
+//   unlike() {
+//     this.likeNumber--;
+//   }
+// }
