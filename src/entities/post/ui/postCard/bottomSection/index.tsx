@@ -11,20 +11,14 @@ interface BSProps {
   effects: PostEffects,
   commentsOpened: boolean,
   setCommentsOpened: React.Dispatch<React.SetStateAction<boolean>>,
-  actions: React.FC<{creation: OneCreation, effects: PostEffects}>[],
+  actions: React.ReactNode | React.ReactNode[];
 }
 export const BottomSection: FC<BSProps> = ({ post, commentsOpened, setCommentsOpened, effects, actions }) => {
 
   return (
     <div className="bottom">
       <div className="left">
-        {actions.map((Action, index) => (
-          <Action 
-            key={index} 
-            creation={post.creation} 
-            effects={effects}
-          />
-        ))}
+        {actions}
       </div>
       <div className="right">
         <button 

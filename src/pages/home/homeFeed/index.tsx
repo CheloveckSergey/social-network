@@ -6,12 +6,16 @@ import { PostApi, PostsLib, PostsUi } from "../../../entities/post";
 import './styles.scss';
 import Favourites from "../../../fetures/favourites";
 import { CommentsActionsUi } from "../../../fetures/comments";
+import { PostsFeaturesLib, PostsFeaturesUi } from "../../../fetures/post";
+import { useAppSelector } from "../../../app/store";
 
 interface HomeFeedProps {
   meUser: MeUser,
 }
 
 export const HomeFeed: FC<HomeFeedProps> = ({ meUser }) => {
+
+  const { user } = useAppSelector(state => state.user);
   
   const {
     feed,
@@ -20,6 +24,7 @@ export const HomeFeed: FC<HomeFeedProps> = ({ meUser }) => {
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
+    setIsLiked,
   } = PostsLib.useFeedByAuthor(meUser.author.id, meUser, { offset: 0, limit: 5 });
 
   return (
@@ -30,9 +35,26 @@ export const HomeFeed: FC<HomeFeedProps> = ({ meUser }) => {
       fetchNextPage={fetchNextPage}
       hasNextPage={hasNextPage}
       isFetchingNextPage={isFetchingNextPage}
-      actions={[
-        Favourites.Actions.LikeButton,
-      ]}
+      renderPost={(post, index) => (
+        <PostsUi.PostCard 
+          key={index}
+          post={post}
+          actions={<>
+            <Favourites.Actions.LikeButton
+              creation={post.creation}
+              effects={{
+                setIsLiked: (isLiked: boolean) => {
+                  setIsLiked(isLiked, post.id);
+                }
+              }}
+            />
+            <PostsFeaturesUi.RepostButton 
+              authorId={user!.author.id}
+              postId={post.id}
+            />
+          </>}
+        />
+      )}
     />
   )
 }

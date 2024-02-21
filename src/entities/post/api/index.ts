@@ -32,6 +32,17 @@ export class PostApi {
     return response;
   }
 
+  static async createRepost(repostId: number, authorId: number) {
+    const response = await api.post(
+      INITIAL_URL + '/createRepost',
+      {
+        repostId, 
+        authorId,
+      }
+    );
+    return response;
+  }
+
   ////////////////////////////////////////////////////////
 
   static async getFeedByAuthorId(authorId: number, query?: FeedQuery) {

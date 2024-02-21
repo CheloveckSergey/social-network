@@ -34,6 +34,25 @@ const useFeedByAuthor = (authorId: number, meUser: MeUser, query: { offset: numb
     }
   });
 
+  function setIsLiked(isLiked: boolean, postId: number): void {
+    const newPosts: OnePost[] = feed.map((post) => {
+      if (post.id === postId) {
+        const newPost: OnePost = {
+          ...post,
+          creation: {
+            ...post.creation,
+            isLiked,
+            likeNumber: isLiked ? post.creation.likeNumber + 1 : post.creation.likeNumber - 1,
+          }
+        }
+        return newPost;
+      } else {
+        return post;
+      }
+    });
+    setFeed(newPosts);
+  }
+
   return {
     feed,
     isLoading: feedStatus.isLoading,
@@ -41,6 +60,7 @@ const useFeedByAuthor = (authorId: number, meUser: MeUser, query: { offset: numb
     fetchNextPage: feedStatus.fetchNextPage,
     hasNextPage: feedStatus.hasNextPage,
     isFetchingNextPage: feedStatus.isFetchingNextPage,
+    setIsLiked,
   }
 }
 

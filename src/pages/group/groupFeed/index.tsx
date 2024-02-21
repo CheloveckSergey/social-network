@@ -32,9 +32,15 @@ export const GroupFeed: FC<GroupFeedProps> = ({ group }) => {
         isFetchingNextPage={isFetchingNextPage}
         hasNextPage={hasNextPage}
         fetchNextPage={fetchNextPage}
-        actions={[
-          Favourites.Actions.LikeButton,
-        ]}
+        renderPost={(post, index) => (
+          <PostsUi.PostCard 
+            key={index}
+            post={post}
+            actions={<>
+  
+            </>}
+          />
+        )}
       />
     </>
   )

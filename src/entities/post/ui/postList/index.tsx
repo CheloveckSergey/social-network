@@ -13,9 +13,9 @@ interface PLProps {
   fetchNextPage: () => void,
   hasNextPage: boolean | undefined,
   isFetchingNextPage: boolean,
-  actions: React.FC<{creation: OneCreation, effects: PostEffects}>[],
+  renderPost: (post: OnePost, index: number) => React.ReactNode,
 }
-export const PostList: FC<PLProps> = ({ posts, isLoading, isError, fetchNextPage, hasNextPage, isFetchingNextPage, actions }) => {
+export const PostList: FC<PLProps> = ({ posts, isLoading, isError, fetchNextPage, hasNextPage, isFetchingNextPage, renderPost }) => {
 
   return (
     <div className="post-list">
@@ -24,11 +24,7 @@ export const PostList: FC<PLProps> = ({ posts, isLoading, isError, fetchNextPage
         isError={isError}
       >
         {posts && posts.length ? (
-          posts.map((post, index) => <PostsUi.PostCard 
-            key={index}
-            post={post}
-            actions={actions}
-        />)
+          posts.map((post, index) => renderPost(post, index))
         ) : (
           <SharedUi.Divs.Empty
             body="There's no posts yet"
