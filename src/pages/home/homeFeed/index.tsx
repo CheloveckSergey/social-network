@@ -41,16 +41,22 @@ export const HomeFeed: FC<HomeFeedProps> = ({ meUser }) => {
           post={post}
           actions={<>
             <Favourites.Actions.LikeButton
-              creation={post.creation}
+              creation={post.type === 'repost' && post.repost ? post.repost.creation : post.creation}
               effects={{
                 setIsLiked: (isLiked: boolean) => {
-                  setIsLiked(isLiked, post.id);
+                  if (post.type === 'repost' && post.repost) {
+                    setIsLiked(isLiked, post.repost.id);
+                  } else {
+                    setIsLiked(isLiked, post.id);
+                  }
                 }
               }}
             />
             <PostsFeaturesUi.RepostButton 
               authorId={user!.author.id}
-              postId={post.id}
+              postId={post.type === 'repost' && post.repost ? post.repost.id : post.id}
+              repostsNumber={post.type === 'repost' && post.repost ? post.repost.repostsNumber : post.repostsNumber}
+              activeCondition={post.type === 'repost' && post.repost ? post.repost.isReposted : post.isReposted}
             />
           </>}
         />

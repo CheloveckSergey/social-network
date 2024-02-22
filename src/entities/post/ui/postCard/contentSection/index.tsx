@@ -1,35 +1,35 @@
 import { FC, useState, MouseEvent } from "react";
 import { BsFillCircleFill, BsFillRecordCircleFill } from "react-icons/bs";
 import './styles.scss';
-import { ImageUi } from "../../../../image";
-import { OnePost } from "../../..";
+import { ImageUi, OneImage } from "../../../../image";
 
 interface CSProps {
-  post: OnePost,
+  description: string | undefined,
+  images: OneImage[],
   setImageLiked: (postImageId: number, isLiked: boolean) => void,
 } 
-export const ContentSection: FC<CSProps> = ({ post, setImageLiked }) => {
+export const ContentSection: FC<CSProps> = ({ description, images, setImageLiked }) => {
 
   const [curImageIndex, setCurImageIndex] = useState<number>(0);
 
   return (
     <div className="body">
-      <p className="description">{post.description}</p>
+      <p className="description">{description}</p>
       <div className="post-images">
-        {post.postImages && (post.postImages.length > 0) && <div className="images">
-          {(post.postImages.length > 1) ? (
+        {images && (images.length > 0) && <div className="images">
+          {(images.length > 1) ? (
             <div>
               <ImageUi.ImageCard 
-                image={post.postImages[curImageIndex]}
+                image={images[curImageIndex]}
                 index={curImageIndex}
-                images={post.postImages}
+                images={images}
                 imageClass="post-image"
                 curImageIndex={curImageIndex}
                 setCurImageIndex={setCurImageIndex}
                 setIsLiked={setImageLiked}
               />
               <div className="indexes">
-                {post.postImages.map((image, index) => <button
+                {images.map((image, index) => <button
                   key={index}
                   onClick={(e: MouseEvent<HTMLButtonElement>) => {
                     e.preventDefault();
@@ -50,8 +50,8 @@ export const ContentSection: FC<CSProps> = ({ post, setImageLiked }) => {
                 imageClass="post-image"
                 curImageIndex={0}
                 index={0}
-                image={post.postImages[0]}
-                images={post.postImages}
+                image={images[0]}
+                images={images}
                 setCurImageIndex={setCurImageIndex}
                 setIsLiked={setImageLiked}
               />

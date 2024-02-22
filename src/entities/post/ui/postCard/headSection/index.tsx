@@ -1,20 +1,18 @@
 import { FC } from "react";
 import './styles.scss';
-import { Helpers } from "../../../../../shared/helpers";
-import { OnePost } from "../../..";
-import { useNavigate } from "react-router-dom";
-import { AuthorUi } from "../../../../author";
+import { AuthorUi, OneAuthor } from "../../../../author";
 
 interface HSProps {
-  post: OnePost,
+  author: OneAuthor,
+  createdAt: string,
 }
-export const HeadSection: FC<HSProps> = ({ post }) => {
+export const HeadSection: FC<HSProps> = ({ author, createdAt }) => {
   //Не определяется тип автора
   return (
     <div className="post-head">
       <AuthorUi.AuthorCard 
-        author={post.creation.author}
-        createdAt={post.creation.createdAt}
+        author={author}
+        createdAt={createdAt}
       />
     </div>
   )

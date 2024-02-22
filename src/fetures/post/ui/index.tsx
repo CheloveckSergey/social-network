@@ -5,9 +5,11 @@ import { BiRepost } from "react-icons/bi";
 
 interface RBProps {
   postId: number,
+  repostsNumber: number,
   authorId: number,
+  activeCondition: boolean,
 }
-const RepostButton: FC<RBProps> = ({ postId, authorId }) => {
+const RepostButton: FC<RBProps> = ({ postId, repostsNumber, authorId, activeCondition }) => {
 
   const {
     mutateAsync,
@@ -20,8 +22,8 @@ const RepostButton: FC<RBProps> = ({ postId, authorId }) => {
       Icon={BiRepost}
       iconSize={25}
       activeColor="blue"
-      isActive={false}
-      generalNumber={0}
+      isActive={activeCondition}
+      generalNumber={repostsNumber}
       onClick={() => mutateAsync({repostId: postId, authorId})}
       isLoading={isLoading}
       isError={isError}

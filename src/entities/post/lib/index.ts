@@ -46,6 +46,19 @@ const useFeedByAuthor = (authorId: number, meUser: MeUser, query: { offset: numb
           }
         }
         return newPost;
+      } else if (post.repostId === postId && post.repost) {
+        const newPost: OnePost = {
+          ...post,
+          repost: {
+            ...post.repost,
+            creation: {
+              ...post.repost.creation,
+              isLiked,
+              likeNumber: isLiked ? post.repost.creation.likeNumber + 1 : post.repost.creation.likeNumber - 1,
+            }
+          }
+        }
+        return newPost;
       } else {
         return post;
       }

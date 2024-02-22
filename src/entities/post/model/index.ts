@@ -8,12 +8,25 @@ export interface Post {
   postImages: Image[],
 }
 
+export type PostType = 'ownPost' | 'repost';
+
 export interface OnePost {
-  [x: string]: any;
-  post: any;
   id: number,
   description: string | undefined,
   creationId: number,
   creation: OneCreation,
   postImages: OneImage[],
+  type: PostType,
+  repostId: number | null,
+  isReposted: boolean,
+  repostsNumber: number,
+  repost: {
+    id: number,
+    description: string | undefined,
+    creationId: number,
+    creation: OneCreation,
+    postImages: OneImage[],
+    isReposted: boolean,
+    repostsNumber: number,
+  } | null,
 }

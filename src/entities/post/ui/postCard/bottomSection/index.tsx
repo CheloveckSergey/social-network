@@ -7,13 +7,13 @@ import { BiComment } from "react-icons/bi";
 import { OneCreation } from "../../../../creation";
 
 interface BSProps {
-  post: OnePost,
+  commentNumber: number,
   effects: PostEffects,
   commentsOpened: boolean,
   setCommentsOpened: React.Dispatch<React.SetStateAction<boolean>>,
   actions: React.ReactNode | React.ReactNode[];
 }
-export const BottomSection: FC<BSProps> = ({ post, commentsOpened, setCommentsOpened, effects, actions }) => {
+export const BottomSection: FC<BSProps> = ({ commentNumber, commentsOpened, setCommentsOpened, effects, actions }) => {
 
   return (
     <div className="bottom">
@@ -28,7 +28,7 @@ export const BottomSection: FC<BSProps> = ({ post, commentsOpened, setCommentsOp
           }}
         >
           <BiComment size={25} />
-          <span>{post.creation.commentNumber}</span>
+          <span>{commentNumber}</span>
         </button>
       </div>
     </div>

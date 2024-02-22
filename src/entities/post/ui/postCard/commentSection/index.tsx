@@ -5,13 +5,14 @@ import { OnePost } from "../../..";
 import { CommentsLib, CommentsUi, OneComment } from "../../../../comment";
 import { CommentsActionsUi } from "../../../../../fetures/comments";
 import Favourites from "../../../../../fetures/favourites";
+import { OneCreation } from "../../../../creation";
 
 interface CSProps {
   user: User,
-  post: OnePost,
+  creation: OneCreation,
   addComment: () => void,
 }
-export const CommentSection: FC<CSProps> = ({ user, post, addComment: addCommentEffect }) => {
+export const CommentSection: FC<CSProps> = ({ user, creation, addComment: addCommentEffect }) => {
 
   const {
     comments,
@@ -20,7 +21,7 @@ export const CommentSection: FC<CSProps> = ({ user, post, addComment: addComment
     connected,
     addComment,
     setIsLiked,
-  } = CommentsLib.useComments(post.creationId);
+  } = CommentsLib.useComments(creation.id);
 
   function _addComment(comment: OneComment): void {
     addComment(comment);
@@ -56,7 +57,7 @@ export const CommentSection: FC<CSProps> = ({ user, post, addComment: addComment
         }}
       />
       <CommentsActionsUi.CommentCreator 
-        creation={post.creation} 
+        creation={creation} 
         user={user} 
         addComment={_addComment} 
       />

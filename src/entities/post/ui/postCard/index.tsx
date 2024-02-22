@@ -33,16 +33,59 @@ export const PostCard: FC<PostProps> = ({ post: _post, actions }) => {
     setIsLiked,
   }
 
+  if (post.type === 'repost' && post.repost) {
+    return (
+      <div className="post regular-panel">
+        <div className="post-main">
+          <HeadSection 
+            author={post.creation.author}
+            createdAt={post.creation.createdAt}
+          />
+          <div className="repost">
+            <div className="vertical-line"/>
+            <div className="repost-main">
+              <HeadSection 
+                author={post.repost.creation.author}
+                createdAt={post.repost.creation.createdAt}
+              />
+              <ContentSection 
+                description={post.repost.description}
+                images={post.repost.postImages}
+                setImageLiked={setImageLiked}
+              />
+              <BottomSection
+                commentNumber={post.repost.creation.commentNumber} 
+                effects={effects}
+                commentsOpened={commentsOpened}
+                setCommentsOpened={setCommentsOpened}
+                actions={actions}
+              />
+            </div>
+          </div>
+        </div>
+        {commentsOpened && user && <CommentSection
+          user={user}
+          creation={post.repost.creation}
+          addComment={addComment}
+        />}
+      </div>
+    )
+  }
+
   return (
     <div className="post regular-panel">
       <div className="post-main">
-        <HeadSection post={post} />
+        <HeadSection 
+          author={post.creation.author}
+          createdAt={post.creation.createdAt}
+        />
         <ContentSection 
-          post={post} 
+          description={post.description}
+          images={post.postImages}
           setImageLiked={setImageLiked}
         />
         <BottomSection
-          post={post} 
+          commentNumber={post.creation.commentNumber} 
           effects={effects}
           commentsOpened={commentsOpened}
           setCommentsOpened={setCommentsOpened}
@@ -51,7 +94,7 @@ export const PostCard: FC<PostProps> = ({ post: _post, actions }) => {
       </div>
       {commentsOpened && user && <CommentSection
         user={user}
-        post={post}
+        creation={post.creation}
         addComment={addComment}
       />}
     </div>
