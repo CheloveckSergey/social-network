@@ -38,7 +38,7 @@ const LeftMenu: FC = () => {
         <BiSolidImageAlt size={20}/>
         <h3 className="menu">Images</h3>
       </Link>}
-      <Link to="/music" >
+      <Link to="/music?section=general" >
         <BsMusicNoteBeamed size={20}/>
         <h3 className="menu">Music</h3>
       </Link>

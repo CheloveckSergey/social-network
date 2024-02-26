@@ -1,0 +1,57 @@
+.music-line {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px;
+  border-radius: 10px;
+  cursor: pointer;
+
+  .image-container {
+    position: relative;
+    height: 40px;
+    width: 40px;
+    border-radius: 5px;
+    overflow: hidden;
+
+    img.music-image {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+    }
+
+    .image-cover {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 8888;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      button.play {
+        display: none;
+      }
+    }
+  }
+  
+  &:hover .image-cover {
+    background: rgba(0, 0, 0, 0.5);
+
+    button.play {
+      display: inline;
+    }
+  }
+
+  .description {
+    
+    .musician-name {
+      
+    }
+
+    .music-name {
+      color: var(--font-gray);
+    }
+  }
+}

@@ -5,6 +5,7 @@ import { AiOutlineCloseCircle } from "react-icons/ai";
 import { createPortal } from 'react-dom';
 import { AddAlbumWindow } from "./addAlbum";
 import { AddImageWindow } from "./addAlbumImage";
+import { LoadMusicWindow } from "./loadMusicWindow";
 
 interface UMWProps {
   condition: boolean,
@@ -48,4 +49,5 @@ export default AnotherModalWindow;
 export const ModalWindows = {
   AddAlbumWindow,
   AddImageWindow,
+  LoadMusicWindow,
 } 

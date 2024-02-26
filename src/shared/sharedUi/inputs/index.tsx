@@ -1,4 +1,5 @@
 import { ChangeEvent, FC, ReactNode, useState } from "react"
+import './styles.scss';
 
 interface ILProps {
   setImage: React.Dispatch<React.SetStateAction<File | undefined>>,
@@ -72,7 +73,45 @@ const PluralImageLabel: FC<PILProps> = ({ images, setImages, setCurImageIndex })
   )
 }
 
+interface FLProps {
+  text: string,
+  setFile: React.Dispatch<React.SetStateAction<File | undefined>>,
+}
+const FileLabel: FC<FLProps> = ({ text, setFile }) => {
+
+  return (
+    <label className="file-label">
+      <input
+        className="file-input"
+        type="file" 
+        name={'file'} 
+        style={{display: 'none'}}
+        onChange={(e: ChangeEvent<HTMLInputElement>) => {
+          if (!e.target.files) {
+            return;
+          }
+          const files = e.target.files;
+          setFile(files[0]);
+          const fileReader = new FileReader();
+          fileReader.onload = function() {
+
+          }
+          if (e.target.files) {
+            fileReader.readAsDataURL(e.target.files[0]);
+          }
+        }}
+      />
+        <span 
+          className="gray-to-white green file-input-span"
+        >
+          {text}
+        </span>
+    </label>
+  )
+}
+
 export const Inputs = {
   ImageLabel,
   PluralImageLabel,
+  FileLabel,
 }

@@ -125,6 +125,13 @@ button {
   }
 }
 
+.to-gray-back {
+
+  &:hover {
+    background-color: var(--border);
+  }
+}
+
 //Just because button.green doesn't work on input [file]
 .green {
   background-color: var(--pale-green);
