@@ -1,0 +1,32 @@
+.my-music-page {
+  
+  .main {
+    margin-left: 10px;
+    width: 600px;
+  }
+}
+
+.artist-header {
+  display: flex;
+  gap: 10px;
+
+  .avatar {
+    display: flex;
+    flex-direction: column;
+
+    .musician-avatar {
+      height: 150px;
+      width: 150px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
+    button.change-avatar {
+      width: 100%;
+      margin-top: 10px;
+      padding: 5px 10px;
+      border-radius: 5px;
+    }
+  }
+
+}

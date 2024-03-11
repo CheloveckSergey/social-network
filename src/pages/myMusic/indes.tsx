@@ -36,9 +36,9 @@ export const MusicPage: FC = () => {
         <LeftMenu />
         <div className="my-music-page">
           <div className="main">
-            {section === 'general' ? (
+            {section === 'general' && user ? (
               <GeneralMusic />
-            ) : section === 'my-music' ? (
+            ) : section === 'my-music' && user ? (
               <MyMusic />
             ) : (
               <></>

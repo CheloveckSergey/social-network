@@ -13,6 +13,7 @@ import { RoomPage } from "./room";
 import { RoomsPage } from "./rooms";
 import Album from "./userAlbum";
 import { MusicPage } from "./myMusic/indes";
+import { ArtistPage } from "./artist";
 
 const Routing: FC = () => {
   
@@ -31,6 +32,7 @@ const Routing: FC = () => {
       <Route path="/room/:roomId" element={<RoomPage />} />
       <Route path="/rooms" element={<RoomsPage />} />
       <Route path="/music" element={<MusicPage />} />
+      <Route path="/artist/:artistId" element={<ArtistPage />} />
     </Routes>
   )
 }

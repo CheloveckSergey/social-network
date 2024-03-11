@@ -10,6 +10,7 @@ import { authThunks } from '../../fetures/auth';
 import { AllMessagesButton, MessagesUi } from '../../entities/message';
 import { SharedUi } from '../../shared/sharedUi';
 import { NotesUi } from '../../entities/notes';
+import { MusicPlayer } from './musicPlayer';
 
 const Upbar: FC = () => {
   const navigate = useNavigate();
@@ -25,6 +26,7 @@ const Upbar: FC = () => {
 
         </input>
       </div>
+      <MusicPlayer />
       <SharedUi.Buttons.ExtraButton
         Icon={FaRegBell}
         iconSize={25}

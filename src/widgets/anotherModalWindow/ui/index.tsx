@@ -6,6 +6,7 @@ import { createPortal } from 'react-dom';
 import { AddAlbumWindow } from "./addAlbum";
 import { AddImageWindow } from "./addAlbumImage";
 import { LoadMusicWindow } from "./loadMusicWindow";
+import { ChangeAvatarWindow } from "./changeAvatar";
 
 interface UMWProps {
   condition: boolean,
@@ -50,4 +51,5 @@ export const ModalWindows = {
   AddAlbumWindow,
   AddImageWindow,
   LoadMusicWindow,
+  ChangeAvatarWindow,
 } 

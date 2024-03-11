@@ -1,24 +1,23 @@
 import { FC } from "react";
-import { MusicListInterface } from "../../model";
+import { Music, MusicListInterface, MyMusic } from "../../model";
 import { SharedUi } from "../../../../shared/sharedUi";
-import { MusicUi } from "..";
 
 interface MLProps {
-  musicList: MusicListInterface,
+  renderMusicLine: (music: Music, index: number) => React.ReactNode | React.ReactNode[],
+  musics: Music[],
+  isLoading: boolean,
+  isError: boolean,
 }
-export const MusicList: FC<MLProps> = ({ musicList }) => {
+export const MusicList: FC<MLProps> = ({ musics, isLoading, isError, renderMusicLine }) => {
 
   return (
     <div className="music-list">
       <SharedUi.Helpers.LoadErrorHandler
-        isLoading={musicList.isLoading}
-        isError={musicList.isError}
+        isLoading={isLoading}
+        isError={isError}
       >
-        {musicList.musics ? (
-          musicList.musics.map((music, index) => <MusicUi.MusicLine 
-            key={index}
-            music={music}
-          />)
+        {musics ? (
+          musics.map(renderMusicLine)
         ) : (
           <SharedUi.Divs.Empty 
             body="Here's no music yet"

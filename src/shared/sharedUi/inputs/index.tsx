@@ -76,11 +76,14 @@ const PluralImageLabel: FC<PILProps> = ({ images, setImages, setCurImageIndex })
 interface FLProps {
   text: string,
   setFile: React.Dispatch<React.SetStateAction<File | undefined>>,
+  labelClass?: string,
 }
-const FileLabel: FC<FLProps> = ({ text, setFile }) => {
+const FileLabel: FC<FLProps> = ({ text, setFile, labelClass }) => {
 
   return (
-    <label className="file-label">
+    <label 
+      className={`file-label ${labelClass}`}
+    >
       <input
         className="file-input"
         type="file" 
@@ -102,7 +105,7 @@ const FileLabel: FC<FLProps> = ({ text, setFile }) => {
         }}
       />
         <span 
-          className="gray-to-white green file-input-span"
+          className="green file-input-span"
         >
           {text}
         </span>

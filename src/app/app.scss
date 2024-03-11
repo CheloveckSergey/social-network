@@ -85,6 +85,11 @@ button {
     background-color: var(--font-white);
     color: var(--back-light-gray);
 
+    &.disabled {
+      filter: brightness(0.5);
+      cursor: default;
+    }
+
     &:hover {
       background-color: var(--font-gray);
 
@@ -144,6 +149,10 @@ button {
       background-color: var(--pale-green);
     }
   }
+}
+
+.file-input-span {
+  cursor: pointer;
 }
 
 a {
@@ -226,7 +235,6 @@ hr {
 }
 
 input {
-  margin: 10px 0;
   border: none;
   outline: none;
   background-color: inherit;

@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from './store';
 import ModalWindow from '../widgets/modalWindow';
 import { MyRejectValue, authThunks } from '../fetures/auth';
+import { AudioRoot } from '../widgets/audioRoot';
 
 
 function App() {
@@ -41,6 +42,7 @@ function App() {
     >
       {window.switch && <ModalWindow />}
       <Routing />
+      <AudioRoot />
     </div>
   );
 }

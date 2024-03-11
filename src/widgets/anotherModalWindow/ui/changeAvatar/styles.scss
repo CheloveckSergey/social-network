@@ -1,0 +1,32 @@
+.change-avatar-window {
+  width: 300px;
+
+  .section {
+    padding: 10px;
+  }
+
+  .main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    
+    img {
+      height: 200px;
+      width: 300px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
+    span {
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button.save-button {
+      padding: 5px 10px;
+      border-radius: 5px;
+    }
+  }
+}

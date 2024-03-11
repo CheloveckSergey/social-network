@@ -2,9 +2,14 @@
   display: flex;
   align-items: center;
   gap: 10px;
+  margin-top: 5px;
   padding: 5px;
   border-radius: 10px;
   cursor: pointer;
+
+  &:first-child {
+    margin-top: 0;
+  }
 
   .image-container {
     position: relative;
@@ -25,7 +30,7 @@
       right: 0;
       bottom: 0;
       left: 0;
-      z-index: 8888;
+      // z-index: 5555;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -45,13 +50,22 @@
   }
 
   .description {
+    flex-grow: 3;
     
     .musician-name {
-      
+
+      &:hover {
+        text-decoration: underline;
+      }
     }
 
     .music-name {
       color: var(--font-gray);
     }
+  }
+
+  .right {
+    display: flex;
+    gap: 10px;
   }
 }

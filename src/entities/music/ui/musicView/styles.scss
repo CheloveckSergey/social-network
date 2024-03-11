@@ -1,0 +1,24 @@
+.music-view {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  img.music-image {
+    height: 40px;
+    width: 40px;
+    object-fit: cover;
+    border-radius: 5px;
+  }
+
+  .description {
+    flex-grow: 3;
+    
+    .musician-name {
+      
+    }
+
+    .music-name {
+      color: var(--font-gray);
+    }
+  }
+}

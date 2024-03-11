@@ -10,6 +10,7 @@ import { messageStatusesSlice } from "../../entities/message/model/statusesRedux
 import { deletedMessagesSlice } from "../../fetures/messages/model";
 import { notesSlice } from "../../entities/notes";
 import { anotherModalWindowSlice } from "../../widgets/anotherModalWindow/model";
+import { audioSlice } from "../../entities/music/model/store";
 
 const socket = new SocketClient();
 
@@ -23,6 +24,7 @@ export const store = configureStore({
     deletedMessages: deletedMessagesSlice.reducer,
     notes: notesSlice.reducer,
     anotherModalWindow: anotherModalWindowSlice.reducer,
+    audio: audioSlice.reducer,
   },
   middleware: (getDefaultMiddleware) => 
     getDefaultMiddleware()
@@ -43,6 +45,7 @@ const rootReducer = combineReducers({
   deletedMessages: deletedMessagesSlice.reducer,
   notes: notesSlice.reducer,
   anotherModalWindow: anotherModalWindowSlice.reducer,
+  audio: audioSlice.reducer,
 })
 
 export type RootState = ReturnType<typeof rootReducer>;

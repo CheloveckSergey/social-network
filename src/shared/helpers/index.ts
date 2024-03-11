@@ -12,12 +12,27 @@ const getImageSrc = (src: string | undefined) => {
   return imageSrc;
 }
 
+const getMusicSrc = (src: string | undefined): string => {
+  if (!src) {
+    return ''
+  }
+  const backUrl = process.env.REACT_APP_BACK_URL;
+  const musicSrc = backUrl + src;
+  return musicSrc;
+}
+
 function getImageUrlFromFile(file: File | undefined) {
   if (file) {
     return URL.createObjectURL(file);
   } else {
     return process.env.REACT_APP_DEFAULT_IMAGE;
   }
+}
+
+function convertTime(time: number) {
+  const minute = Math.floor(time / 60);
+  const second = Math.floor(time % 60);
+  return `${minute}:${(second < 10) ? ("0" + second) : second}`;
 }
 
 // const getTodayDate: (date: string) => string = (date: string) => {
@@ -57,7 +72,9 @@ function createIdGenerator() {
 
 export const Helpers = {
   getImageSrc,
+  getMusicSrc,
   isTheFirstMessageToday,
   getImageUrlFromFile,
-  createIdGenerator
+  createIdGenerator,
+  convertTime,
 }
