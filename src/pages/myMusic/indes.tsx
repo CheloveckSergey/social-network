@@ -3,7 +3,7 @@ import { useAppSelector } from "../../app/store";
 import Upbar from "../../widgets/upbar";
 import { ScrollUpPanel } from "../../widgets/scrollUpPanel";
 import LeftMenu from "../../widgets/leftMenu";
-import { MyMusic } from "./myMusic";
+import { MyMusicPanel } from "./myMusic";
 import { Route, Routes, useLocation, useParams } from "react-router-dom";
 import { MusicMenu } from "./menu";
 import './styles.scss';
@@ -39,7 +39,7 @@ export const MusicPage: FC = () => {
             {section === 'general' && user ? (
               <GeneralMusic />
             ) : section === 'my-music' && user ? (
-              <MyMusic />
+              <MyMusicPanel />
             ) : (
               <></>
             )}

@@ -5,10 +5,10 @@ import { ModalWindows, UseModalWindow } from "../../../widgets/anotherModalWindo
 import { MusicsLib } from "../../../entities/music/lib";
 import { useAppSelector } from "../../../app/store";
 import { MusicUi } from "../../../entities/music/ui";
-import { Music } from "../../../entities/music";
+import { Music, MyMusic } from "../../../entities/music";
 import { MusicFeaturesUi } from "../../../fetures/music";
 
-export const MyMusic: FC = () => {
+export const MyMusicPanel: FC = () => {
 
   const { user } = useAppSelector(state => state.user);
 
@@ -16,15 +16,17 @@ export const MyMusic: FC = () => {
     musics,
     isLoading,
     isError,
+    addMusic,
+    deleteMusic,
   } = MusicsLib.useAddedMusic(user!.author.id)
 
   return (
     <div className="my-music regular-panel">
-      <MusicUi.MusicList 
+      <MusicUi.MusicList<MyMusic>
         musics={musics}
         isLoading={isLoading}
         isError={isError}
-        renderMusicLine={(music: Music, index: number) => <MusicUi.MusicLine 
+        renderMusicLine={(music: MyMusic, index: number) => <MusicUi.MusicLine 
           key={index}
           music={music}
           playPauseButton={<MusicFeaturesUi.PlayPauseMusicButton 
@@ -32,9 +34,12 @@ export const MyMusic: FC = () => {
             music={music}
             musics={musics}
           />}
-          rightButtons={<MusicFeaturesUi.AddMusicToAddedButton 
+          rightButtons={<MusicFeaturesUi.AddDeleteMusicToAddedButton 
             musicId={music.id}
             authorId={user!.author.id}
+            added={music.added}
+            addMusicToAdded={addMusic}
+            deleteMusicFromAdded={deleteMusic}
           />}
         />}
       />

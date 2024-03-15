@@ -46,19 +46,50 @@ const useAllMusic = (authorId: number) => {
   }
 
   function deleteMusic(musicId: number) {
-    console.log('deleteMusic');
     setMusics(prev => {
       return prev.filter(music => music.id !== musicId);
     })
   }
 
-  const musicList: MusicListInterface = {
+  function addMusicToAdded(music: Music) {
+    setMusics(prev => {
+      return prev.map(_music => {
+        if (_music.id === music.id) {
+          return {
+            ..._music,
+            added: true,
+          }
+        } else {
+          return _music;
+        }
+      })
+    });
+  }
+
+  function deleteMusicFromAdded(music: Music) {
+    setMusics(prev => {
+      return prev.map(_music => {
+        if (_music.id === music.id) {
+          return {
+            ..._music,
+            added: false,
+          }
+        } else {
+          return _music;
+        }
+      })
+    });
+  }
+
+  const musicList = {
     musics,
     isLoading: status.isLoading,
     isError: status.isError,
 
     addMusic,
-    deleteMusic
+    deleteMusic,
+    addMusicToAdded,
+    deleteMusicFromAdded,
   }
 
   return musicList;
@@ -152,10 +183,43 @@ const useAddedMusic = (authorId: number) => {
     }
   });
 
+  function addMusic(music: Music) {
+    setMusics(prev => {
+      return prev.map(_music => {
+        if (_music.id === music.id) {
+          return {
+            ..._music,
+            added: true,
+          }
+        } else {
+          return _music;
+        }
+      });
+    })
+  }
+
+  function deleteMusic(music: Music) {
+    setMusics(prev => {
+      return prev.map(_music => {
+        if (_music.id === music.id) {
+          return {
+            ..._music,
+            added: false,
+          }
+        } else {
+          return _music;
+        }
+      });
+    })
+  }
+
   return {
     musics,
     isLoading: status.isLoading,
     isError: status.isError,
+
+    addMusic,
+    deleteMusic,
   }
 }
 

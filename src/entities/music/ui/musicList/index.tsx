@@ -2,13 +2,13 @@ import { FC } from "react";
 import { Music, MusicListInterface, MyMusic } from "../../model";
 import { SharedUi } from "../../../../shared/sharedUi";
 
-interface MLProps {
-  renderMusicLine: (music: Music, index: number) => React.ReactNode | React.ReactNode[],
-  musics: Music[],
+interface MLProps<T> {
+  renderMusicLine: (music: T, index: number) => React.ReactNode | React.ReactNode[],
+  musics: T[],
   isLoading: boolean,
   isError: boolean,
 }
-export const MusicList: FC<MLProps> = ({ musics, isLoading, isError, renderMusicLine }) => {
+export const MusicList = <T,>({ musics, isLoading, isError, renderMusicLine } : MLProps<T>) => {
 
   return (
     <div className="music-list">
@@ -16,7 +16,7 @@ export const MusicList: FC<MLProps> = ({ musics, isLoading, isError, renderMusic
         isLoading={isLoading}
         isError={isError}
       >
-        {musics ? (
+        {musics?.length ? (
           musics.map(renderMusicLine)
         ) : (
           <SharedUi.Divs.Empty 
