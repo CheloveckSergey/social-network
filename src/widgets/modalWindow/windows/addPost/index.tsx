@@ -5,6 +5,70 @@ import { useAppSelector } from "../../../../app/store";
 import { BiImageAdd, BiSolidVideos } from "react-icons/bi";
 import { BsFileEarmarkMusic, BsFillCircleFill, BsFillRecordCircleFill } from "react-icons/bs";
 import { useQuery } from "react-query";
+import { MusicsLib } from "../../../../entities/music/lib";
+import { MusicUi } from "../../../../entities/music/ui";
+import { Music } from "../../../../entities/music";
+import { MusicFeaturesLib, MusicFeaturesUi } from "../../../../fetures/music";
+import { IoIosAdd } from "react-icons/io";
+import { FaCheck } from "react-icons/fa";
+
+interface MSProps {
+  authorId: number,
+  addMusic: (musicId: number) => void,
+  isAdded: (musicId: number) => boolean,
+  deleteMusic: (musicId: number) => void,
+}
+const MusicSection: FC<MSProps> = ({ authorId, addMusic, isAdded, deleteMusic }) => {
+
+  const {
+    musics,
+    isLoading,
+    isError,
+  } = MusicsLib.useAddedMusic(authorId);
+
+  return (
+    <div
+      className="musics-section"
+    >
+      <MusicUi.MusicList
+        musics={musics}
+        isLoading={isLoading}
+        isError={isError}
+        renderMusicLine={(music: Music, index: number) => <MusicUi.MusicLine 
+          key={index}
+          music={music}
+          playPauseButton={<MusicFeaturesUi.PlayPauseMusicButton  
+            music={music}
+            musics={musics}
+            index={index}
+          />}
+          rightButtons={[
+            (isAdded(music.id) ? (
+              <button
+                className="delete-music-button white"
+                onClick={() => {
+                  deleteMusic(music.id);
+                }}
+              >
+                <FaCheck size={15} />
+              </button>
+            ) : (
+              <button
+                className="add-music-button white"
+                onClick={() => {
+                  addMusic(music.id);
+                }}
+              >
+                <IoIosAdd size={35} />
+              </button>
+            ))
+            
+          ]}
+        />}
+      />
+    </div>
+  )
+}
 
 export const AddPostWindow: FC = ({  }) => {
 
@@ -15,6 +79,30 @@ export const AddPostWindow: FC = ({  }) => {
 
   const [curImageIndex, setCurImageIndex] = useState<number>(0);
 
+  const [showMyMusics, setShowMyMusics] = useState<boolean>(false);
+  const [toAddMusics, setToAddMusics] = useState<number[]>([]);
+
+  function addMusic(musicId: number) {
+    console.log('addMusic');
+    setToAddMusics(prev => [...prev, musicId]);
+  }
+
+  function deleteMusic(musicId: number) {
+    const newMusics: number[] = toAddMusics.filter(_musicId => {
+      if (_musicId !== musicId) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+    setToAddMusics(newMusics);
+  }
+
+  function isAdded(musicId: number): boolean {
+    const music = toAddMusics.find(_musicId => _musicId === musicId);
+    return music ? true : false;
+  }
+
   const formRef= useRef<HTMLFormElement>(null);
 
   const { isLoading, refetch } = useQuery(
@@ -24,6 +112,8 @@ export const AddPostWindow: FC = ({  }) => {
         if (formRef.current) {
           const formData = new FormData(formRef.current);
           images.forEach((image, index) => formData.append('img', image))
+          toAddMusics.forEach(musicId => formData.append('musicIds[]', String(musicId)));
+          // formData.append('musicIds[]', JSON.stringify(toAddMusics));
           return PostApi.createPost(formData);
         }
       }
@@ -103,6 +193,12 @@ export const AddPostWindow: FC = ({  }) => {
               value={author.id}
             />
           </label>
+          {showMyMusics && <MusicSection 
+            authorId={author.id}
+            addMusic={addMusic}
+            isAdded={isAdded}
+            deleteMusic={deleteMusic}
+          />}
         </form>
       </div>
       <div className="bottom section">
@@ -145,7 +241,12 @@ export const AddPostWindow: FC = ({  }) => {
           <button className="white">
             <BiSolidVideos size={25} />
           </button>
-          <button className="white">
+          <button 
+            className="white"
+            onClick={() => {
+              setShowMyMusics(!showMyMusics)
+            }}
+          >
             <BsFileEarmarkMusic size={25} />
           </button>
         </div>

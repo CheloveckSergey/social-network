@@ -4,6 +4,7 @@ import { PostApi } from "../api"
 import { OnePost } from "../model"
 import { useState } from "react"
 import { OneImage } from "../../image"
+import { Music, MyMusic } from "../../music"
 
 const feedKeys = {
   root: 'feed',
@@ -35,6 +36,7 @@ const useFeedByAuthor = (authorId: number, meUser: MeUser, query: { offset: numb
   });
 
   function setIsLiked(isLiked: boolean, postId: number): void {
+    console.log('like');
     const newPosts: OnePost[] = feed.map((post) => {
       if (post.id === postId) {
         const newPost: OnePost = {
@@ -66,6 +68,97 @@ const useFeedByAuthor = (authorId: number, meUser: MeUser, query: { offset: numb
     setFeed(newPosts);
   }
 
+  function addMusic(music: Music, postId: number) {
+    console.log('add');
+
+    const newPosts: OnePost[] = feed.map((post) => {
+      if (post.id === postId) {
+        const newMusics: MyMusic[] = post.musics.map(_music => {
+          if (_music.id === music.id) {
+            return {
+              ..._music,
+              added: true,
+            }
+          } else {
+            return _music;
+          }
+        })
+        const newPost: OnePost = {
+          ...post,
+          musics: newMusics,
+        }
+        return newPost;
+      } else if (post.repostId === postId && post.repost) {
+        const newMusics: MyMusic[] = post.repost.musics.map(_music => {
+          if (_music.id === music.id) {
+            return {
+              ..._music,
+              added: true,
+            }
+          } else {
+            return _music;
+          }
+        });
+        const newPost: OnePost = {
+          ...post,
+          repost: {
+            ...post.repost,
+            musics: newMusics,
+          }
+        }
+        return newPost;
+      } else {
+        return post;
+      }
+    });
+    setFeed(newPosts);
+  }
+
+  function deleteMusic(music: Music, postId: number) {
+    console.log('delete');
+    const newPosts: OnePost[] = feed.map((post) => {
+      if (post.id === postId) {
+        const newMusics: MyMusic[] = post.musics.map(_music => {
+          if (_music.id === music.id) {
+            return {
+              ..._music,
+              added: false,
+            }
+          } else {
+            return _music;
+          }
+        })
+        const newPost: OnePost = {
+          ...post,
+          musics: newMusics,
+        }
+        return newPost;
+      } else if (post.repostId === postId && post.repost) {
+        const newMusics: MyMusic[] = post.repost.musics.map(_music => {
+          if (_music.id === music.id) {
+            return {
+              ..._music,
+              added: false,
+            }
+          } else {
+            return _music;
+          }
+        });
+        const newPost: OnePost = {
+          ...post,
+          repost: {
+            ...post.repost,
+            musics: newMusics,
+          }
+        }
+        return newPost;
+      } else {
+        return post;
+      }
+    });
+    setFeed(newPosts);
+  }
+
   return {
     feed,
     isLoading: feedStatus.isLoading,
@@ -74,6 +167,8 @@ const useFeedByAuthor = (authorId: number, meUser: MeUser, query: { offset: numb
     hasNextPage: feedStatus.hasNextPage,
     isFetchingNextPage: feedStatus.isFetchingNextPage,
     setIsLiked,
+    addMusic,
+    deleteMusic,
   }
 }
 

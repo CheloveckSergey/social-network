@@ -8,6 +8,7 @@ import { ContentSection } from "./contentSection";
 import { BottomSection } from "./bottomSection";
 import { OneCreation } from "../../../creation";
 import { PostsLib } from "../../lib";
+import { MyMusic } from "../../../music";
 
 export interface PostEffects {
   setIsLiked: (isLiked: boolean) => void,
@@ -15,9 +16,10 @@ export interface PostEffects {
 
 interface PostProps {
   post: OnePost
-  actions: React.ReactNode | React.ReactNode[];
+  actions: React.ReactNode | React.ReactNode[],
+  renderAddMusicButton: (music: MyMusic) => React.ReactNode | React.ReactNode[],
 }
-export const PostCard: FC<PostProps> = ({ post: _post, actions }) => {
+export const PostCard: FC<PostProps> = ({ post: _post, actions, renderAddMusicButton }) => {
   const { user } = useAppSelector(state => state.user);
 
   const {
@@ -52,6 +54,8 @@ export const PostCard: FC<PostProps> = ({ post: _post, actions }) => {
                 description={post.repost.description}
                 images={post.repost.postImages}
                 setImageLiked={setImageLiked}
+                musics={post.musics}
+                renderAddMusicButton={renderAddMusicButton}
               />
               <BottomSection
                 commentNumber={post.repost.creation.commentNumber} 
@@ -83,6 +87,8 @@ export const PostCard: FC<PostProps> = ({ post: _post, actions }) => {
           description={post.description}
           images={post.postImages}
           setImageLiked={setImageLiked}
+          musics={post.musics}
+          renderAddMusicButton={renderAddMusicButton}
         />
         <BottomSection
           commentNumber={post.creation.commentNumber} 

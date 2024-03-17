@@ -8,6 +8,8 @@ import Favourites from "../../../fetures/favourites";
 import { CommentsActionsUi } from "../../../fetures/comments";
 import { PostsFeaturesLib, PostsFeaturesUi } from "../../../fetures/post";
 import { useAppSelector } from "../../../app/store";
+import { MusicFeaturesUi } from "../../../fetures/music";
+import { Music, MyMusic } from "../../../entities/music";
 
 interface HomeFeedProps {
   meUser: MeUser,
@@ -25,6 +27,8 @@ export const HomeFeed: FC<HomeFeedProps> = ({ meUser }) => {
     hasNextPage,
     isFetchingNextPage,
     setIsLiked,
+    addMusic,
+    deleteMusic,
   } = PostsLib.useFeedByAuthor(meUser.author.id, meUser, { offset: 0, limit: 5 });
 
   return (
@@ -36,9 +40,31 @@ export const HomeFeed: FC<HomeFeedProps> = ({ meUser }) => {
       hasNextPage={hasNextPage}
       isFetchingNextPage={isFetchingNextPage}
       renderPost={(post, index) => (
-        <PostsUi.PostCard 
+        <PostsUi.PostCard
           key={index}
           post={post}
+          // playPauseButton={<MusicFeaturesUi.PlayPauseMusicButton 
+          //   music={post.mu}
+          // />}
+          renderAddMusicButton={(music: MyMusic) => {
+            if (user) {
+              return (
+                <MusicFeaturesUi.AddDeleteMusicToAddedButton
+                  addMusicToAdded={(music: Music) => {
+                    addMusic(music, post.id);
+                  }}
+                  deleteMusicFromAdded={(music: Music) => {
+                    deleteMusic(music, post.id);
+                  }}
+                  musicId={music.id}
+                  added={music.added}
+                  authorId={user.author.id}
+                />
+              )
+            } else {
+              return <></>
+            }
+          }}
           actions={<>
             <Favourites.Actions.LikeButton
               creation={post.type === 'repost' && post.repost ? post.repost.creation : post.creation}

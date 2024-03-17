@@ -1,5 +1,6 @@
 import { Creation, OneCreation } from "../../creation";
 import { Image, OneImage } from "../../image";
+import { MyMusic } from "../../music";
 
 export interface Post {
   id: number,
@@ -16,6 +17,7 @@ export interface OnePost {
   creationId: number,
   creation: OneCreation,
   postImages: OneImage[],
+  musics: MyMusic[],
   type: PostType,
   repostId: number | null,
   isReposted: boolean,
@@ -26,6 +28,7 @@ export interface OnePost {
     creationId: number,
     creation: OneCreation,
     postImages: OneImage[],
+    musics: MyMusic[],
     isReposted: boolean,
     repostsNumber: number,
   } | null,
