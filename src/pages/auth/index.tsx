@@ -163,10 +163,12 @@ const LoginSection: FC<RegLogSectionProps> = ({ toggleLogReg, setEMessage }) => 
 }
 
 const AuthPage: FC = () => {
+  const { loading } = useAppSelector(state => state.user);
+
   const [logReg, toggleLogReg] = useState<boolean>(true);
   const [eMessage, setEMessage] = useState<string>('');
 
-  const { loading } = useAppSelector(state => state.user);
+  const navigate = useNavigate();
 
   return (
     <>
@@ -190,6 +192,12 @@ const AuthPage: FC = () => {
           ) : (
             <RegSection toggleLogReg={toggleLogReg} setEMessage={setEMessage} />
           )}
+          {/* <h4 
+            className="green-to-pale"
+            onClick={() => navigate('/')}
+          >
+            Продолжить как гость
+          </h4> */}
         </div>
       </div>
     </>

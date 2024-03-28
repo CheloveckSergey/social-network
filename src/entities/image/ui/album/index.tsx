@@ -1,5 +1,5 @@
-import { FC } from "react";
-import { OneAlbum, OneAlbumImage } from "../../model";
+import { FC, useState } from "react";
+import { OneAlbum, OneAlbumImage, OneImage } from "../../model";
 import './styles.scss';
 import { ImageUi } from "..";
 
@@ -7,8 +7,11 @@ interface AProps {
   album: OneAlbum,
   setIsLiked: (imageId: number, isLiked: boolean) => void,
   addImage: (image: OneAlbumImage) => void,
+  renderImage: (image: OneImage, index: number) => React.ReactNode | React.ReactNode[],
 }
-export const Album: FC<AProps> = ({ album, setIsLiked, addImage }) => {
+export const Album: FC<AProps> = ({ album, setIsLiked, addImage, renderImage }) => {
+
+  const [curImageIndex, setCurImageIndex] = useState<number>(0);
 
   return (
     <div className="album">
@@ -18,7 +21,7 @@ export const Album: FC<AProps> = ({ album, setIsLiked, addImage }) => {
         isLoading={false}
         isError={false}
         albumId={album.id}
-        setIsLiked={setIsLiked}
+        renderImage={renderImage}
         addImage={addImage}
       />
     </div>

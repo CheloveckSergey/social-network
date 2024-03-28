@@ -11,6 +11,7 @@ import { AllMessagesButton, MessagesUi } from '../../entities/message';
 import { SharedUi } from '../../shared/sharedUi';
 import { NotesUi } from '../../entities/notes';
 import { MusicPlayer } from './musicPlayer';
+import { Helpers } from '../../shared/helpers';
 
 const Upbar: FC = () => {
   const navigate = useNavigate();
@@ -49,6 +50,19 @@ const Upbar: FC = () => {
       }}>
         <IoMdExit size={25} />
       </button>
+      {user ? (
+        <div
+          className='current-user'
+        > 
+          <img 
+            src={Helpers.getImageSrc(user.avatar)} 
+            alt="IMG" 
+          />
+          <h4>{user.login}</h4>
+        </div>
+      ) : (
+        <h3>Гость</h3>
+      )}
     </div>
   )
 }

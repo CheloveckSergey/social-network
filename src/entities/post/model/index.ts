@@ -22,14 +22,5 @@ export interface OnePost {
   repostId: number | null,
   isReposted: boolean,
   repostsNumber: number,
-  repost: {
-    id: number,
-    description: string | undefined,
-    creationId: number,
-    creation: OneCreation,
-    postImages: OneImage[],
-    musics: MyMusic[],
-    isReposted: boolean,
-    repostsNumber: number,
-  } | null,
+  repost: OnePost,
 }

@@ -4,18 +4,19 @@ import './styles.scss';
 import { SharedUi } from "../../../../shared/sharedUi";
 import { ImageUi } from "..";
 import { ModalWindows, UseModalWindow } from "../../../../widgets/anotherModalWindow/ui";
+import { ImageWindow } from "../../../../widgets/imageWindow";
 
 interface ILProps {
   images: OneImage[],
   isLoading: boolean,
   isError: boolean,
   albumId: number,
-  setIsLiked: (imageId: number, isLiked: boolean) => void,
   addImage: (image: OneAlbumImage) => void,
+  renderImage: (image: OneImage, index: number) => React.ReactNode | React.ReactNode[],
 }
-export const ImagesList: FC<ILProps> = ({images, isLoading, isError, albumId, setIsLiked, addImage }) => {
+export const ImagesList: FC<ILProps> = ({images, isLoading, isError, albumId, addImage, renderImage }) => {
 
-  const [curImageIndex, setCurImageIndex] = useState<number>(0);
+  // const [curImageIndex, setCurImageIndex] = useState<number>(0);
   const [showAddImageWindow, setShowAddImageWindow] = useState<boolean>(false);
 
   return (
@@ -26,16 +27,7 @@ export const ImagesList: FC<ILProps> = ({images, isLoading, isError, albumId, se
       >
         {images ? (
           <>
-            {images.map((image, index) => <ImageUi.ImageCard 
-              key={index}
-              index={index}
-              imageClass="image-class"
-              image={image}
-              images={images}
-              curImageIndex={curImageIndex}
-              setCurImageIndex={setCurImageIndex}
-              setIsLiked={setIsLiked}
-            />)}
+            {images.map(renderImage)}
             <button
               className="image-class add-image-card gray-to-light-back"
               onClick={() => {

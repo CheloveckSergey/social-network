@@ -13,21 +13,20 @@ function App() {
   const dispatch = useAppDispatch();
   const window = useAppSelector(state => state.modalWindow);
 
-  const isExecuted = useRef(false);
+  function refresh() {
+    console.log('APP_USE_EFFECT');
+    dispatch(authThunks.refreshThunk({}))
+    .unwrap()
+    .then((data) => {
+
+    })
+    .catch((error: MyRejectValue) => {
+      // navigate('/auth');
+    });
+  }
  
   useEffect(() => {
-    console.log('APP_USE_EFFECT');
-    if (!isExecuted.current) {
-      dispatch(authThunks.refreshThunk({}))
-      .unwrap()
-      .then((data) => {
-
-      })
-      .catch((error: MyRejectValue) => {
-        navigate('/auth');
-      });
-      isExecuted.current = true;
-    }
+    refresh();
 
     return () => {
       dispatch({type: 'socket/unrefresh'});

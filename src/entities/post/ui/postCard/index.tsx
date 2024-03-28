@@ -9,6 +9,15 @@ import { BottomSection } from "./bottomSection";
 import { OneCreation } from "../../../creation";
 import { PostsLib } from "../../lib";
 import { MyMusic } from "../../../music";
+import { OneImage } from "../../../image";
+
+function getTargetPost(post: OnePost): OnePost {
+  let targetPost = post;
+  while (targetPost.type !== 'ownPost') {
+    targetPost = targetPost.repost;
+  }
+  return targetPost;
+}
 
 export interface PostEffects {
   setIsLiked: (isLiked: boolean) => void,
@@ -17,23 +26,20 @@ export interface PostEffects {
 interface PostProps {
   post: OnePost
   actions: React.ReactNode | React.ReactNode[],
-  renderAddMusicButton: (music: MyMusic) => React.ReactNode | React.ReactNode[],
+  renderMusicList: React.ReactNode | React.ReactNode,
+  renderPostImage: (
+    image: OneImage, 
+    images: OneImage[],
+    curImageIndex: number,
+    setCurIndex: (index: number) => void,
+  ) => React.ReactNode | React.ReactNode[],
+  renderCommentsWidget: (creation: OneCreation) => React.ReactNode | React.ReactNode[],
 }
-export const PostCard: FC<PostProps> = ({ post: _post, actions, renderAddMusicButton }) => {
+export const PostCard: FC<PostProps> = ({ post, actions, renderMusicList, renderPostImage, renderCommentsWidget }) => {
+
   const { user } = useAppSelector(state => state.user);
 
-  const {
-    post,
-    setIsLiked,
-    setImageLiked,
-    addComment,
-  } = PostsLib.usePostInterface(_post);
-
   const [commentsOpened, setCommentsOpened] = useState<boolean>(false);
-
-  const effects: PostEffects = {
-    setIsLiked,
-  }
 
   if (post.type === 'repost' && post.repost) {
     return (
@@ -53,13 +59,12 @@ export const PostCard: FC<PostProps> = ({ post: _post, actions, renderAddMusicBu
               <ContentSection 
                 description={post.repost.description}
                 images={post.repost.postImages}
-                setImageLiked={setImageLiked}
-                musics={post.musics}
-                renderAddMusicButton={renderAddMusicButton}
+                renderPostImage={renderPostImage}
+                musics={post.repost.musics}
+                renderMusicList={renderMusicList}
               />
               <BottomSection
                 commentNumber={post.repost.creation.commentNumber} 
-                effects={effects}
                 commentsOpened={commentsOpened}
                 setCommentsOpened={setCommentsOpened}
                 actions={actions}
@@ -68,9 +73,8 @@ export const PostCard: FC<PostProps> = ({ post: _post, actions, renderAddMusicBu
           </div>
         </div>
         {commentsOpened && user && <CommentSection
-          user={user}
           creation={post.repost.creation}
-          addComment={addComment}
+          renderCommentsWidget={renderCommentsWidget}
         />}
       </div>
     )
@@ -86,22 +90,20 @@ export const PostCard: FC<PostProps> = ({ post: _post, actions, renderAddMusicBu
         <ContentSection 
           description={post.description}
           images={post.postImages}
-          setImageLiked={setImageLiked}
+          renderPostImage={renderPostImage}
           musics={post.musics}
-          renderAddMusicButton={renderAddMusicButton}
+          renderMusicList={renderMusicList}
         />
         <BottomSection
           commentNumber={post.creation.commentNumber} 
-          effects={effects}
           commentsOpened={commentsOpened}
           setCommentsOpened={setCommentsOpened}
           actions={actions}
         />
       </div>
       {commentsOpened && user && <CommentSection
-        user={user}
         creation={post.creation}
-        addComment={addComment}
+        renderCommentsWidget={renderCommentsWidget}
       />}
     </div>
   )

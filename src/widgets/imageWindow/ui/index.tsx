@@ -20,21 +20,6 @@ const ImageSection: FC<ISProps> = ({ image, curImageIndex, setCurImageIndex, pre
 
   const curImage: OneImage = image;
 
-  // function previousImage() {
-  //   if (curImageIndex === 0) {
-  //     return;
-  //   }
-  //   setCurImageIndex(curImageIndex - 1);
-  // }
-
-  // function nextImage() {
-  //   if (curImageIndex === images.length - 1) {
-  //     return;
-  //   }
-  //   setCurImageIndex(curImageIndex + 1);
-  // }
-
-
   return (
     <div className="left">
       <button
@@ -62,11 +47,11 @@ interface IWProps {
   images: OneImage[],
   curImageIndex: number,
   setCurImageIndex: (index: number) => void,
-  setImageLiked: (imageId: number, isLiked: boolean) => void,
   previousImage: () => void,
   nextImage: () => void,
+  actions: React.ReactNode | React.ReactNode[],
 }
-export const ImageWindow: FC<IWProps> = ({ images, curImageIndex, setCurImageIndex, setImageLiked, nextImage, previousImage }) => {
+export const ImageWindow: FC<IWProps> = ({ images, curImageIndex, setCurImageIndex, nextImage, previousImage, actions }) => {
   const { user } = useAppSelector(state => state.user);
 
   const [responseToComment, setResponseToComment] = useState<OneComment>();
@@ -87,19 +72,11 @@ export const ImageWindow: FC<IWProps> = ({ images, curImageIndex, setCurImageInd
     setIsLiked,
   } = CommentsLib.useComments(image.creationId);
 
-  // useEffect(() => {
-  //   setImage(images[curImageIndex]);
-  // }, [curImageIndex])
-
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollIntoView();
     }
   }, [comments]);
-
-  function _setImageLiked(isLiked: boolean) {
-    return setImageLiked(image.id, isLiked);
-  }
 
   return (
     <div className="regular-panel image-window">
@@ -119,12 +96,7 @@ export const ImageWindow: FC<IWProps> = ({ images, curImageIndex, setCurImageInd
             />
           </div>
           <div className="like-repost-section">
-            <Favourites.Actions.LikeButton 
-              creation={image.creation}
-              effects={{
-                setIsLiked: _setImageLiked,
-              }}
-            />
+            {actions}
           </div>
           <div className="comments-section">
             <div className="comments">

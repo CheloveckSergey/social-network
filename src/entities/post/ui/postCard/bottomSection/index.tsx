@@ -8,12 +8,11 @@ import { OneCreation } from "../../../../creation";
 
 interface BSProps {
   commentNumber: number,
-  effects: PostEffects,
   commentsOpened: boolean,
   setCommentsOpened: React.Dispatch<React.SetStateAction<boolean>>,
   actions: React.ReactNode | React.ReactNode[];
 }
-export const BottomSection: FC<BSProps> = ({ commentNumber, commentsOpened, setCommentsOpened, effects, actions }) => {
+export const BottomSection: FC<BSProps> = ({ commentNumber, commentsOpened, setCommentsOpened, actions }) => {
 
   return (
     <div className="bottom">

@@ -36,31 +36,22 @@ const useFeedByAuthor = (authorId: number, meUser: MeUser, query: { offset: numb
   });
 
   function setIsLiked(isLiked: boolean, postId: number): void {
-    console.log('like');
     const newPosts: OnePost[] = feed.map((post) => {
-      if (post.id === postId) {
-        const newPost: OnePost = {
-          ...post,
-          creation: {
-            ...post.creation,
-            isLiked,
-            likeNumber: isLiked ? post.creation.likeNumber + 1 : post.creation.likeNumber - 1,
-          }
+      if (postId === post.id) {
+        let targetPost: OnePost = post; 
+        let currentPost: OnePost = targetPost;
+        while (currentPost.type !== 'ownPost') {
+          currentPost = currentPost.repost;
         }
-        return newPost;
-      } else if (post.repostId === postId && post.repost) {
-        const newPost: OnePost = {
-          ...post,
-          repost: {
-            ...post.repost,
-            creation: {
-              ...post.repost.creation,
-              isLiked,
-              likeNumber: isLiked ? post.repost.creation.likeNumber + 1 : post.repost.creation.likeNumber - 1,
-            }
-          }
+        currentPost.creation.isLiked = isLiked;
+        if (isLiked) {
+          currentPost.creation.likeNumber++;
+        } else {
+          currentPost.creation.likeNumber--;
         }
-        return newPost;
+        console.log('like');
+        console.log(currentPost);
+        return targetPost;
       } else {
         return post;
       }
@@ -159,6 +150,36 @@ const useFeedByAuthor = (authorId: number, meUser: MeUser, query: { offset: numb
     setFeed(newPosts);
   }
 
+  function setImageLiked(isLiked: boolean, imageId: number, postId: number) {
+    const newPosts: OnePost[] = feed.map(post => {
+      if (post.id === postId) {
+        const newImages: OneImage[] = post.postImages.map(image => {
+          if (image.id === imageId) {
+            const newImage: OneImage = {
+              ...image,
+              creation: {
+                ...image.creation,
+                isLiked,
+                likeNumber: isLiked ? image.creation.likeNumber + 1 : image.creation.likeNumber - 1,
+              }
+            }
+            return newImage;
+          } else {
+            return image;
+          }
+        });
+        const newPost: OnePost = {
+          ...post,
+          postImages: newImages,
+        }
+        return newPost;
+      } else {
+        return post
+      }
+    });
+    setFeed(newPosts);
+  }
+
   return {
     feed,
     isLoading: feedStatus.isLoading,
@@ -169,6 +190,7 @@ const useFeedByAuthor = (authorId: number, meUser: MeUser, query: { offset: numb
     setIsLiked,
     addMusic,
     deleteMusic,
+    setImageLiked,
   }
 }
 

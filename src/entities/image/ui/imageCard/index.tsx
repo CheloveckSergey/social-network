@@ -6,22 +6,22 @@ import { UseModalWindow } from "../../../../widgets/anotherModalWindow/ui";
 import { ImageWindow } from "../../../../widgets/imageWindow";
 import { SharedUi } from "../../../../shared/sharedUi";
 import { FaCommentDots } from "react-icons/fa";
+import { ImageUi } from "..";
 
 interface ImageCardProps {
   image: OneImage,
-  index: number,
   images: OneImage[],
+  index: number,
   curImageIndex: number,
   setCurImageIndex: (index: number) => void,
   imageClass: string,
-  setIsLiked: (imageCardId: number, isLiked: boolean) => void,
+  actions: React.ReactNode[],
+  renderComments: React.ReactNode,
 }
 
-export const ImageCard: FC<ImageCardProps> = ({ image, index, images, imageClass, curImageIndex, setCurImageIndex, setIsLiked }) => {
+export const ImageCard: FC<ImageCardProps> = ({ image, images, index, imageClass, curImageIndex, setCurImageIndex, actions, renderComments }) => {
 
   const [showImageWindow, setShowImageWindow] = useState<boolean>(false);
-
-  // const image = images[curImageIndex];
 
   function previousImage() {
     if (curImageIndex === 0) {
@@ -67,13 +67,14 @@ export const ImageCard: FC<ImageCardProps> = ({ image, index, images, imageClass
         condition={showImageWindow}
         onClose={() => setShowImageWindow(false)}
       >
-        <ImageWindow 
+        <ImageUi.ImageWindow
           images={images}
           curImageIndex={curImageIndex}
           setCurImageIndex={setCurImageIndex}
-          setImageLiked={setIsLiked}
           previousImage={previousImage}
           nextImage={nextImage}
+          actions={actions}
+          renderComments={renderComments}
         />
       </UseModalWindow>
     </>

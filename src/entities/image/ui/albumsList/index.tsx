@@ -13,8 +13,9 @@ interface ALProps {
   setIsLiked: (imageId: number, isLiked: boolean) => void,
   addAlbum: (album: OneAlbum) => void,
   addImage: (image: OneAlbumImage) => void,
+  renderAlbum: (album: OneAlbum, index: number) => React.ReactNode | React.ReactNode[],
 }
-export const AlbumsList: FC<ALProps> = ({ albums, isLoading, isError, setIsLiked, addAlbum, addImage }) => {
+export const AlbumsList: FC<ALProps> = ({ albums, isLoading, isError, setIsLiked, addAlbum, addImage, renderAlbum }) => {
 
   const { user } = useAppSelector(state => state.user);
 
@@ -28,12 +29,7 @@ export const AlbumsList: FC<ALProps> = ({ albums, isLoading, isError, setIsLiked
       >
         {albums && albums.length > 0 ? (
           <>
-            {albums.map((album, index) => <ImageUi.Album 
-              key={index}
-              album={album}
-              setIsLiked={setIsLiked}
-              addImage={addImage}
-            />)}
+            {albums.map(renderAlbum)}
             <button className="add-album-panel light-back"
               onClick={() => setShowAddAlbumWindow(true)}
             >
