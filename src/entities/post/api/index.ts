@@ -19,8 +19,13 @@ export class PostApi {
     return response.data;
   }
 
-  static async createPost(formData: FormData) {
-    const response = await api.post(
+  static async createPost(authorId: number, description: string, images: File[], musicIds: number[]) {
+    const formData = new FormData();
+    formData.append('authorId', String(authorId));
+    formData.append('description', description);
+    images.forEach(image => formData.append('img', image));
+    musicIds.forEach(musicId => formData.append('musicIds[]', String(musicId)));
+    const response = await api.post<OnePost>(
       INITIAL_URL + '/createPost',
       formData,
       {
@@ -29,7 +34,7 @@ export class PostApi {
         }
       }
     );
-    return response;
+    return response.data;
   }
 
   static async createRepost(repostId: number, authorId: number) {

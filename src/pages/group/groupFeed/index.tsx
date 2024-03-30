@@ -13,6 +13,7 @@ import { ImageUi, OneImage } from "../../../entities/image";
 import { ImageWindowComments } from "../../../widgets/commentsFeed";
 import { PostCommentsWidget } from "../../../widgets/postComments";
 import { OneCreation } from "../../../entities/creation";
+import AddPostPanel from "../../../widgets/addPost";
 
 interface GroupFeedProps {
   group: Group,
@@ -33,10 +34,17 @@ export const GroupFeed: FC<GroupFeedProps> = ({ group }) => {
     addMusic,
     deleteMusic,
     setImageLiked,
+    addPost,
   } = PostsLib.useFeedByAuthor(group.author.id, user!, { limit: 7, offset: 0 });
 
   return (
     <>
+      <AddPostPanel 
+        isLoading={isLoading}
+        isError={isError}
+        author={group.author} 
+        addPost={addPost}
+      />
       <PostsUi.PostList 
       posts={feed}
       isLoading={isLoading}

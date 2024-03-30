@@ -1,7 +1,6 @@
 import { ChangeEvent, FC, FormEvent, ReactNode, useEffect, useRef, useState, MouseEvent } from "react";
 import { PostApi } from "../../../../entities/post/api";
 import './styles.scss';
-import { useAppSelector } from "../../../../app/store";
 import { BiImageAdd, BiSolidVideos } from "react-icons/bi";
 import { BsFileEarmarkMusic, BsFillCircleFill, BsFillRecordCircleFill } from "react-icons/bs";
 import { useQuery } from "react-query";
@@ -11,6 +10,9 @@ import { Music } from "../../../../entities/music";
 import { MusicFeaturesLib, MusicFeaturesUi } from "../../../../fetures/music";
 import { IoIosAdd } from "react-icons/io";
 import { FaCheck } from "react-icons/fa";
+import { Author } from "../../../../entities/author";
+import { PostsFeaturesLib } from "../../../../fetures/post";
+import { OnePost } from "../../../../entities/post";
 
 interface MSProps {
   authorId: number,
@@ -70,12 +72,15 @@ const MusicSection: FC<MSProps> = ({ authorId, addMusic, isAdded, deleteMusic })
   )
 }
 
-export const AddPostWindow: FC = ({  }) => {
-
-  const { author } = useAppSelector(state => state.modalWindow);
+interface APWProps {
+  author: Author,
+  addPost?: (post: OnePost) => void,
+  close: () => void,
+}
+export const AddPostWindow: FC<APWProps> = ({ author, addPost, close }) => {
 
   const [images, setImages] = useState<File[]>([]);
-  const [description, setDescription] = useState<string | undefined>('');
+  const [description, setDescription] = useState<string>('');
 
   const [curImageIndex, setCurImageIndex] = useState<number>(0);
 
@@ -105,26 +110,9 @@ export const AddPostWindow: FC = ({  }) => {
 
   const formRef= useRef<HTMLFormElement>(null);
 
-  const { isLoading, refetch } = useQuery(
-    ['addPost'],
-    () => {
-      if (author) {
-        if (formRef.current) {
-          const formData = new FormData(formRef.current);
-          images.forEach((image, index) => formData.append('img', image))
-          toAddMusics.forEach(musicId => formData.append('musicIds[]', String(musicId)));
-          // formData.append('musicIds[]', JSON.stringify(toAddMusics));
-          return PostApi.createPost(formData);
-        }
-      }
-    },
-    {
-      enabled: false,
-      onSuccess: () => {
-        window.location.reload();
-      },
-    }
-  )
+  const {
+    mutateAsync,
+  } = PostsFeaturesLib.useAddPost(author.id, addPost);
 
   if (!author) {
     return (
@@ -254,7 +242,8 @@ export const AddPostWindow: FC = ({  }) => {
           className="load-button white-back"
           onClick={(e: MouseEvent<HTMLButtonElement>) => {
             e.preventDefault();
-            refetch();
+            mutateAsync({ description, images, musicIds: toAddMusics })
+            .then(() => close());
           }}
         >
           Load

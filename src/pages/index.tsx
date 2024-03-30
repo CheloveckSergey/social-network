@@ -25,7 +25,7 @@ const Routing: FC = () => {
       <Route path="/" element={<Home />} />
       <Route path="/users" element={<Users />} />
       <Route path="/groups" element={<GroupsPage />} />
-      <Route path="/groups/:id" element={<GroupPage />} />
+      <Route path="/group/:id" element={<GroupPage />} />
       <Route path="/album/:authorId" element={<Album />} />
       <Route path="/friends" element={<FriendsPage />} />
       <Route path="/user/:userId" element={<UserPage />} />

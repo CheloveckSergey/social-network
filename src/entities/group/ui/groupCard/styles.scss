@@ -1,0 +1,31 @@
+.group-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px;
+  border-top: var(--regular-border);
+
+  &:first-child {
+    border-top: none;
+  }
+
+  img.avatar {
+    display: flexbox;
+    height: 60px;
+    width: 60px;
+    object-fit: cover;
+    border-radius: 50em;
+  }
+
+  .description {
+    
+    .name {
+      font-size: 1rem;
+      cursor: pointer;
+      
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}

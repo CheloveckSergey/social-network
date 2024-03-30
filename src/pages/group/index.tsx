@@ -6,9 +6,8 @@ import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import { GroupApi } from "../../entities/group/api";
 import AddPostPanel from "../../widgets/addPost";
-import { WindowTypes, setWindow } from "../../widgets/modalWindow/model/redux";
 import { GroupFeed } from "./groupFeed";
-import { Group, GroupWithSubscribed } from "../../entities/group";
+import { Group, GroupsLib, OneGroup } from "../../entities/group";
 import { GroupHeader } from "./groupHeader";
 import { GroupSubs } from "./groupSubs";
 
@@ -19,47 +18,15 @@ interface GroupDescProps {
   isError: boolean,
 }
 
-const GroupDesc: FC<GroupDescProps> = ({ group, isLoading, isError }) => {
-
-  return (
-    <div className="regular-panel">
-      Description
-    </div>
-  )
-}
-
 const GroupPage = () => {
   
-  const [group, setGroup] = useState<GroupWithSubscribed>();
-
   const { id } = useParams();
 
-  const { data, isLoading, isError, refetch } = useQuery(
-    ['getGroup', id],
-    () => {
-      if (id) {
-        return GroupApi.getGroupById(Number(id))
-      }
-    },
-    {
-      onSuccess: (data) => {
-        console.log(data);
-        setGroup(data);
-      },
-    }
-  );
-
-  useEffect(() => {
-    refetch();
-  }, []);
-  
-  if (isLoading) {
-    return (
-      <div>
-        Loading...
-      </div>
-    )
-  }
+  const {
+    group,
+    isLoading,
+    isError,
+  } = GroupsLib.useGroup(Number(id));
 
   if (isError) {
     return (
@@ -69,40 +36,35 @@ const GroupPage = () => {
     )
   }
 
-  if (data) {
-    return (
-      <>
-        <Upbar />
-        <main>
-          <LeftMenu />
-          <div className="group-page">
-            <GroupHeader group={group} isError={isError} isLoading={isLoading} />
-            <div className="just-cause">
-              <div className="group-main">
-                <div className="images regular-panel">
-                  Images
-                </div>
-                <AddPostPanel author={data.author} />
-                <GroupFeed group={data} />
+  return (
+    <>
+      <Upbar />
+      <main>
+        <LeftMenu />
+        <div className="group-page">
+          <GroupHeader 
+            group={group}
+            isLoading={isLoading}
+            isError={isError}
+          />
+          <div className="just-cause">
+            <div className="group-main">
+              <div className="images regular-panel">
+                Images
               </div>
-              <div className="group-right">
-                <GroupSubs group={group} />
-                <div className="contacts regular-panel">
-                  Contacts
-                </div>
+              {group && <GroupFeed group={group} />}
+            </div>
+            <div className="group-right">
+              <GroupSubs group={group} />
+              <div className="contacts regular-panel">
+                Contacts
               </div>
             </div>
           </div>
-        </main>
-      </>
-    )
-  } else {
-    return (
-      <div>
-        Что-то пошло не так
-      </div>
-    )
-  }
+        </div>
+      </main>
+    </>
+  )
 }
 
 export default GroupPage;

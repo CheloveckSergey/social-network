@@ -1,6 +1,5 @@
 import { FC, useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../app/store";
-import { Group, GroupWithSubscribed } from "../../../entities/group";
 import { WindowTypes, setWindow } from "../../../widgets/modalWindow/model/redux";
 import './styles.scss';
 import { useQuery } from "react-query";
@@ -9,9 +8,10 @@ import { AiFillDelete } from "react-icons/ai";
 import { GroupApi } from "../../../entities/group/api";
 import { useNavigate } from "react-router-dom";
 import { SharedUi } from "../../../shared/sharedUi";
+import { OneGroup } from "../../../entities/group";
 
 interface SBProps {
-  group: GroupWithSubscribed | undefined;
+  group: OneGroup | undefined;
   setSubscribed: React.Dispatch<React.SetStateAction<boolean>>,
 }
 
@@ -94,7 +94,7 @@ const SubscribeButton: FC<SBProps> = ({ group, setSubscribed }) => {
 }
 
 interface SPProps {
-  group: GroupWithSubscribed | undefined;
+  group: OneGroup | undefined;
 }
 
 const SubscribePanel: FC<SPProps> = ({ group }) => {
@@ -119,7 +119,7 @@ const SubscribePanel: FC<SPProps> = ({ group }) => {
 }
 
 interface DGBProps {
-  group: GroupWithSubscribed | undefined
+  group: OneGroup | undefined
 }
 const DeleteGroupButton: FC<DGBProps> = ({ group }) => {
 
@@ -159,7 +159,7 @@ const DeleteGroupButton: FC<DGBProps> = ({ group }) => {
 }
 
 interface GroupPanelProps {
-  group: GroupWithSubscribed | undefined,
+  group: OneGroup | undefined,
   isLoading: boolean,
   isError: boolean,
 }

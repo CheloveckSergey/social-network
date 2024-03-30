@@ -10,7 +10,6 @@ import ShowImages from "./windows/showImages";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import ShowSubsWindow from "./windows/showSubs";
 import { ChangeDescWindow } from "./windows/changeDesc";
-import { AddPostWindow } from "./windows/addPost";
 import { WriteMessageWindow } from "./windows/writeMessage";
 import { CreateGRoomWindow } from "./windows/createGRoom";
 import { AddRoomMember } from "./windows/addRoomMember";
@@ -28,8 +27,6 @@ const ModalWindow: FC = () => {
         <LoadUserAvatarWindow />
       ) : windowType === WindowTypes.ADD_GROUP ? (
         <AddGroupWindow />
-      ) : windowType === WindowTypes.ADD_POST ? (
-        <AddPostWindow />
       ) : windowType === WindowTypes.LOAD_GROUP_AVATAR ? (
         <LoadGroupAvatarWindow />
       ) : windowType === WindowTypes.ADD_USER_IMAGE ? (

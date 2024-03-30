@@ -1,16 +1,16 @@
 import api from "../../../shared/http";
-import { Group, GroupWithSubscribed } from "../model";
+import { Group, OneGroup } from "../model";
 
 const INITIAL_URL = '/groups';
 
 export class GroupApi {
   static async getAllGroups() {
-    const groups = await api.get<Group[]>(INITIAL_URL + '/getAllGroups');
+    const groups = await api.get<OneGroup[]>(INITIAL_URL + '/getAllGroups');
     return groups.data;
   }
 
   static async getGroupById(id: number) {
-    const groups = await api.get<GroupWithSubscribed>(INITIAL_URL + '/getGroupById/' + id);
+    const groups = await api.get<OneGroup>(INITIAL_URL + '/getGroupById/' + id);
     return groups.data;
   }
 

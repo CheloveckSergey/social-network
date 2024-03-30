@@ -7,8 +7,6 @@ import { HeadSection } from "./headSection";
 import { ContentSection } from "./contentSection";
 import { BottomSection } from "./bottomSection";
 import { OneCreation } from "../../../creation";
-import { PostsLib } from "../../lib";
-import { MyMusic } from "../../../music";
 import { OneImage } from "../../../image";
 
 function getTargetPost(post: OnePost): OnePost {

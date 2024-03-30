@@ -7,6 +7,7 @@ import { AddAlbumWindow } from "./addAlbum";
 import { AddImageWindow } from "./addAlbumImage";
 import { LoadMusicWindow } from "./loadMusicWindow";
 import { ChangeAvatarWindow } from "./changeAvatar";
+import { AddPostWindow } from "./addPost";
 
 interface UMWProps {
   condition: boolean,
@@ -52,4 +53,5 @@ export const ModalWindows = {
   AddImageWindow,
   LoadMusicWindow,
   ChangeAvatarWindow,
+  AddPostWindow,
 } 

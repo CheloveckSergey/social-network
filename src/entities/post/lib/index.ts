@@ -35,6 +35,10 @@ const useFeedByAuthor = (authorId: number, meUser: MeUser, query: { offset: numb
     }
   });
 
+  function addPost(post: OnePost) {
+    setFeed(prev => [...prev, post]);
+  }
+
   function setIsLiked(isLiked: boolean, postId: number): void {
     const newPosts: OnePost[] = feed.map((post) => {
       if (postId === post.id) {
@@ -49,8 +53,6 @@ const useFeedByAuthor = (authorId: number, meUser: MeUser, query: { offset: numb
         } else {
           currentPost.creation.likeNumber--;
         }
-        console.log('like');
-        console.log(currentPost);
         return targetPost;
       } else {
         return post;
@@ -60,8 +62,6 @@ const useFeedByAuthor = (authorId: number, meUser: MeUser, query: { offset: numb
   }
 
   function addMusic(music: Music, postId: number) {
-    console.log('add');
-
     const newPosts: OnePost[] = feed.map((post) => {
       if (post.id === postId) {
         const newMusics: MyMusic[] = post.musics.map(_music => {
@@ -187,6 +187,7 @@ const useFeedByAuthor = (authorId: number, meUser: MeUser, query: { offset: numb
     fetchNextPage: feedStatus.fetchNextPage,
     hasNextPage: feedStatus.hasNextPage,
     isFetchingNextPage: feedStatus.isFetchingNextPage,
+    addPost,
     setIsLiked,
     addMusic,
     deleteMusic,

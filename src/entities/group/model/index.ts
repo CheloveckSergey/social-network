@@ -1,15 +1,14 @@
-import { Author, AuthorWithSubscribed } from "../../author";
+import { Author, OneAuthor } from "../../author";
 
 export interface Group {
   id: number,
   name: string,
   avatar: string | undefined,
+  membersNumber: number,
+  authorId: number,
   author: Author,
 }
 
-export interface GroupWithSubscribed {
-  id: number,
-  name: string,
-  avatar: string | undefined,
-  author: AuthorWithSubscribed,
-} 
+export interface OneGroup extends Group {
+  author: OneAuthor,
+}

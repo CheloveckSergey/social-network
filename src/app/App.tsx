@@ -21,7 +21,7 @@ function App() {
 
     })
     .catch((error: MyRejectValue) => {
-      // navigate('/auth');
+      navigate('/auth');
     });
   }
  
