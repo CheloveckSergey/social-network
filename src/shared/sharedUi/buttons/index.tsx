@@ -120,8 +120,102 @@ const ExtraButton: FC<EBProps> = ({ Icon, children, iconSize = 25, panelClass })
   )
 }
 
+interface BWESProps {
+  name: string,
+  children: React.ReactNode | React.ReactNode[],
+  buttonClass: string,
+  onClick?: () => void,
+}
+const ButtonWithExtraSection: FC<BWESProps> = ({ name, children, buttonClass, onClick }) => {
+
+  return (
+    <div className="extra-section-button">
+      <button 
+        className={`${buttonClass}`}
+        onClick={onClick}
+      >
+        {name}
+      </button>
+      <div className={`extra-user-panel `}>
+        {children}
+      </div>
+    </div>
+  )
+}
+
+interface ELProps {
+  body: React.ReactNode | React.ReactNode[],
+  isLoading: boolean,
+  isError: boolean,
+  onClick: () => void,
+}
+const ExtraActionLine: FC<ELProps> = ({ body, isLoading, isError, onClick }) => {
+
+  return (
+    <button
+      className="extra-line to-gray-back"
+      onClick={onClick}
+    >
+      <SharedUi.Helpers.LoadErrorHandler
+        isLoading={isLoading}
+        isError={isError}
+      >
+        {body}
+      </SharedUi.Helpers.LoadErrorHandler>
+    </button>
+  )
+}
+
+interface EXBProps {
+  buttons: React.ReactNode[],
+}
+const ExtraActionsButton: FC<EXBProps> = ({ buttons }) => {
+  
+  return (
+    <SharedUi.Buttons.ExtraButton
+      Icon={BsThreeDots}
+      panelClass="extra-actions-panel"
+    >
+      {buttons}
+    </SharedUi.Buttons.ExtraButton>
+  )
+}
+
+interface BWBProps {
+  isLoading: boolean,
+  isError: boolean,
+  className: string,
+  body: string,
+  spinnerSize?: number,
+  onClick: () => void,
+}
+const BynareWhiteButton: FC<BWBProps> = ({ isLoading, isError, className, body, spinnerSize = 15, onClick }) => {
+
+  if (isLoading) {
+    return (
+      <button className={`bynare-white-button loading ${className}`}>
+        <SharedUi.Icons.Spinner size={spinnerSize} />
+      </button>
+    )
+  }
+
+  return (
+    <button 
+      className={`bynare-white-button white-back ${className}`}
+      onClick={onClick}
+      disabled={isLoading || isError}
+    >
+      {body}
+    </button>
+  )
+}
+
 export const Buttons = {
   CreationActionButton,
   ExtraSection,
   ExtraButton,
+  ButtonWithExtraSection,
+  BynareWhiteButton,
+  ExtraActionsButton,
+  ExtraActionLine,
 }

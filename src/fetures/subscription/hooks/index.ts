@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useAppSelector } from "../../../app/store";
 import { OneUser } from "../../../entities/user";
-import { useQuery } from "react-query";
-import { AuthorApi } from "../../../entities/author";
+import { useMutation, useQuery } from "react-query";
+import { AuthorApi, OneAuthor } from "../../../entities/author";
 import { Hook } from "../../../shared/types";
 
 export interface SubscriptionEffects {
@@ -63,4 +63,45 @@ export const useSubscription: Hook<OneUser, SubscriptionEffects> = (user: OneUse
       headline: 'Subscribe',
     }
   }
+}
+
+const useSubscribe = (userId: number, authorId: number, setSubscribed?: (subscribed: boolean) => void) => {
+
+  const status = useMutation(
+    () => {
+      return AuthorApi.subscribe(userId, authorId);
+    },
+    {
+      onSuccess: () => {
+        if (setSubscribed) {
+          setSubscribed(true);
+        }
+      }
+    },
+  );
+
+  return status;
+}
+
+const useUnubscribe = (userId: number, authorId: number, setSubscribed?: (subscribed: boolean) => void) => {
+
+  const status = useMutation(
+    () => {
+      return AuthorApi.unsubscribe(userId, authorId);
+    },
+    {
+      onSuccess: () => {
+        if (setSubscribed) {
+          setSubscribed(false);
+        }
+      }
+    },
+  );
+
+  return status;
+}
+
+export const SubscriptionFeaturesLib = {
+  useSubscribe,
+  useUnubscribe,
 }

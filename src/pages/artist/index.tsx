@@ -9,16 +9,53 @@ import { MusicUi } from "../../entities/music/ui";
 import { MusicsLib } from "../../entities/music/lib";
 import { SharedUi } from "../../shared/sharedUi";
 import { ModalWindows, UseModalWindow } from "../../widgets/anotherModalWindow/ui";
-import { Music } from "../../entities/music";
-import { MusicFeaturesUi } from "../../fetures/music";
+import { Music, Musician } from "../../entities/music";
+import { MusicFeaturesLib, MusicFeaturesUi } from "../../fetures/music";
 import { useAppSelector } from "../../app/store";
+
+interface AvatarProps {
+  musician: Musician,
+  updateAvatar: (image: string) => void,
+}
+const Avatar: FC<AvatarProps> = ({ musician, updateAvatar }) => {
+
+  const [showCAWindow, setShowCAWindow] = useState<boolean>(false);
+
+  const { mutateAsync } = MusicFeaturesLib.useUpdateMusicianAvatar(updateAvatar)
+
+  return (
+    <div className="avatar">
+      <img 
+        className="musician-avatar"
+        src={Helpers.getImageSrc(musician.image)}
+        alt="IMG" 
+      />
+      <button
+        className="change-avatar green"
+        onClick={() => setShowCAWindow(true)}
+      >
+        Change Avatar
+      </button>
+      <UseModalWindow
+        condition={showCAWindow}
+        onClose={() => setShowCAWindow(false)}
+      >
+        <ModalWindows.ChangeAvatarWindow
+          onClickIn={(imageFile: File) => {
+            mutateAsync({musicianId: musician.id, imageFile})
+            .then(() => setShowCAWindow(false));
+          }}
+          onClose={() => setShowCAWindow(false)}
+        />
+      </UseModalWindow>
+    </div>
+  )
+}
 
 interface HProps {
   artistId: number,
 }
 const Header: FC<HProps> = ({ artistId }) => {
-
-  const [showCAWindow, setShowCAWindow] = useState<boolean>(false);
 
   const {
     musician,
@@ -34,19 +71,10 @@ const Header: FC<HProps> = ({ artistId }) => {
         isError={isError}
       >
         {musician ? (<>
-          <div className="avatar">
-            <img 
-              className="musician-avatar"
-              src={Helpers.getImageSrc(musician.image)}
-              alt="IMG" 
-            />
-            <button
-              className="change-avatar green"
-              onClick={() => setShowCAWindow(true)}
-            >
-              Change Avatar
-            </button>
-          </div>
+          <Avatar 
+            musician={musician} 
+            updateAvatar={updateAvatar}
+          />
           <div className="right">
             <div className="description">
               <h3>{musician.name}</h3>
@@ -56,16 +84,6 @@ const Header: FC<HProps> = ({ artistId }) => {
           <SharedUi.Divs.Empty body="There's no musician" />
         )}
       </SharedUi.Helpers.LoadErrorHandler>
-      <UseModalWindow
-        condition={showCAWindow}
-        onClose={() => setShowCAWindow(false)}
-      >
-        <ModalWindows.ChangeAvatarWindow
-          musicianId={artistId}
-          onClose={() => setShowCAWindow(false)}
-          updateAvatar={updateAvatar}
-        />
-      </UseModalWindow>
     </div>
   )
 }
@@ -96,11 +114,7 @@ const MusicList: FC<MLProps> = ({ musicianId }) => {
             musics={musicListInterface.musics}
           />}
           rightButtons={[
-            // (user && <MusicFeaturesUi.AddDeleteMusicToAddedButton 
-            //   musicId={music.id} 
-            //   authorId={user!.author.id}
-            //   added={music}
-            // />)
+
           ]}
         />}
       />

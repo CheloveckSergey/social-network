@@ -1,0 +1,21 @@
+.member-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px;
+
+  img.avatar {
+    height: 50px;
+    width: 50px;
+    object-fit: cover;
+    border-radius: 50em;
+  }
+
+  .desc {
+    flex-grow: 3;
+  }
+
+  .actions {
+
+  }
+}

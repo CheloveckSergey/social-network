@@ -6,18 +6,13 @@ import { MusicFeaturesLib } from "../../../../fetures/music";
 
 interface CAWProps {
   onClose: () => void,
-  updateAvatar: (image: string) => void,
-  musicianId: number,
+  onClickIn: (imageFile: File) => void,
 }
-export const ChangeAvatarWindow: FC<CAWProps> = ({ updateAvatar, musicianId, onClose }) => {
+export const ChangeAvatarWindow: FC<CAWProps> = ({ onClose, onClickIn }) => {
 
   const { user } = useAppSelector(state => state.user);
 
   const [image, setImage] = useState<File>();
-
-  const {
-    mutateAsync,
-  } = MusicFeaturesLib.useUpdateMusicianAvatar(updateAvatar)
 
   return (
     <div className="change-avatar-window window">
@@ -59,8 +54,7 @@ export const ChangeAvatarWindow: FC<CAWProps> = ({ updateAvatar, musicianId, onC
             if (!image) {
               return;
             }
-            mutateAsync({imageFile: image, musicianId})
-            .then(() => onClose())
+            onClickIn(image);
           }}
         >
           Сохранить

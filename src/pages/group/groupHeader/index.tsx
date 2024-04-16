@@ -1,170 +1,165 @@
 import { FC, useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../app/store";
-import { WindowTypes, setWindow } from "../../../widgets/modalWindow/model/redux";
 import './styles.scss';
 import { useQuery } from "react-query";
-import { AuthorApi } from "../../../entities/author/api";
 import { AiFillDelete } from "react-icons/ai";
 import { GroupApi } from "../../../entities/group/api";
 import { useNavigate } from "react-router-dom";
 import { SharedUi } from "../../../shared/sharedUi";
-import { OneGroup } from "../../../entities/group";
+import { GMTypes, GroupMembershipStatuses, MembershipRequest, OneGroup, OneGroupWithMembership } from "../../../entities/group";
+import { Helpers } from "../../../shared/helpers";
+import { SubscriptionFeaturesLib } from "../../../fetures/subscription/hooks";
+import { GroupFeaturesLib } from "../../../fetures/group";
 
 interface SBProps {
-  group: OneGroup | undefined;
-  setSubscribed: React.Dispatch<React.SetStateAction<boolean>>,
+  group: OneGroup,
+  setSubscribed: (subscribed: boolean) => void,
 }
-
-const UnsubscribeButton: FC<SBProps> = ({ group, setSubscribed }) => {
-
-  const { user } = useAppSelector(state => state.user);
-
-  const { refetch, data, isLoading ,isError, status } = useQuery(
-    ['subscribeGroup', group?.id, user?.id],
-    () => {
-      if (user && group) {
-        return AuthorApi.unsubscribe(user.id, group.author.id);
-      }
-    },
-    {
-      enabled: false,
-      onSuccess: () => {
-        setSubscribed(false);
-      },
-    }
-  )
-
-  //По факту эта хуйня не работает, т.к. loading срабатывает только один раз, я хз почему так
-  if (status === 'loading') {
-    return (
-      <div className="loading-subscribe">
-        <SharedUi.Icons.Spinner />
-      </div>
-    )
-  }
-
-  return (
-    <div className="subscribe subscribed">
-      <p>You'are subscribed</p>
-      <button 
-        className="extra-panel extra-unsubscribe-panel"
-        onClick={() => refetch()}
-      >
-        <p>Unsuscribe</p>
-      </button>
-    </div>
-  )
-}
-
 const SubscribeButton: FC<SBProps> = ({ group, setSubscribed }) => {
 
   const { user } = useAppSelector(state => state.user);
 
-  const { isLoading, refetch, status } = useQuery(
-    ['subscribeGroup', group?.id, user?.id],
-    () => {
-      if (user && group) {
-        return AuthorApi.subscribe(user.id, group.author.id);
-      }
-    },
-    {
-      enabled: false,
-      onSuccess: () => {
-        setSubscribed(true);
-      }
-    }
-  );
+  const subscribeStatus = SubscriptionFeaturesLib.useSubscribe(user!.id, group.authorId, setSubscribed);
+  const unsubscribeStatus = SubscriptionFeaturesLib.useUnubscribe(user!.id, group.authorId, setSubscribed);
 
-  if (status === 'loading') {
-    return (
-      <div className="loading-subscribe">
-        <SharedUi.Icons.Spinner />
-      </div>
-    )
-  }
+  const status = group.author.subscribed ? unsubscribeStatus : subscribeStatus;
 
   return (
-    <button 
-      className="subscribe white-back"
-      onClick={() => refetch()}
+    <SharedUi.Buttons.BynareWhiteButton
+      isLoading={status.isLoading}
+      isError={status.isLoading}
+      className="subscribe-button"
+      body={group.author.subscribed ? 'Unsubscribe' : 'Subscribe'}
+      onClick={() => status.mutate()}
+    />
+  )
+}
+
+interface ESLProps {
+  body: string,
+  isLoading: boolean,
+  isError: boolean,
+  onClick: () => void,
+}
+const ExtraSectionLine: FC<ESLProps> = ({ body, isLoading, isError, onClick }) => {
+
+  return (
+    <p
+      className="extra-section-line to-gray-back"
+      onClick={onClick}
     >
-      Subscribe
-    </button>
+      <SharedUi.Helpers.LoadErrorHandler
+        isLoading={isLoading}
+        isError={isError}
+        size={10}
+      >
+        {body}
+      </SharedUi.Helpers.LoadErrorHandler>
+    </p>
   )
 }
 
-interface SPProps {
-  group: OneGroup | undefined;
+interface EBProps {
+  group: OneGroupWithMembership,
+  createRequest: (request: MembershipRequest) => void,
+  deleteRequest: () => void,
 }
+const ElseButton: FC<EBProps> = ({ group, createRequest, deleteRequest }) => {
 
-const SubscribePanel: FC<SPProps> = ({ group }) => {
+  const { user } = useAppSelector(state => state.user);
 
-  const [subscribed, setSubscribed] = useState<boolean>(false);
-
-  useEffect(() => {
-    if (group?.author.subscribed) {
-      setSubscribed(true);
-    }
-  }, [])
-
-  if (subscribed) {
-    return (
-      <UnsubscribeButton group={group} setSubscribed={setSubscribed} />
-    )
-  }
-
-  return (
-    <SubscribeButton group={group} setSubscribed={setSubscribed} /> 
-  )
-}
-
-interface DGBProps {
-  group: OneGroup | undefined
-}
-const DeleteGroupButton: FC<DGBProps> = ({ group }) => {
+  const createRequestStatus = GroupFeaturesLib.useCreateMembRequest(group.id, createRequest);
+  const deleteRequestStatus = GroupFeaturesLib.useDeleteRequest(group.id, user!.id, deleteRequest);
 
   const navigate = useNavigate();
 
-  const { data, isLoading, isError, refetch } = useQuery(
-    ['deleteGroup', group?.id],
-    () => {
-      if (group) {
-        return GroupApi.deleteGroup(group.id);
-      }
-    },
-    {
-      enabled: false,
-      onSuccess: () => {
-        navigate('/home');
-      }
-    }
-  )
-
-  if (isLoading) {
-    return (
-      <button className="delete-group-button">
-        <SharedUi.Icons.Spinner size={25} />
-      </button>
-    )
-  }
-  
   return (
-    <button 
-      className="delete-group-button white"
-      onClick={() => refetch()}
+    <SharedUi.Buttons.ButtonWithExtraSection
+      buttonClass="else-button gray-to-light-back"
+      name="Else"
     >
-      <AiFillDelete size={25} />
-    </button>
+      {(group.membership === GMTypes.ADMIN) && (
+        <p
+          className="extra-section-line to-gray-back"
+          onClick={() => navigate('/groupEdit/' + group.id)}
+        >
+          Редактировать
+        </p>
+      )}
+      {(!group.membership && !group.request) && (
+        <ExtraSectionLine
+          body="Подать заявку"
+          isLoading={createRequestStatus.isLoading}
+          isError={createRequestStatus.isError}
+          onClick={() => {
+            createRequestStatus.mutate()
+          }}
+        />
+      )}
+      {(!group.membership && group.request && group.request.status === GroupMembershipStatuses.WAITING) && (
+        <ExtraSectionLine
+          body="Удалить заявку"
+          isLoading={deleteRequestStatus.isLoading}
+          isError={deleteRequestStatus.isError}
+          onClick={() => {
+            deleteRequestStatus.mutate();
+          }}
+        />
+      )}
+    </SharedUi.Buttons.ButtonWithExtraSection>
   )
 }
+
+// interface DGBProps {
+//   group: OneGroup | undefined
+// }
+// const DeleteGroupButton: FC<DGBProps> = ({ group }) => {
+
+//   const navigate = useNavigate();
+
+//   const { data, isLoading, isError, refetch } = useQuery(
+//     ['deleteGroup', group?.id],
+//     () => {
+//       if (group) {
+//         return GroupApi.deleteGroup(group.id);
+//       }
+//     },
+//     {
+//       enabled: false,
+//       onSuccess: () => {
+//         navigate('/home');
+//       }
+//     }
+//   )
+
+//   if (isLoading) {
+//     return (
+//       <button className="delete-group-button">
+//         <SharedUi.Icons.Spinner size={25} />
+//       </button>
+//     )
+//   }
+  
+//   return (
+//     <button 
+//       className="delete-group-button white"
+//       onClick={() => refetch()}
+//     >
+//       <AiFillDelete size={25} />
+//     </button>
+//   )
+// }
 
 interface GroupPanelProps {
-  group: OneGroup | undefined,
+  group: OneGroupWithMembership | undefined,
   isLoading: boolean,
   isError: boolean,
+  setSubscribed: (subscribed: boolean) => void,
+  createRequest: (request: MembershipRequest) => void,
+  deleteRequest: () => void,
 }
 
-export const GroupHeader: FC<GroupPanelProps> = ({ group, isLoading, isError }) => {
+export const GroupHeader: FC<GroupPanelProps> = ({ group, isLoading, isError, setSubscribed, createRequest, deleteRequest }) => {
 
   const dispatch = useAppDispatch();
 
@@ -174,24 +169,35 @@ export const GroupHeader: FC<GroupPanelProps> = ({ group, isLoading, isError }) 
         isLoading={isLoading}
         isError={isError}
       >
-        <div className="avatar">
-          <img src={process.env.REACT_APP_BACK_URL && group?.avatar 
-            ? process.env.REACT_APP_BACK_URL + group.avatar 
-            : 'https://i.ytimg.com/vi/QPVZdoZzXNQ/maxresdefault.jpg'} 
-            alt="AVATAR_GROUP" 
-          />
-          <button 
-            className="green change-avatar"
-            onClick={() => dispatch(setWindow({window: WindowTypes.LOAD_GROUP_AVATAR}))}
-          >
-            Change Avatar
-          </button>
-        </div>
-        <div className="header-right">
-          <h3>{group?.name}</h3>
-          <SubscribePanel group={group} />
-        </div>
-        <DeleteGroupButton group={group} />
+        {group ? (
+          <>
+            <div className="avatar">
+              <img 
+                src={Helpers.getImageSrc(group.avatar)}
+                alt="AVATAR_GROUP" 
+              />
+              <div className="desc">
+                <h3>{group.name}</h3>
+                <p className="extra">{group.author.subsNumber + ' subs'}</p>
+              </div>
+            </div>
+            <div className="right">
+              <div className="buttons">
+                <SubscribeButton 
+                  group={group} 
+                  setSubscribed={setSubscribed}
+                />
+                <ElseButton
+                  createRequest={createRequest}
+                  group={group}
+                  deleteRequest={deleteRequest}
+                />
+              </div>
+            </div>
+          </>
+        ) : (
+          <div>Что-то пошло не так</div>
+        )}
       </SharedUi.Helpers.LoadErrorHandler>
     </div>
   )

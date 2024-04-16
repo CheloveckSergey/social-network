@@ -17,16 +17,37 @@
       object-fit: cover;
     }
 
-    button.change-avatar {
-      padding: 10px 20px;
-      border-radius: var(--small-border-radius);
+    .desc {
+
     }
   }
 
-  .header-right {
+  .right {
     display: flex;
     flex-direction: column;
     align-items: end;
+
+    .buttons {
+      display: flex;
+      gap: 5px;
+      height: 30px;
+      
+      .subscribe-button {
+        height: 100%;
+        width: 140px;
+      }
+
+      .else-button {
+        height: 100%;
+        width: 70px;
+      }
+
+      .extra-section-line {
+        padding: 5px 10px;
+        white-space: nowrap;
+        cursor: pointer;
+      }
+    }
 
     button {
       margin-top: 10px;
@@ -34,57 +55,6 @@
       border-radius: 5px;
     }
 
-    .loading-subscribe {
-      position: relative;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 150px;
-      height: 40px;
-      margin-top: 10px;
-      cursor: pointer;
-    }
-
-    .subscribe {
-      position: relative;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 150px;
-      height: 40px;
-      margin-top: 10px;
-      border: var( --regular-border);
-      border-radius: var(--small-border-radius);
-      cursor: pointer;
-
-      >p {
-        margin-top: 0;
-      }
-
-      .extra-unsubscribe-panel {
-        position: absolute;
-        z-index: 1000;
-        top: 35px;
-        padding: 10px;
-        opacity: 0;
-        // visibility: hidden;
-        transition: opacity 0.3s ease-in;
-
-        &:hover {
-          background-color: rgb(58,58,58);
-        }
-
-        >p {
-          margin-top: 0;
-        }
-      }
-
-      &:hover .extra-unsubscribe-panel {
-        z-index: 9000;
-        // visibility: visible;
-        opacity: 1;
-      }
-    }
   }
 
   .delete-group-button {

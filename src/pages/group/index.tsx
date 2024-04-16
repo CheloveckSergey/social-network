@@ -10,6 +10,7 @@ import { GroupFeed } from "./groupFeed";
 import { Group, GroupsLib, OneGroup } from "../../entities/group";
 import { GroupHeader } from "./groupHeader";
 import { GroupSubs } from "./groupSubs";
+import { useAppSelector } from "../../app/store";
 
 
 interface GroupDescProps {
@@ -19,6 +20,8 @@ interface GroupDescProps {
 }
 
 const GroupPage = () => {
+
+  const { user } = useAppSelector(state => state.user);
   
   const { id } = useParams();
 
@@ -26,7 +29,18 @@ const GroupPage = () => {
     group,
     isLoading,
     isError,
+    setSubscribed,
+    createRequest,
+    deleteRequest,
   } = GroupsLib.useGroup(Number(id));
+
+  if (!user) {
+    return (
+      <div>
+        No user
+      </div>
+    )
+  }
 
   if (isError) {
     return (
@@ -46,6 +60,9 @@ const GroupPage = () => {
             group={group}
             isLoading={isLoading}
             isError={isError}
+            setSubscribed={setSubscribed}
+            createRequest={createRequest}
+            deleteRequest={deleteRequest}
           />
           <div className="just-cause">
             <div className="group-main">
