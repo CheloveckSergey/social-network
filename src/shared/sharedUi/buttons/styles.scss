@@ -1,7 +1,7 @@
 .extra-section-button {
   position: relative;
 
-  .extra-user-panel {
+  .extra-panel {
     position: absolute;
     z-index: 1000;
     right: 0;
@@ -13,31 +13,15 @@
     border-radius: var(--small-border-radius);
     overflow: hidden;
 
-    >h4.feature-line {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 0;
-      padding: 10px 10px;
-
-      &:hover {
-        background-color: rgb(58,58,58);
-        cursor: pointer;
-      }
-
-      .status {
-        height: 20px;
-        width: 20px;
-      }
+    .extra-line {
+      width: 100%;
+      padding: 5px 10px;
+      white-space: nowrap;
+      cursor: pointer;
     }
   }
 
-  .extra-section-line {
-    padding: 5px 10px;
-    white-space: nowrap;
-    cursor: pointer;
-  }
-
-  &:hover .extra-user-panel {
+  &:hover .extra-panel {
     z-index: 9000;
     margin-top: 0px;
     visibility: visible;
@@ -65,14 +49,5 @@
   &.loading {
     border: 1px solid var(--font-white);
     cursor: default;
-  }
-}
-
-.extra-actions-panel {
-
-  .extra-line {
-    padding: 5px 10px;
-    white-space: nowrap;
-    cursor: pointer;
   }
 }

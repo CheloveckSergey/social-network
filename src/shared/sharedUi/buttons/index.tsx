@@ -100,46 +100,44 @@ const CreationActionButton: FC<CABProps> = ({
   )
 }
 
-interface EBProps {
-  Icon: IconType,
-  iconSize?: number,
-  children: ReactNode | ReactNode[],
+////////////////////////////////////////////////////////////////////////////
+
+interface BWESProps {
+  body: string | React.ReactNode | React.ReactNode[],
+  children: React.ReactNode | React.ReactNode[],
+  buttonClass?: string,
   panelClass?: string,
 }
-const ExtraButton: FC<EBProps> = ({ Icon, children, iconSize = 25, panelClass }) => {
+const ButtonWithExtraSection: FC<BWESProps> = ({ body, children, buttonClass, panelClass }) => {
 
   return (
     <div className="extra-section-button">
-      <button className="white">
-        <Icon size={iconSize}/>
+      <button 
+        className={`${buttonClass}`}
+      >
+        {body}
       </button>
-      <div className={`extra-user-panel extra-panel ${panelClass}`}>
+      <div className={`extra-panel ${panelClass}`}>
         {children}
       </div>
     </div>
   )
 }
 
-interface BWESProps {
-  name: string,
+interface ALProps {
   children: React.ReactNode | React.ReactNode[],
-  buttonClass: string,
-  onClick?: () => void,
+  className?: string,
+  onClick: () => void,
 }
-const ButtonWithExtraSection: FC<BWESProps> = ({ name, children, buttonClass, onClick }) => {
+const ExtraLine: FC<ALProps> = ({ children, className, onClick }) => {
 
   return (
-    <div className="extra-section-button">
-      <button 
-        className={`${buttonClass}`}
-        onClick={onClick}
-      >
-        {name}
-      </button>
-      <div className={`extra-user-panel `}>
-        {children}
-      </div>
-    </div>
+    <button
+      className={`extra-line to-gray-back ${className}`}
+      onClick={onClick}
+    >
+      {children}
+    </button>
   )
 }
 
@@ -152,8 +150,7 @@ interface ELProps {
 const ExtraActionLine: FC<ELProps> = ({ body, isLoading, isError, onClick }) => {
 
   return (
-    <button
-      className="extra-line to-gray-back"
+    <ExtraLine
       onClick={onClick}
     >
       <SharedUi.Helpers.LoadErrorHandler
@@ -162,24 +159,26 @@ const ExtraActionLine: FC<ELProps> = ({ body, isLoading, isError, onClick }) => 
       >
         {body}
       </SharedUi.Helpers.LoadErrorHandler>
-    </button>
+    </ExtraLine>
   )
 }
 
 interface EXBProps {
   buttons: React.ReactNode[],
 }
-const ExtraActionsButton: FC<EXBProps> = ({ buttons }) => {
+const ExtraActionsDotButton: FC<EXBProps> = ({ buttons }) => {
   
   return (
-    <SharedUi.Buttons.ExtraButton
-      Icon={BsThreeDots}
-      panelClass="extra-actions-panel"
+    <SharedUi.Buttons.ButtonWithExtraSection
+      body={<BsThreeDots size={25} />}
+      buttonClass="white"
     >
       {buttons}
-    </SharedUi.Buttons.ExtraButton>
+    </SharedUi.Buttons.ButtonWithExtraSection>
   )
 }
+
+//////////////////////////////////////////////////////////////////////
 
 interface BWBProps {
   isLoading: boolean,
@@ -188,7 +187,7 @@ interface BWBProps {
   body: string,
   spinnerSize?: number,
   onClick: () => void,
-}
+} 
 const BynareWhiteButton: FC<BWBProps> = ({ isLoading, isError, className, body, spinnerSize = 15, onClick }) => {
 
   if (isLoading) {
@@ -213,9 +212,9 @@ const BynareWhiteButton: FC<BWBProps> = ({ isLoading, isError, className, body, 
 export const Buttons = {
   CreationActionButton,
   ExtraSection,
-  ExtraButton,
   ButtonWithExtraSection,
   BynareWhiteButton,
-  ExtraActionsButton,
+  ExtraActionsDotButton,
+  ExtraLine,
   ExtraActionLine,
 }

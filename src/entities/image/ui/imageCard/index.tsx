@@ -55,11 +55,9 @@ export const ImageCard: FC<ImageCardProps> = ({ image, images, index, imageClass
         />
         <div className="cover">
           <div className="right-up">
-            <SharedUi.Buttons.ExtraButton
-              Icon={FaCommentDots}
-            >
-
-            </SharedUi.Buttons.ExtraButton>
+            <SharedUi.Buttons.ExtraActionsDotButton
+              buttons={[]}
+            />
           </div>
         </div>
       </div>

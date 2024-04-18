@@ -13,6 +13,7 @@ export const MembersPanel: FC<MProps> = ({ groupId }) => {
     members,
     isLoading,
     isError,
+    changeGMType,
   } = GroupsLib.useMembers(groupId)
 
   return (
@@ -26,9 +27,17 @@ export const MembersPanel: FC<MProps> = ({ groupId }) => {
             key={index}
             member={member}
             actions={[
-              <SharedUi.Buttons.ExtraActionsButton 
+              <SharedUi.Buttons.ExtraActionsDotButton 
                 buttons={[
-                  <GroupFeaturesUi.DeleteMemberExtraLine key={0} memberId={member.id} />
+                  <GroupFeaturesUi.DeleteMemberExtraLine 
+                    key={0} 
+                    memberId={member.id} 
+                  />,
+                  <GroupFeaturesUi.ChangeGMTypeButton 
+                    key={1} 
+                    memberId={member.id} 
+                    changeGMType={changeGMType}
+                  />
                 ]}
               />
             ]}

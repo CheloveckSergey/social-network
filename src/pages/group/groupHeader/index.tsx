@@ -76,7 +76,7 @@ const ElseButton: FC<EBProps> = ({ group, createRequest, deleteRequest }) => {
   return (
     <SharedUi.Buttons.ButtonWithExtraSection
       buttonClass="else-button gray-to-light-back"
-      name="Else"
+      body="Else"
     >
       {(group.membership === GMTypes.ADMIN) && (
         <p

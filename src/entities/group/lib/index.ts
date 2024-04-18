@@ -1,6 +1,6 @@
 import { useQuery } from "react-query"
 import { GroupApi, GroupMembersApi, MembershipRequestsApi } from "../api"
-import { GroupMember, GroupMembershipStatuses, MembershipRequest, OneGroup, OneGroupWithMembership } from "../model"
+import { GMTypes, GroupMember, GroupMembershipStatuses, MembershipRequest, OneGroup, OneGroupWithMembership } from "../model"
 import { useState } from "react"
 
 const groupsKeys = {
@@ -217,10 +217,26 @@ const useMembers = (groupId: number) => {
     }
   });
 
+  function changeGMType(memberId: number, type: GMTypes) {
+    const newMembers: GroupMember[] = members.map(member => {
+      if (member.id === memberId) {
+        const newMember: GroupMember = {
+          ...member,
+          gmType: type,
+        }
+        return newMember;
+      } else {
+        return member;
+      }
+    });
+    setMembers(newMembers);
+  }
+
   return {
     members,
     isLoading: status.isLoading,
     isError: status.isError,
+    changeGMType,
   }
 }
 

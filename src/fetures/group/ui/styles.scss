@@ -14,3 +14,22 @@
     background-color: var(--border);
   }
 }
+
+.change-gmtype-window {
+  padding: 10px;
+
+  p {
+    text-align: center;
+  }
+
+  .input-section {
+
+    label {
+      display: block;
+      
+      input {
+        margin-right: 5px;
+      }
+    }
+  }
+}

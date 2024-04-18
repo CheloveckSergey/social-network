@@ -85,8 +85,8 @@ export const AllMessagesButton: FC = () => {
   const { messages } = useAppSelector(state => state.messages);
 
   return (
-    <SharedUi.Buttons.ExtraButton 
-      Icon={FiMessageSquare}
+    <SharedUi.Buttons.ButtonWithExtraSection 
+      body={<FiMessageSquare />}
     >
       <div>
         {messages.map((message, index) => <NoteMessageLine 
@@ -94,7 +94,7 @@ export const AllMessagesButton: FC = () => {
           message={message}
         />)}
       </div>
-    </SharedUi.Buttons.ExtraButton>
+    </SharedUi.Buttons.ButtonWithExtraSection>
   )
 }
 
@@ -154,8 +154,8 @@ const MyMessageStatuses: FC = () => {
   const { statuses } = useAppSelector(state => state.messageStatuses);
 
   return (
-    <SharedUi.Buttons.ExtraButton 
-      Icon={AiFillAppstore}
+    <SharedUi.Buttons.ButtonWithExtraSection 
+      body={<AiFillAppstore />}
       panelClass="my-statuses"
     >
       {(!statuses.length) ? (
@@ -174,7 +174,7 @@ const MyMessageStatuses: FC = () => {
         </div>
       ))}
       
-    </SharedUi.Buttons.ExtraButton>
+    </SharedUi.Buttons.ButtonWithExtraSection>
   )
 }
 

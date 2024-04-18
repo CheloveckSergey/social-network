@@ -28,12 +28,11 @@ const Upbar: FC = () => {
         </input>
       </div>
       <MusicPlayer />
-      <SharedUi.Buttons.ExtraButton
-        Icon={FaRegBell}
-        iconSize={25}
+      <SharedUi.Buttons.ButtonWithExtraSection
+        body={<FaRegBell size={25} />}
       >
         <NotesUi.NotesList />
-      </SharedUi.Buttons.ExtraButton>
+      </SharedUi.Buttons.ButtonWithExtraSection>
       <AllMessagesButton />
       <MessagesUi.MyMessageStatuses />
       <div>

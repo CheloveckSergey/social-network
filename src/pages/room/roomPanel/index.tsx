@@ -84,8 +84,8 @@ export const RoomPanel: FC<RPProps> = ({ user }) => {
                 </p>
               </div>
               <div className="right">
-                <SharedUi.Buttons.ExtraButton 
-                  Icon={BsThreeDots }
+                <SharedUi.Buttons.ButtonWithExtraSection 
+                  body={<BsThreeDots />}
                 >
                   <ul className="function-list">
                     <li
@@ -101,7 +101,7 @@ export const RoomPanel: FC<RPProps> = ({ user }) => {
                       <span>Members</span>
                     </li>
                   </ul>
-                </SharedUi.Buttons.ExtraButton>
+                </SharedUi.Buttons.ButtonWithExtraSection>
                 <img 
                   className="room-avatar"
                   src={Helpers.getImageSrc(RoomHelpers.getRoomImage(room, user))} 

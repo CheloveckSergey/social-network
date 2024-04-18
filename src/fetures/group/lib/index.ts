@@ -1,5 +1,5 @@
 import { useMutation } from "react-query"
-import { GroupApi, GroupMembersApi, MembershipRequest, MembershipRequestsApi } from "../../../entities/group"
+import { GMTypes, GroupApi, GroupMembersApi, MembershipRequest, MembershipRequestsApi } from "../../../entities/group"
 import { FC } from "react";
 
 interface UpdateNameProps {
@@ -137,6 +137,21 @@ const useDeleteMember = (memberId: number, deleteMember?: (memberId: number) => 
   return status;
 }
 
+const useChangeGMType = (memberId: number, type: GMTypes, changeGMType?: (memberId: number, type: GMTypes) => void) => {
+
+  const status = useMutation(() => {
+    return GroupMembersApi.changeMemberType(memberId, type);
+  }, {
+    onSuccess: (data) => {
+      if (changeGMType) {
+        changeGMType(memberId, type);
+      }
+    }
+  });
+
+  return status;
+}
+
 export const GroupFeaturesLib = {
   useUpdateName,
   useUpdateAvatar,
@@ -145,4 +160,5 @@ export const GroupFeaturesLib = {
   useAcceptRequest,
   useDeleteMember,
   useCancelAcceptRequest,
+  useChangeGMType,
 }
