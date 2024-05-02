@@ -209,6 +209,35 @@ const BynareWhiteButton: FC<BWBProps> = ({ isLoading, isError, className, body, 
   )
 }
 
+interface WBBProps {
+  body: string,
+  isLoading: boolean,
+  isError: boolean,
+  className: string,
+  spinnerSize?: number,
+  onClick: () => void,
+} 
+const WhiteBackButton: FC<WBBProps> = ({ isLoading, isError, className, body, spinnerSize = 15, onClick }) => {
+
+  if (isLoading) {
+    return (
+      <button className={`white-back-button loading ${className}`}>
+        <SharedUi.Icons.Spinner size={spinnerSize} />
+      </button>
+    )
+  }
+
+  return (
+    <button 
+      className={`white-back-button white-back ${className}`}
+      onClick={onClick}
+      disabled={isError}
+    >
+      {body}
+    </button>
+  )
+}
+
 export const Buttons = {
   CreationActionButton,
   ExtraSection,
@@ -217,4 +246,5 @@ export const Buttons = {
   ExtraActionsDotButton,
   ExtraLine,
   ExtraActionLine,
+  WhiteBackButton,
 }

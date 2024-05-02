@@ -4,20 +4,32 @@ import { SharedUi } from "../../../../shared/sharedUi";
 import { ImageUi } from "..";
 import './styles.scss';
 import { ModalWindows, UseModalWindow } from "../../../../widgets/anotherModalWindow/ui";
-import { useAppSelector } from "../../../../app/store";
 
 interface ALProps {
   albums: OneAlbum[],
   isLoading: boolean,
   isError: boolean,
-  setIsLiked: (imageId: number, isLiked: boolean) => void,
-  addAlbum: (album: OneAlbum) => void,
-  addImage: (image: OneAlbumImage) => void,
-  renderAlbum: (album: OneAlbum, index: number) => React.ReactNode | React.ReactNode[],
+  addAlbumObject?: {
+    submit: (name: string) => Promise<any>,
+    isLoading: boolean,
+    isError: boolean,
+  },
+  renderExtraActions: (album: OneAlbum) => {
+    submit: () => Promise<any>,
+    isLoading: boolean,
+    isError: boolean,
+    body: string | React.ReactNode | React.ReactNode[],
+  }[],
+  renderImagesList: (albumId: number) => React.ReactNode | React.ReactNode[],
 }
-export const AlbumsList: FC<ALProps> = ({ albums, isLoading, isError, setIsLiked, addAlbum, addImage, renderAlbum }) => {
-
-  const { user } = useAppSelector(state => state.user);
+export const AlbumsList: FC<ALProps> = ({ 
+  albums, 
+  isLoading, 
+  isError, 
+  addAlbumObject, 
+  renderExtraActions,
+  renderImagesList 
+}) => {
 
   const [showAddAlbumWindow, setShowAddAlbumWindow] = useState<boolean>(false);
 
@@ -29,12 +41,25 @@ export const AlbumsList: FC<ALProps> = ({ albums, isLoading, isError, setIsLiked
       >
         {albums && albums.length > 0 ? (
           <>
-            {albums.map(renderAlbum)}
-            <button className="add-album-panel light-back"
-              onClick={() => setShowAddAlbumWindow(true)}
-            >
-              Add Album
-            </button>
+            <div className="head">
+              <div className="left">
+
+              </div>
+              <div className="right">
+                {addAlbumObject && <button 
+                  className="white-back add-album-button"
+                  onClick={() => setShowAddAlbumWindow(true)}
+                >
+                  Add album
+                </button>}
+              </div>
+            </div>
+            {albums.map((album, index) => <ImageUi.Album 
+              key={index}
+              album={album}
+              renderExtraActions={renderExtraActions}
+              renderImagesList={renderImagesList}
+            />)}
           </>
         ) : (
           <SharedUi.Divs.Empty
@@ -42,20 +67,23 @@ export const AlbumsList: FC<ALProps> = ({ albums, isLoading, isError, setIsLiked
           />
         )}
       </SharedUi.Helpers.LoadErrorHandler>
-      <UseModalWindow 
+      {addAlbumObject && <UseModalWindow 
         condition={showAddAlbumWindow}
         onClose={() => {
           setShowAddAlbumWindow(false);
         }}
       >
         <ModalWindows.AddAlbumWindow 
-          authorId={user!.author.id}
-          addAlbum={addAlbum}
-          onClose={() => {
-            setShowAddAlbumWindow(false);
+          submit={(name: string) => {
+            addAlbumObject.submit(name)
+            .then(() => {
+              setShowAddAlbumWindow(false);
+            })
           }}
+          isLoading={addAlbumObject.isLoading}
+          isError={addAlbumObject.isError}
         />
-      </UseModalWindow>
+      </UseModalWindow>}
     </div>
   )
 }

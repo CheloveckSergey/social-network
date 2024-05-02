@@ -51,3 +51,12 @@
     cursor: default;
   }
 }
+
+.white-back-button {
+  border-radius: var(--small-border-radius);
+
+  &.loading {
+    border: 1px solid var(--font-white);
+    cursor: default;
+  }
+}

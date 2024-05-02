@@ -1,5 +1,21 @@
 .album-list {
 
+  .head {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+
+    .right {
+
+      button.add-album-button {
+        height: 30px;
+        width: 100px;
+        border-radius: 5px;
+      }
+    }
+  }
+
+
   .add-album-panel {
     display: flex;
     justify-content: center;

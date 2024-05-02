@@ -2,28 +2,36 @@ import { FC, useState } from "react";
 import { OneAlbum, OneAlbumImage, OneImage } from "../../model";
 import './styles.scss';
 import { ImageUi } from "..";
+import { CommentsWidgets } from "../../../../widgets/comments";
+import { SharedUi } from "../../../../shared/sharedUi";
 
 interface AProps {
   album: OneAlbum,
-  setIsLiked: (imageId: number, isLiked: boolean) => void,
-  addImage: (image: OneAlbumImage) => void,
-  renderImage: (image: OneImage, index: number) => React.ReactNode | React.ReactNode[],
+  renderImagesList: (albumId: number) => React.ReactNode | React.ReactNode[],
+  renderExtraActions: (album: OneAlbum) => {
+    submit: () => Promise<any>,
+    isLoading: boolean,
+    isError: boolean,
+    body: string | React.ReactNode | React.ReactNode[],
+  }[],
 }
-export const Album: FC<AProps> = ({ album, setIsLiked, addImage, renderImage }) => {
-
-  const [curImageIndex, setCurImageIndex] = useState<number>(0);
+export const Album: FC<AProps> = ({ album, renderImagesList, renderExtraActions }) => {
 
   return (
     <div className="album">
-      <h3>{album.name}</h3>
-      <ImageUi.ImagesList
-        images={album.images}
-        isLoading={false}
-        isError={false}
-        albumId={album.id}
-        renderImage={renderImage}
-        addImage={addImage}
-      />
+      <div className="head">
+        <h3>{album.name}</h3>
+        <SharedUi.Buttons.ExtraActionsDotButton 
+          buttons={renderExtraActions(album).map((action, index) => <SharedUi.Buttons.ExtraActionLine 
+            key={index}
+            body={action.body}
+            isLoading={action.isLoading}
+            isError={action.isError}
+            onClick={() => action.submit()}
+          />)}
+        />
+      </div>
+      {renderImagesList(album.id)}
     </div>
   )
 }

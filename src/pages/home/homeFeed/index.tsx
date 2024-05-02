@@ -104,7 +104,7 @@ export const HomeFeed: FC<HomeFeedProps> = ({ meUser }) => {
           imageClass="post-image"
           curImageIndex={curImageIndex}
           setCurImageIndex={setCurIndex}
-          actions={[
+          renderActions={(image: OneImage) => [
             <Favourites.Actions.LikeButton
               creation={images[curImageIndex].creation}
               effects={{
@@ -114,7 +114,8 @@ export const HomeFeed: FC<HomeFeedProps> = ({ meUser }) => {
               }}
             />
           ]}
-          renderComments={<ImageWindowComments creation={image.creation} />}
+          renderComments={(creation: OneCreation) => <ImageWindowComments creation={creation} />}
+          extraActions={[]}
         />}
         renderCommentsWidget={(creation: OneCreation) => <PostCommentsWidget 
           creation={creation}

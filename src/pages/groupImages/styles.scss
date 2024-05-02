@@ -1,0 +1,23 @@
+.group-images-panel {
+  position: relative;
+  width: 800px;
+
+  hr {
+    margin-top: 10px;
+  }
+
+  h3 {
+    margin-top: 5px;
+  }
+
+  .back-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+
+  .image-card {
+    height: 150px;
+    width: 150px;
+  }
+}

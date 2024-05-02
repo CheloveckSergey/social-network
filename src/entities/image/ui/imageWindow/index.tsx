@@ -8,6 +8,7 @@ import { CommentsLib, CommentsUi, OneComment } from '../../../comment';
 import { AuthorUi } from '../../../author';
 import Favourites from '../../../../fetures/favourites';
 import { CommentsActionsUi } from '../../../../fetures/comments';
+import { OneCreation } from '../../../creation';
 
 interface ISProps {
   image: OneImage,
@@ -49,10 +50,18 @@ interface IWProps {
   setCurImageIndex: (index: number) => void,
   previousImage: () => void,
   nextImage: () => void,
-  actions: React.ReactNode | React.ReactNode[],
-  renderComments: React.ReactNode,
+  renderActions: (image: OneImage) => React.ReactNode | React.ReactNode[],
+  renderComments: (creation: OneCreation) => React.ReactNode,
 }
-export const ImageWindow: FC<IWProps> = ({ images, curImageIndex, setCurImageIndex, nextImage, previousImage, actions, renderComments }) => {
+export const ImageWindow: FC<IWProps> = ({ 
+  images, 
+  curImageIndex, 
+  setCurImageIndex, 
+  nextImage, 
+  previousImage, 
+  renderActions, 
+  renderComments 
+}) => {
 
   const image = images[curImageIndex];
 
@@ -74,10 +83,10 @@ export const ImageWindow: FC<IWProps> = ({ images, curImageIndex, setCurImageInd
             />
           </div>
           <div className="like-repost-section">
-            {actions}
+            {renderActions(image)}
           </div>
           <div className="comments-section">
-            {renderComments}
+            {renderComments(image.creation)}
           </div>
         </div>
       </div>

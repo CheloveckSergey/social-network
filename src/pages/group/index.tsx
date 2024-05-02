@@ -11,6 +11,9 @@ import { Group, GroupsLib, OneGroup } from "../../entities/group";
 import { GroupHeader } from "./groupHeader";
 import { GroupSubs } from "./groupSubs";
 import { useAppSelector } from "../../app/store";
+import { SharedUi } from "../../shared/sharedUi";
+import { ImagesPreview } from "../../widgets/imagesPreview";
+import { GroupImages } from "./groupImages";
 
 
 interface GroupDescProps {
@@ -66,9 +69,20 @@ const GroupPage = () => {
           />
           <div className="just-cause">
             <div className="group-main">
-              <div className="images regular-panel">
-                Images
-              </div>
+              <SharedUi.Helpers.LoadErrorHandler 
+                isLoading={isLoading}
+                isError={isError}
+              >
+                {group?.membership ? (
+                  <GroupImages
+                    group={group}
+                  />
+                ) : (
+                  <SharedUi.Divs.Empty
+                    body="Forbidden Images"
+                  />
+                )}
+              </SharedUi.Helpers.LoadErrorHandler>
               {group && <GroupFeed group={group} />}
             </div>
             <div className="group-right">

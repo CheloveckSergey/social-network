@@ -3,10 +3,9 @@ import './styles.scss';
 import { OneImage } from "../../model";
 import { Helpers } from "../../../../shared/helpers";
 import { UseModalWindow } from "../../../../widgets/anotherModalWindow/ui";
-import { ImageWindow } from "../../../../widgets/imageWindow";
 import { SharedUi } from "../../../../shared/sharedUi";
-import { FaCommentDots } from "react-icons/fa";
 import { ImageUi } from "..";
+import { OneCreation } from "../../../creation";
 
 interface ImageCardProps {
   image: OneImage,
@@ -15,11 +14,27 @@ interface ImageCardProps {
   curImageIndex: number,
   setCurImageIndex: (index: number) => void,
   imageClass: string,
-  actions: React.ReactNode[],
-  renderComments: React.ReactNode,
+  renderActions: (image: OneImage) => React.ReactNode[],
+  renderComments: (creation: OneCreation) => React.ReactNode,
+  extraActions: {
+    body: string,
+    isLoading: boolean,
+    isError: boolean,
+    onClick: () => void,
+  }[],
 }
 
-export const ImageCard: FC<ImageCardProps> = ({ image, images, index, imageClass, curImageIndex, setCurImageIndex, actions, renderComments }) => {
+export const ImageCard: FC<ImageCardProps> = ({ 
+  image, 
+  images, 
+  index, 
+  imageClass, 
+  curImageIndex, 
+  setCurImageIndex, 
+  renderActions, 
+  renderComments, 
+  extraActions 
+}) => {
 
   const [showImageWindow, setShowImageWindow] = useState<boolean>(false);
 
@@ -43,22 +58,25 @@ export const ImageCard: FC<ImageCardProps> = ({ image, images, index, imageClass
     <>
       <div 
         className="image-card-container"
-        onClick={() => {
-          setCurImageIndex(index);
-          setShowImageWindow(true);
-        }}
       >
         <img
           src={Helpers.getImageSrc(image.value)} 
           alt="IMG"
           className={`image ${imageClass}`}
+          onClick={() => {
+            setCurImageIndex(index);
+            setShowImageWindow(true);
+          }}
         />
-        <div className="cover">
-          <div className="right-up">
-            <SharedUi.Buttons.ExtraActionsDotButton
-              buttons={[]}
-            />
-          </div>
+        <div className="right-up">
+          <SharedUi.Buttons.ExtraActionsDotButton
+            buttons={extraActions.map((action, index) => <SharedUi.Buttons.ExtraActionLine 
+              body={action.body}
+              isLoading={action.isLoading}
+              isError={action.isError}
+              onClick={action.onClick}
+            />)}
+          />
         </div>
       </div>
       <UseModalWindow 
@@ -71,7 +89,7 @@ export const ImageCard: FC<ImageCardProps> = ({ image, images, index, imageClass
           setCurImageIndex={setCurImageIndex}
           previousImage={previousImage}
           nextImage={nextImage}
-          actions={actions}
+          renderActions={renderActions}
           renderComments={renderComments}
         />
       </UseModalWindow>

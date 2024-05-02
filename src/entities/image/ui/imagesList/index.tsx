@@ -4,20 +4,40 @@ import './styles.scss';
 import { SharedUi } from "../../../../shared/sharedUi";
 import { ImageUi } from "..";
 import { ModalWindows, UseModalWindow } from "../../../../widgets/anotherModalWindow/ui";
-import { ImageWindow } from "../../../../widgets/imageWindow";
+import { OneCreation } from "../../../creation";
 
 interface ILProps {
   images: OneImage[],
   isLoading: boolean,
   isError: boolean,
   albumId: number,
-  addImage: (image: OneAlbumImage) => void,
-  renderImage: (image: OneImage, index: number) => React.ReactNode | React.ReactNode[],
+  renderCommentsWidget: (creation: OneCreation) => React.ReactNode | React.ReactNode[],
+  createImageObject?: {
+    create: (imageFile: File, albumId?: number) => Promise<any>,
+    isLoading: boolean,
+    isError: boolean,
+  },
+  renderImageActions: (image: OneImage) => React.ReactNode[],
+  renderExtraActions: (image: OneImage) => {
+    body: string,
+    isLoading: boolean,
+    isError: boolean,
+    onClick: () => void,
+  }[], 
 }
-export const ImagesList: FC<ILProps> = ({images, isLoading, isError, albumId, addImage, renderImage }) => {
+export const ImagesList: FC<ILProps> = ({
+  images, 
+  isLoading, 
+  isError, 
+  albumId, 
+  renderCommentsWidget,
+  createImageObject,
+  renderImageActions,
+  renderExtraActions,
+}) => {
 
-  // const [curImageIndex, setCurImageIndex] = useState<number>(0);
   const [showAddImageWindow, setShowAddImageWindow] = useState<boolean>(false);
+  const [curImageIndex, setCurImageIndex] = useState<number>(0);
 
   return (
     <div className="images-list">
@@ -27,15 +47,26 @@ export const ImagesList: FC<ILProps> = ({images, isLoading, isError, albumId, ad
       >
         {images ? (
           <>
-            {images.map(renderImage)}
-            <button
-              className="image-class add-image-card gray-to-light-back"
+            {images.map((image, index) => <ImageUi.ImageCard 
+              key={index}
+              image={image}
+              images={images}
+              index={index}
+              curImageIndex={curImageIndex}
+              setCurImageIndex={setCurImageIndex}
+              renderActions={renderImageActions}
+              imageClass="image-size"
+              renderComments={renderCommentsWidget}
+              extraActions={renderExtraActions(image)}
+            />)}
+            {createImageObject && <button
+              className="image-size add-image-card gray-to-light-back"
               onClick={() => {
                 setShowAddImageWindow(true);
               }}
             >
               +
-            </button>
+            </button>}
           </>
         ) : (
           <SharedUi.Divs.Empty 
@@ -43,20 +74,19 @@ export const ImagesList: FC<ILProps> = ({images, isLoading, isError, albumId, ad
           />
         )}
       </SharedUi.Helpers.LoadErrorHandler>
-      <UseModalWindow
+      {createImageObject && <UseModalWindow
         condition={showAddImageWindow}
         onClose={() => {
           setShowAddImageWindow(false);
         }}
       >
         <ModalWindows.AddImageWindow
-          albumId={albumId}
-          addImage={addImage}
-          onClose={() => {
-            setShowAddImageWindow(false);
+          addImage={(fileImage: File) => {
+            createImageObject.create(fileImage, albumId)
+            .then(() => setShowAddImageWindow(false));
           }}
         />
-      </UseModalWindow>
+      </UseModalWindow>}
     </div>
   )
 }

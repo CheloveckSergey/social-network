@@ -27,6 +27,27 @@ const useCreateALbumImage = (authorId: number, addImage?: (image: OneAlbumImage)
   }
 }
 
+interface UseDeleteImageProps {
+  imageId: number,
+}
+const useDeleteAlbumImage = (deleteImage?: (imageId: number) => void) => {
+  const deleteImageStatus = useMutation(
+    async (props: UseDeleteImageProps) => {
+      return AlbumImagesApi.deleteImage(props.imageId);
+    },
+    {
+      onSuccess: (data) => {
+        if (deleteImage) {
+          deleteImage(data.id);
+        }
+      },
+    }
+  );
+
+  return deleteImageStatus;
+}
+
 export const ImagesActionsLib = {
   useCreateALbumImage,
+  useDeleteAlbumImage,
 }

@@ -1,11 +1,11 @@
 import { useMutation } from "react-query"
-import { AlbumsApi, OneAlbum } from "../../../entities/image"
+import { AlbumImagesApi, AlbumsApi, OneAlbum } from "../../../entities/image"
 
 interface CreateAlbumDto {
   name: string,
 }
 
-const useCreateAlbum = (authorId: number, addAlbum: (album: OneAlbum) => void) => {
+const useCreateAlbum = (authorId: number, addAlbum?: (album: OneAlbum) => void) => {
 
   const createAlbumStatus = useMutation(
     ({ name } : CreateAlbumDto) => {
@@ -13,18 +13,38 @@ const useCreateAlbum = (authorId: number, addAlbum: (album: OneAlbum) => void) =
     },
     {
       onSuccess: (data) => {
-        addAlbum(data);
+        if (addAlbum) {
+          addAlbum(data);
+        }
       }
     }
   );
 
-  return {
-    create: createAlbumStatus.mutateAsync,
-    isLoading: createAlbumStatus.isLoading,
-    isError: createAlbumStatus.isError,
-  }
+  return createAlbumStatus;
+}
+
+interface DeleteAlbumProps {
+  albumId: number,
+}
+const useDeleteAlbum = (deleteAlbum?: (albumId: number) => void) => {
+
+  const deleteAlbumStatus = useMutation(
+    ({ albumId } : DeleteAlbumProps) => {
+      return AlbumImagesApi.deleteAlbum(albumId);
+    },
+    {
+      onSuccess: (data) => {
+        if (deleteAlbum) {
+          deleteAlbum(data.id);
+        }
+      }
+    }
+  );
+
+  return deleteAlbumStatus;
 }
 
 export const AlbumFeaturesLib = {
   useCreateAlbum,
+  useDeleteAlbum,
 }

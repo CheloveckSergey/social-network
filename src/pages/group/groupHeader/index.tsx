@@ -110,46 +110,6 @@ const ElseButton: FC<EBProps> = ({ group, createRequest, deleteRequest }) => {
   )
 }
 
-// interface DGBProps {
-//   group: OneGroup | undefined
-// }
-// const DeleteGroupButton: FC<DGBProps> = ({ group }) => {
-
-//   const navigate = useNavigate();
-
-//   const { data, isLoading, isError, refetch } = useQuery(
-//     ['deleteGroup', group?.id],
-//     () => {
-//       if (group) {
-//         return GroupApi.deleteGroup(group.id);
-//       }
-//     },
-//     {
-//       enabled: false,
-//       onSuccess: () => {
-//         navigate('/home');
-//       }
-//     }
-//   )
-
-//   if (isLoading) {
-//     return (
-//       <button className="delete-group-button">
-//         <SharedUi.Icons.Spinner size={25} />
-//       </button>
-//     )
-//   }
-  
-//   return (
-//     <button 
-//       className="delete-group-button white"
-//       onClick={() => refetch()}
-//     >
-//       <AiFillDelete size={25} />
-//     </button>
-//   )
-// }
-
 interface GroupPanelProps {
   group: OneGroupWithMembership | undefined,
   isLoading: boolean,

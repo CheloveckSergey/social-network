@@ -1,9 +1,7 @@
 import { FC } from "react";
 import { User } from "../../../entities/user";
-import { useQuery } from "react-query";
-import { ImageApi, ImageUi, ImagesLib } from "../../../entities/image";
-import ImagesFeed from "../../../widgets/imagesFeed";
-import { useAppSelector } from "../../../app/store";
+import { ImagesPreview } from "../../../widgets/imagesPreview";
+import { useNavigate } from "react-router-dom";
 
 interface HomeImagesProps {
   user: User,
@@ -11,21 +9,13 @@ interface HomeImagesProps {
 
 const HomeImages: FC<HomeImagesProps> = ({ user }) => {
 
-  const {
-    images: _images,
-    isLoading,
-    isError
-  } = ImagesLib.useAlbumImages(user.author.id);
-
-  const images = _images?.slice(0, 3);
+  const navigate = useNavigate();
 
   return (
-    <ImageUi.ImageBar
-      // userId={user.id}
-      // allowToAdd={true}
-      images={images} 
-      isError={isError}
-      isLoading={isLoading}
+    <ImagesPreview 
+      authorId={user.author.id}
+      onNavigateClick={() => navigate('/userAlbum/' + user.id)}
+      canEdit={true}
     />
   )
 }

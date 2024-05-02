@@ -4,20 +4,14 @@ import { AlbumFeaturesLib } from "../../../../fetures/album";
 import { OneAlbum } from "../../../../entities/image";
 
 interface AAWProps {
-  authorId: number,
-  addAlbum: (album: OneAlbum) => void,
-  onClose: () => void,
+  submit: (name: string) => any,
+  isError: boolean,
+  isLoading: boolean,
 }
-export const AddAlbumWindow: FC<AAWProps> = ({ authorId, addAlbum, onClose }) => {
+export const AddAlbumWindow: FC<AAWProps> = ({ submit, isError, isLoading }) => {
 
   const [name, setName] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string>('');
-
-  const {
-    create,
-    isLoading,
-    isError,
-  } = AlbumFeaturesLib.useCreateAlbum(authorId, addAlbum)
 
   return (
     <div className="add-album-window regular-panel">
@@ -40,9 +34,7 @@ export const AddAlbumWindow: FC<AAWProps> = ({ authorId, addAlbum, onClose }) =>
         <button
           className="white-back add-button"
           onClick={() => {
-            create({name})
-            .then(() => onClose())
-            .catch(() => setErrorMessage('Что-то пошло не так'))
+            submit(name);
           }}
         >
           Добавить

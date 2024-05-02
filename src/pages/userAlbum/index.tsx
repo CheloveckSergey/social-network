@@ -6,93 +6,27 @@ import { useNavigate, useParams } from "react-router-dom";
 import { ImageUi, ImagesLib, OneAlbum, OneImage } from "../../entities/image";
 import { BiArrowBack } from "react-icons/bi";
 import { useAppSelector } from "../../app/store";
-import Favourites from "../../fetures/favourites";
-import { CommentsLib, CommentsUi, OneComment } from "../../entities/comment";
-import { CommentsActionsUi } from "../../fetures/comments/actions";
+import { CommentsWidgets } from "../../widgets/comments";
+import { AlbumFeaturesLib } from "../../fetures/album";
 import { OneCreation } from "../../entities/creation";
-
-interface IWCProps {
-  creation: OneCreation,
-}
-const ImageWindowComments: FC<IWCProps> = ({ creation }) => {
-
-  const { user } = useAppSelector(state => state.user);
-
-  const [responseToComment, setResponseToComment] = useState<OneComment>();
-
-  function cancelResponse() {
-    setResponseToComment(undefined);
-  }
-
-  const scrollRef = useRef<HTMLDivElement>(null);
-
-  const {
-    comments,
-    isLoading,
-    isError,
-    addComment,
-    setIsLiked,
-  } = CommentsLib.useComments(creation.id);
-
-  return (
-    <>
-      <div className="comments">
-        <CommentsUi.ImageCommentFeed 
-          comments={comments}
-          isLoading={isLoading}
-          isError={isError}
-          addComment={addComment}
-          renderComment={(comment: OneComment) => {
-
-            function _setCommentLiked(isLiked: boolean) {
-              return setIsLiked(comment.id, isLiked);
-            }
-
-            return (
-              <CommentsUi.ImageCommentLine 
-                key={comment.id}
-                comment={comment}
-                addComment={addComment}
-                setResponseToComment={setResponseToComment}
-                likeButton={<Favourites.Actions.SmallLikeButton 
-                  creation={comment.ownCreation}
-                  effects={{
-                    setIsLiked: _setCommentLiked,
-                  }}
-                />}
-              />
-            )
-          }} 
-        />
-        <div ref={scrollRef}></div>
-      </div>
-      
-      {user && <CommentsActionsUi.ImageCommentCreator 
-        user={user}
-        creation={creation}
-        addComment={addComment}
-        responseToComment={responseToComment}
-        cancelResponse={cancelResponse}
-      />}
-    </>
-  )
-}
+import { ImagesActionsLib } from "../../fetures/images";
+import Favourites from "../../fetures/favourites";
 
 interface IPProps {
   authorId: number,
 }
 const ImagesPanel: FC<IPProps> = ({ authorId }) => {
 
-  const [curImageIndex, setCurImageIndex] = useState<number>(0);
-
   const {
     albums,
     isLoading,
     isError,
-    setIsLiked,
     addAlbum,
-    addImage,
+    deleteAlbum,
   } = ImagesLib.useAlbums(authorId);
+
+  const createAlbumStatus = AlbumFeaturesLib.useCreateAlbum(authorId, addAlbum);
+  const deleteAlbumStatus = AlbumFeaturesLib.useDeleteAlbum(deleteAlbum);
 
   const navigate = useNavigate();
 
@@ -110,37 +44,85 @@ const ImagesPanel: FC<IPProps> = ({ authorId }) => {
         albums={albums}
         isLoading={isLoading}
         isError={isError}
-        setIsLiked={setIsLiked}
-        addAlbum={addAlbum}
-        addImage={addImage}
-        renderAlbum={(album: OneAlbum, index: number) => <ImageUi.Album 
-          key={index}
-          album={album}
-          setIsLiked={setIsLiked}
-          addImage={addImage}
-          renderImage={(image: OneImage, index: number) => <ImageUi.ImageCard 
-            key={index}
-            image={image}
-            images={album.images}
-            index={index}
-            curImageIndex={curImageIndex}
-            setCurImageIndex={setCurImageIndex}
-            imageClass=""
-            actions={[
-              <Favourites.Actions.LikeButton 
-                creation={image.creation}
-                effects={{
-                  setIsLiked: (isLiked: boolean) => {
-                    setIsLiked(image.id, isLiked);
-                  }
-                }}
-              />
-            ]}
-            renderComments={<ImageWindowComments creation={image.creation} />}
-          />}
+        addAlbumObject={{
+          submit: async (name: string) => {
+            createAlbumStatus.mutateAsync({name});
+          },
+          isLoading: createAlbumStatus.isLoading,
+          isError: createAlbumStatus.isError,
+        }}
+        renderExtraActions={(album: OneAlbum) => [
+          {
+            body: 'Удалить альбом',
+            isLoading: deleteAlbumStatus.isLoading,
+            isError: deleteAlbumStatus.isError,
+            submit: async () => {
+              await deleteAlbumStatus.mutateAsync({albumId: album.id});
+            }
+          }
+        ]}
+        renderImagesList={(albumId: number) => <ImagesList
+          albumId={albumId}
         />}
       />
     </div>
+  )
+}
+
+interface ILProps {
+  albumId: number,
+}
+const ImagesList: FC<ILProps> = ({ albumId }) => {
+
+  const { user } = useAppSelector(state => state.user);
+
+  const {
+    images,
+    isLoading,
+    isError,
+    addImage,
+    deleteImage,
+    setLiked,
+  } = ImagesLib.useAlbumImagesByAlbum(albumId);
+
+  const createImageStatus = ImagesActionsLib.useCreateALbumImage(user!.author.id, addImage);
+  const deleteImageStatus = ImagesActionsLib.useDeleteAlbumImage(deleteImage);
+
+  return (
+    <ImageUi.ImagesList
+      images={images}
+      isLoading={isLoading}
+      isError={isError}
+      albumId={albumId}
+      renderCommentsWidget={(creation: OneCreation) => <CommentsWidgets.ImageWindowComments 
+        creation={creation}
+      />}
+      renderImageActions={(image: OneImage) => [
+        <Favourites.Actions.LikeButton 
+          creation={image.creation}
+          effects={{
+            setIsLiked: (isLiked: boolean) => setLiked(isLiked, image.id),
+          }}
+        />
+      ]}
+      createImageObject={{
+        create: async (imageFile: File, albumId?: number) => {
+          createImageStatus.mutate({file: imageFile, albumId});
+        },
+        isLoading: createImageStatus.isLoading,
+        isError: createImageStatus.isError,
+      }}
+      renderExtraActions={(image: OneImage) => [
+        {
+          body: 'Удоли',
+          isLoading: deleteImageStatus.isLoading,
+          isError: deleteImageStatus.isSuccess,
+          onClick: () => {
+            deleteImageStatus.mutateAsync({imageId: image.id})
+          }
+        }
+      ]}
+    />
   )
 }
 
