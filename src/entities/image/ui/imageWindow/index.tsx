@@ -1,13 +1,9 @@
-import { FC, useEffect, useRef, useState } from 'react';
+import { FC } from 'react';
 import { OneImage } from '../..';
 import './styles.scss';
 import { AiOutlineDoubleLeft, AiOutlineDoubleRight } from 'react-icons/ai';
 import { Helpers } from '../../../../shared/helpers';
-import { useAppSelector } from '../../../../app/store';
-import { CommentsLib, CommentsUi, OneComment } from '../../../comment';
 import { AuthorUi } from '../../../author';
-import Favourites from '../../../../fetures/favourites';
-import { CommentsActionsUi } from '../../../../fetures/comments';
 import { OneCreation } from '../../../creation';
 
 interface ISProps {

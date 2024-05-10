@@ -12,8 +12,12 @@ const HomeImages: FC<HomeImagesProps> = ({ user }) => {
   const navigate = useNavigate();
 
   return (
-    <ImagesPreview 
+    <ImagesPreview
       authorId={user.author.id}
+      accepted={true}
+      rejectionReason="-"
+      isLoading={false}
+      isError={false}
       onNavigateClick={() => navigate('/userAlbum/' + user.id)}
       canEdit={true}
     />

@@ -1,24 +1,22 @@
-import { ChangeEvent, FC, useState } from "react";
+import { FC } from "react";
 import './styles.scss';
-import { Helpers } from "../../../../shared/helpers";
-import { useAppSelector } from "../../../../app/store";
-import { MusicFeaturesLib } from "../../../../fetures/music";
 import { WindowTypes } from "../../types";
 
 interface CAWProps {
-  onClose: () => void,
-  onClickIn: (imageFile: File) => void,
+  createImageObject: {
+    submit: (imageFile: File) => Promise<any>;
+    isLoading: boolean;
+    isError: boolean;
+  },
+  close: () => void,
 }
-export const ChangeAvatarWindow: FC<CAWProps> = ({ onClose, onClickIn }) => {
-
-  const { user } = useAppSelector(state => state.user);
-
-  const [image, setImage] = useState<File>();
+export const ChangeAvatarWindow: FC<CAWProps> = ({ createImageObject, close }) => {
 
   return (
     <WindowTypes.AddImageWindowType
       header="Change avatar"
-      addImage={onClickIn}
+      createImageObject={createImageObject}
+      close={close}
     />
   )
 }

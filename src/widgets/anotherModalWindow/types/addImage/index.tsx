@@ -4,9 +4,15 @@ import './styles.scss';
 
 interface AIWTProps {
   header: string,
-  addImage: (imageFile: File) => void,
+  // addImage: (imageFile: File) => void,
+  createImageObject: {
+    submit: (imageFile: File) => Promise<any>,
+    isLoading: boolean,
+    isError: boolean,
+  },
+  close: () => void,
 }
-export const AddImageWindowType: FC<AIWTProps> = ({ header, addImage }) => {
+export const AddImageWindowType: FC<AIWTProps> = ({ header, createImageObject, close }) => {
 
   const [image, setImage] = useState<File>();
 
@@ -50,7 +56,8 @@ export const AddImageWindowType: FC<AIWTProps> = ({ header, addImage }) => {
             if (!image) {
               return;
             }
-            addImage(image);
+            
+            createImageObject.submit(image).then(() => close());
           }}
         >
           Сохранить

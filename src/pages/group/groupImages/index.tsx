@@ -4,19 +4,27 @@ import { GMTypes, Group, OneGroupWithMembership } from "../../../entities/group"
 import { useNavigate } from "react-router-dom";
 
 interface GIProps {
-  group: OneGroupWithMembership,
+  group: OneGroupWithMembership | undefined,
+  isLoading: boolean,
+  isError: boolean,
 }
-export const GroupImages: FC<GIProps> = ({ group }) => {
+export const GroupImages: FC<GIProps> = ({ group, isLoading, isError }) => {
 
-  const canEdit: boolean = (group.membership === GMTypes.ADMIN || group.membership === GMTypes.MODERATOR) 
+  const accepted: boolean = group?.membership ? true : false;
+
+  const canEdit: boolean = (group?.membership === GMTypes.ADMIN || group?.membership === GMTypes.MODERATOR) 
   ? true : false;
 
   const navigate = useNavigate();
 
   return (
     <ImagesPreview
-      authorId={group.authorId}
-      onNavigateClick={() => navigate('/groupImages/' + group.id)}
+      accepted={accepted}
+      rejectionReason="Только для членов, так сказать"
+      isLoading={isLoading && !group}
+      isError={isError}
+      authorId={group?.authorId}
+      onNavigateClick={() => navigate('/groupImages/' + group?.id)}
       canEdit={canEdit}
     />
   )

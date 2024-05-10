@@ -69,20 +69,11 @@ const GroupPage = () => {
           />
           <div className="just-cause">
             <div className="group-main">
-              <SharedUi.Helpers.LoadErrorHandler 
+              <GroupImages
+                group={group}
                 isLoading={isLoading}
                 isError={isError}
-              >
-                {group?.membership ? (
-                  <GroupImages
-                    group={group}
-                  />
-                ) : (
-                  <SharedUi.Divs.Empty
-                    body="Forbidden Images"
-                  />
-                )}
-              </SharedUi.Helpers.LoadErrorHandler>
+              />
               {group && <GroupFeed group={group} />}
             </div>
             <div className="group-right">

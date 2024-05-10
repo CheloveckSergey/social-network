@@ -21,7 +21,15 @@ const Avatar: FC<AvatarProps> = ({ musician, updateAvatar }) => {
 
   const [showCAWindow, setShowCAWindow] = useState<boolean>(false);
 
-  const { mutateAsync } = MusicFeaturesLib.useUpdateMusicianAvatar(updateAvatar)
+  const { 
+    mutateAsync,
+    isLoading,
+    isError, 
+  } = MusicFeaturesLib.useUpdateMusicianAvatar(updateAvatar);
+
+  function close() {
+    setShowCAWindow(false);
+  }
 
   return (
     <div className="avatar">
@@ -41,11 +49,14 @@ const Avatar: FC<AvatarProps> = ({ musician, updateAvatar }) => {
         onClose={() => setShowCAWindow(false)}
       >
         <ModalWindows.ChangeAvatarWindow
-          onClickIn={(imageFile: File) => {
-            mutateAsync({musicianId: musician.id, imageFile})
-            .then(() => setShowCAWindow(false));
+          createImageObject={{
+            submit: async (imageFile: File) => {
+              await mutateAsync({imageFile, musicianId: musician.id});
+            },
+            isLoading,
+            isError,
           }}
-          onClose={() => setShowCAWindow(false)}
+          close={close}
         />
       </UseModalWindow>
     </div>

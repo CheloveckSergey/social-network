@@ -1,18 +1,16 @@
 import { FC, useState } from "react";
-import { OneAlbum, OneAlbumImage, OneImage } from "../../model";
+import { OneAlbum } from "../../model";
 import './styles.scss';
-import { ImageUi } from "..";
-import { CommentsWidgets } from "../../../../widgets/comments";
 import { SharedUi } from "../../../../shared/sharedUi";
 
 interface AProps {
   album: OneAlbum,
   renderImagesList: (albumId: number) => React.ReactNode | React.ReactNode[],
   renderExtraActions: (album: OneAlbum) => {
+    body: string | React.ReactNode | React.ReactNode[],
     submit: () => Promise<any>,
     isLoading: boolean,
     isError: boolean,
-    body: string | React.ReactNode | React.ReactNode[],
   }[],
 }
 export const Album: FC<AProps> = ({ album, renderImagesList, renderExtraActions }) => {

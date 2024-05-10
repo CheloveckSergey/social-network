@@ -37,6 +37,10 @@ export const MainInfo: FC<MIProps> = ({ group, setName, setAvatar }) => {
 
   const updateNameStatus = GroupFeaturesLib.useUpdateName(group.id, setName);
   const updateAvatarStatus = GroupFeaturesLib.useUpdateAvatar(group.id, setAvatar);
+  
+  function close() {
+    setAvatarWindow(false);
+  }
 
   return (
     <div
@@ -61,11 +65,14 @@ export const MainInfo: FC<MIProps> = ({ group, setName, setAvatar }) => {
           }}
         >
           <ModalWindows.ChangeAvatarWindow
-            onClickIn={(imageFile: File) => {
-              updateAvatarStatus.mutateAsync({imageFile})
-              .then(() => setAvatarWindow(false));
+            createImageObject={{
+              submit: async (imageFile: File) => {
+                await updateAvatarStatus.mutateAsync({imageFile});
+              },
+              isLoading: updateAvatarStatus.isLoading,
+              isError: updateAvatarStatus.isError,
             }}
-            onClose={() => setAvatarWindow(false)}
+            close={close}
           />
         </UseModalWindow>
       </div>

@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import { OneAlbum, OneAlbumImage } from "../../model";
+import { OneAlbum } from "../../model";
 import { SharedUi } from "../../../../shared/sharedUi";
 import { ImageUi } from "..";
 import './styles.scss';
@@ -33,17 +33,21 @@ export const AlbumsList: FC<ALProps> = ({
 
   const [showAddAlbumWindow, setShowAddAlbumWindow] = useState<boolean>(false);
 
+  function close() {
+    setShowAddAlbumWindow(false);
+  }
+
   return (
     <div className="album-list">
       <SharedUi.Helpers.LoadErrorHandler
         isError={isError}
         isLoading={isLoading}
       >
-        {albums && albums.length > 0 ? (
+        {(albums?.length) ? (
           <>
             <div className="head">
               <div className="left">
-
+                <h3>All albums</h3>
               </div>
               <div className="right">
                 {addAlbumObject && <button 
@@ -69,15 +73,13 @@ export const AlbumsList: FC<ALProps> = ({
       </SharedUi.Helpers.LoadErrorHandler>
       {addAlbumObject && <UseModalWindow 
         condition={showAddAlbumWindow}
-        onClose={() => {
-          setShowAddAlbumWindow(false);
-        }}
+        onClose={close}
       >
         <ModalWindows.AddAlbumWindow 
           submit={(name: string) => {
             addAlbumObject.submit(name)
             .then(() => {
-              setShowAddAlbumWindow(false);
+              close();
             })
           }}
           isLoading={addAlbumObject.isLoading}

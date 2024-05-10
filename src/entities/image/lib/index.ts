@@ -19,7 +19,7 @@ const imagesKeys = {
 }
 
 const useAlbumImages = (authorId: number) => {
-  const [images, setImages] = useState<OneAlbumImage[]>([]);
+  const [images, setImages] = useState<OneAlbumImage[] | null>(null);
 
   const imagesStatus = useQuery({
     queryKey: imagesKeys.albumImages.slug(authorId),
@@ -32,8 +32,12 @@ const useAlbumImages = (authorId: number) => {
   });
 
   function addImage(image: OneAlbumImage) {
+    if (!images) {
+      return;
+    }
+
     const newImages = [...images, image];
-    setImages(images);
+    setImages(newImages);
   }
 
   // function setIsLiked(imageId: number, isLiked: boolean) {
@@ -56,6 +60,7 @@ const useAlbumImages = (authorId: number) => {
 
   return {
     images,
+    data: imagesStatus.data,
     isLoading: imagesStatus.isLoading,
     isError: imagesStatus.isError,
     // setIsLiked,
@@ -126,7 +131,7 @@ const useAlbums = (authorId: number) => {
   const albumsStatus = useQuery({
     queryKey: imagesKeys.albums.slug(authorId),
     queryFn: () => {
-      return AlbumsApi.getAllAlbumsWithOneImagesByAuthorId(authorId);
+      return AlbumsApi.getAllOneAlbumsByAuthorId(authorId);
     },
     onSuccess: (data) => {
       setAlbums(data);

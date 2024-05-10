@@ -20,11 +20,7 @@ const useCreateALbumImage = (authorId: number, addImage?: (image: OneAlbumImage)
     }
   );
 
-  return {
-    mutate: createImageStatus.mutateAsync,
-    isLoading: createImageStatus.isLoading,
-    isError: createImageStatus.isError,
-  }
+  return createImageStatus;
 }
 
 interface UseDeleteImageProps {

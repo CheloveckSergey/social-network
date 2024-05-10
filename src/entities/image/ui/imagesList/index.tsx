@@ -13,16 +13,16 @@ interface ILProps {
   albumId: number,
   renderCommentsWidget: (creation: OneCreation) => React.ReactNode | React.ReactNode[],
   createImageObject?: {
-    create: (imageFile: File, albumId?: number) => Promise<any>,
+    submit: (imageFile: File, albumId?: number) => Promise<any>,
     isLoading: boolean,
     isError: boolean,
   },
   renderImageActions: (image: OneImage) => React.ReactNode[],
   renderExtraActions: (image: OneImage) => {
     body: string,
+    submit: () => Promise<any>,
     isLoading: boolean,
     isError: boolean,
-    onClick: () => void,
   }[], 
 }
 export const ImagesList: FC<ILProps> = ({
@@ -39,13 +39,17 @@ export const ImagesList: FC<ILProps> = ({
   const [showAddImageWindow, setShowAddImageWindow] = useState<boolean>(false);
   const [curImageIndex, setCurImageIndex] = useState<number>(0);
 
+  function close() {
+    setShowAddImageWindow(false);
+  }
+
   return (
     <div className="images-list">
       <SharedUi.Helpers.LoadErrorHandler 
         isLoading={isLoading}
         isError={isError}
       >
-        {images ? (
+        {(images?.length) ? (
           <>
             {images.map((image, index) => <ImageUi.ImageCard 
               key={index}
@@ -69,22 +73,36 @@ export const ImagesList: FC<ILProps> = ({
             </button>}
           </>
         ) : (
-          <SharedUi.Divs.Empty 
-            body="There's no images cause something"
-          />
+          createImageObject ? (
+            <button
+              className="empty-add-image gray-to-light-back"
+              onClick={() => {
+                setShowAddImageWindow(true);
+              }}
+            >
+              Create first image in this album
+            </button>
+          ) : (
+            <SharedUi.Divs.Empty 
+              body="There's no images cause something"
+            />
+          )
         )}
       </SharedUi.Helpers.LoadErrorHandler>
       {createImageObject && <UseModalWindow
         condition={showAddImageWindow}
-        onClose={() => {
-          setShowAddImageWindow(false);
-        }}
+        onClose={close}
       >
+        {/* Улучшить окно */}
         <ModalWindows.AddImageWindow
-          addImage={(fileImage: File) => {
-            createImageObject.create(fileImage, albumId)
-            .then(() => setShowAddImageWindow(false));
+          createImageObject={{
+            submit: async (imageFile: File) => {
+              await createImageObject.submit(imageFile, albumId);
+            },
+            isLoading: createImageObject.isLoading,
+            isError: createImageObject.isError,
           }}
+          close={close}
         />
       </UseModalWindow>}
     </div>

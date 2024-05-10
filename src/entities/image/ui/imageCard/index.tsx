@@ -17,10 +17,10 @@ interface ImageCardProps {
   renderActions: (image: OneImage) => React.ReactNode[],
   renderComments: (creation: OneCreation) => React.ReactNode,
   extraActions: {
-    body: string,
+    body: string | React.ReactNode | React.ReactNode[],
+    submit: () => Promise<any>,
     isLoading: boolean,
     isError: boolean,
-    onClick: () => void,
   }[],
 }
 
@@ -38,6 +38,10 @@ export const ImageCard: FC<ImageCardProps> = ({
 
   const [showImageWindow, setShowImageWindow] = useState<boolean>(false);
 
+  function close() {
+    setShowImageWindow(false);
+  }
+
   function previousImage() {
     if (curImageIndex === 0) {
       return;
@@ -49,13 +53,10 @@ export const ImageCard: FC<ImageCardProps> = ({
     if (curImageIndex === images.length - 1) {
       return;
     }
-    console.log('lalala');
     setCurImageIndex(curImageIndex + 1);
   }
 
-  //Модальное окно по-нормальному не работает, если поставить его в image-card-container
   return (
-    <>
       <div 
         className="image-card-container"
       >
@@ -71,28 +72,28 @@ export const ImageCard: FC<ImageCardProps> = ({
         <div className="right-up">
           <SharedUi.Buttons.ExtraActionsDotButton
             buttons={extraActions.map((action, index) => <SharedUi.Buttons.ExtraActionLine 
+              key={index}
               body={action.body}
+              onClick={action.submit}
               isLoading={action.isLoading}
               isError={action.isError}
-              onClick={action.onClick}
             />)}
           />
         </div>
+        <UseModalWindow 
+          condition={showImageWindow}
+          onClose={() => close()}
+        >
+          <ImageUi.ImageWindow
+            images={images}
+            curImageIndex={curImageIndex}
+            setCurImageIndex={setCurImageIndex}
+            previousImage={previousImage}
+            nextImage={nextImage}
+            renderActions={renderActions}
+            renderComments={renderComments}
+          />
+        </UseModalWindow>
       </div>
-      <UseModalWindow 
-        condition={showImageWindow}
-        onClose={() => setShowImageWindow(false)}
-      >
-        <ImageUi.ImageWindow
-          images={images}
-          curImageIndex={curImageIndex}
-          setCurImageIndex={setCurImageIndex}
-          previousImage={previousImage}
-          nextImage={nextImage}
-          renderActions={renderActions}
-          renderComments={renderComments}
-        />
-      </UseModalWindow>
-    </>
   )
 }

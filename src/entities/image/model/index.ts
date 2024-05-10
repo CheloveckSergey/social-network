@@ -1,5 +1,3 @@
-import { ILike } from "../../../fetures/favourites/model";
-import { Author } from "../../author/model";
 import { Creation, OneCreation } from "../../creation";
 
 export interface Album {
@@ -10,6 +8,13 @@ export interface Album {
 }
 
 export interface OneAlbum {
+  id: number,
+  name: string,
+  creationId: number,
+  creation: OneCreation,
+}
+
+export interface OneAlbumWithImages {
   id: number,
   name: string,
   creationId: number,

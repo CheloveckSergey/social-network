@@ -1,9 +1,6 @@
 import { FC, useState } from "react";
 import { ImagesLib, OneImage } from "../../entities/image";
-import { useAppDispatch } from "../../app/store";
-import { useNavigate } from "react-router-dom";
 import { SharedUi } from "../../shared/sharedUi";
-import { WindowTypes, setWindow } from "../modalWindow/model/redux";
 import { AiOutlinePlus } from "react-icons/ai";
 import { Helpers } from "../../shared/helpers";
 import { BsEyeFill } from "react-icons/bs";
@@ -11,12 +8,53 @@ import './styles.scss';
 import { ModalWindows, UseModalWindow } from "../anotherModalWindow/ui";
 import { ImagesActionsLib } from "../../fetures/images";
 
-interface IBProps {
+interface IPProps {
+  authorId: number | undefined;
+  isLoading: boolean,
+  isError: boolean,
+  accepted: boolean,
+  rejectionReason: string,
+  onNavigateClick: () => void,
+  canEdit: boolean,
+}
+export const ImagesPreview: FC<IPProps> = ({ 
+  authorId, 
+  isLoading, 
+  isError, 
+  accepted, 
+  rejectionReason,
+  onNavigateClick, 
+  canEdit 
+}) => {
+
+  return (
+    <div className="images-preview regular-panel">
+      <SharedUi.Helpers.LoadErrorHandler 
+        isLoading={isLoading || !authorId}
+        isError={isError}
+      >
+        {accepted ? (
+          <ImagesPreviewBody
+            authorId={authorId!}
+            onNavigateClick={onNavigateClick}
+            canEdit={canEdit}
+          />
+        ) : (
+          <SharedUi.Divs.Empty
+            body={rejectionReason}
+          />
+        )}
+      </SharedUi.Helpers.LoadErrorHandler>
+    </div>
+  )
+}
+
+interface IPBProps {
   authorId: number;
   onNavigateClick: () => void,
   canEdit: boolean,
 }
-export const ImagesPreview: FC<IBProps> = ({ authorId, onNavigateClick, canEdit }) => {
+export const ImagesPreviewBody: FC<IPBProps> = ({ authorId, onNavigateClick, canEdit }) => {
 
   const [showWindow, setShowWindow] = useState<boolean>(false);
 
@@ -29,15 +67,17 @@ export const ImagesPreview: FC<IBProps> = ({ authorId, onNavigateClick, canEdit 
 
   const addImageStatus = ImagesActionsLib.useCreateALbumImage(authorId, addImage);
 
-  const dispatch = useAppDispatch();
+  function close() {
+    setShowWindow(false);
+  }
 
   return (
-    <div className="images-feed regular-panel">
-      <SharedUi.Helpers.LoadErrorHandler 
+    <div className="images-feed">
+      <SharedUi.Helpers.LoadErrorHandler
         isError={isError}
-        isLoading={isLoading}
+        isLoading={isLoading || !images}
       >
-        {(images?.length > 0) ? (
+        {(images?.length) ? (
           <div className="yes-images">
             <div className="images">
               {images.slice(0, 3).map((image, index) => (
@@ -75,12 +115,14 @@ export const ImagesPreview: FC<IBProps> = ({ authorId, onNavigateClick, canEdit 
         condition={showWindow}
       >
         <ModalWindows.AddImageWindow 
-          addImage={(imageFile: File) => {
-            addImageStatus.mutate({file: imageFile}).then(() => {
-              setShowWindow(false);
-              onNavigateClick();
-            })
+          createImageObject={{
+            submit: async (imageFile: File) => {
+              await addImageStatus.mutateAsync({ file: imageFile });
+            },
+            isLoading: addImageStatus.isLoading,
+            isError: addImageStatus.isError,
           }}
+          close={close}
         />
       </UseModalWindow>}
     </div>

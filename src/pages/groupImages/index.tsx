@@ -1,9 +1,8 @@
-import { FC, useState } from "react";
+import { FC } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Upbar from "../../widgets/upbar";
 import LeftMenu from "../../widgets/leftMenu";
 import { ImageUi, ImagesLib, OneAlbum, OneImage } from "../../entities/image";
-import { BiArrowBack } from "react-icons/bi";
 import Favourites from "../../fetures/favourites";
 import { CommentsWidgets } from "../../widgets/comments";
 import { GMTypes, GroupsLib, OneGroup, OneGroupWithMembership } from "../../entities/group";
@@ -13,71 +12,88 @@ import { ImagesActionsLib } from "../../fetures/images";
 import { OneCreation } from "../../entities/creation";
 import './styles.scss';
 
+function getCanEdit(group: OneGroupWithMembership): boolean {
+  if (group.membership === GMTypes.ADMIN || group.membership === GMTypes.MODERATOR) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 interface IPProps {
   group: OneGroupWithMembership,
 }
 const ImagesPanel: FC<IPProps> = ({ group }) => {
 
-  const [curImageIndex, setCurImageIndex] = useState<number>(0);
+  const canEdit = getCanEdit(group)
 
-  let canEdit: boolean;
+  const navigate = useNavigate();
 
-  if (group.membership === GMTypes.ADMIN || group.membership === GMTypes.MODERATOR) {
-    canEdit = true;
-  } else {
-    canEdit = false;
-  }
+  return (
+    <div className="regular-panel group-images-panel">
+      <div className="head">
+        <h2>{group.author.name} / Images</h2>
+        <button
+          className="back-button white"
+          onClick={() => navigate(-1)}
+        >
+          Back
+        </button>
+      </div>
+      <hr/>
+      <AlbumsList
+        authorId={group.authorId}
+        canEdit={canEdit}
+      />
+    </div>
+  )
+}
+
+interface ALProps {
+  authorId: number,
+  canEdit: boolean,
+}
+const AlbumsList: FC<ALProps> = ({ authorId, canEdit }) => {
 
   const {
     albums,
     isLoading,
     isError,
     addAlbum,
-  } = ImagesLib.useAlbums(group.authorId);
+    deleteAlbum
+  } = ImagesLib.useAlbums(authorId);
 
-  const addAlbumStatus = AlbumFeaturesLib.useCreateAlbum(group.authorId, addAlbum);
-  const deleteAlbumStatus = AlbumFeaturesLib.useDeleteAlbum();
-
-  const navigate = useNavigate();
+  const addAlbumStatus = AlbumFeaturesLib.useCreateAlbum(authorId, addAlbum);
+  const deleteAlbumStatus = AlbumFeaturesLib.useDeleteAlbum(deleteAlbum);
 
   return (
-    <div className="regular-panel group-images-panel">
-      <h2>Images</h2>
-      <button
-        className="back-button white"
-        onClick={() => navigate(-1)}
-      >
-        <BiArrowBack size={20} />
-      </button>
-      <hr/>
-        <ImageUi.AlbumsList
-          albums={albums}
-          isLoading={isLoading}
-          isError={isError}
-          addAlbumObject={canEdit ? {
-            submit: async (name: string) => {
-              addAlbumStatus.mutateAsync({name});
-            },
-            isLoading: addAlbumStatus.isLoading,
-            isError: addAlbumStatus.isError,
-          } : undefined}
-          renderExtraActions={(album: OneAlbum) => [
-            {
-              body: 'Удалить альбом',
-              isLoading: deleteAlbumStatus.isLoading,
-              isError: deleteAlbumStatus.isError,
-              submit: async () => {
-                await deleteAlbumStatus.mutateAsync({albumId: album.id});
-              }
-            }
-          ]}
-          renderImagesList={(albumId: number) => <ImagesList 
-            albumId={albumId}
-            canEdit={canEdit}
-            authorId={group.authorId}
-          />}
-        />
-    </div>
+    <ImageUi.AlbumsList
+      albums={albums}
+      isLoading={isLoading}
+      isError={isError}
+      addAlbumObject={canEdit ? {
+        submit: async (name: string) => {
+          addAlbumStatus.mutateAsync({name});
+        },
+        isLoading: addAlbumStatus.isLoading,
+        isError: addAlbumStatus.isError,
+      } : undefined}
+      renderExtraActions={(album: OneAlbum) => [
+        {
+          body: 'Удалить альбом',
+          submit: async () => {
+            await deleteAlbumStatus.mutateAsync({albumId: album.id});
+          },
+          isLoading: deleteAlbumStatus.isLoading,
+          isError: deleteAlbumStatus.isError,
+        }
+      ]}
+      renderImagesList={(albumId: number) => <ImagesList 
+        albumId={albumId}
+        canEdit={canEdit}
+        authorId={authorId}
+      />}
+    />
   )
 }
 
@@ -118,8 +134,8 @@ const ImagesList: FC<ILProps> = ({ albumId, authorId, canEdit }) => {
         />
       ]}
       createImageObject={canEdit ? {
-        create: async (imageFile: File, albumId?: number) => {
-          createImageStatus.mutate({file: imageFile, albumId: albumId})
+        submit: async (imageFile: File, albumId?: number) => {
+          await createImageStatus.mutateAsync({file: imageFile, albumId: albumId})
         },
         isLoading: createImageStatus.isLoading,
         isError: createImageStatus.isError,
@@ -127,11 +143,11 @@ const ImagesList: FC<ILProps> = ({ albumId, authorId, canEdit }) => {
       renderExtraActions={(image: OneImage) => [
         {
           body: 'Удоли',
+          submit: async () => {
+            await deleteImageStatus.mutateAsync({imageId: image.id})
+          },
           isLoading: deleteImageStatus.isLoading,
           isError: deleteImageStatus.isSuccess,
-          onClick: () => {
-            deleteImageStatus.mutateAsync({imageId: image.id})
-          }
         }
       ]}
     />
@@ -139,6 +155,7 @@ const ImagesList: FC<ILProps> = ({ albumId, authorId, canEdit }) => {
 }
 
 export const GroupImages: FC = () => {
+
   const { groupId: _groupId } = useParams();
   const groupId = Number(_groupId);
 
